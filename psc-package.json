@@ -1,0 +1,15 @@
+{
+  "name": "it-is-the-egg",
+  "set": "psc-0.12.1-20190107",
+  "source": "https://github.com/purescript/package-sets.git",
+  "depends": [
+    "console",
+    "effect",
+    "prelude",
+    "psci-support",
+    "web-dom",
+    "web-html",
+    "canvas",
+    "aff"
+  ]
+}

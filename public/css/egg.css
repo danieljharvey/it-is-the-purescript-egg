@@ -1,0 +1,109 @@
+html,
+	body {
+		margin: 0px;
+		padding: 0px;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+	}
+
+	#wrapper {
+		margin: 0px;
+		padding: 0px;
+	}
+
+	#background {
+		opacity: 1;
+		margin: 0px auto;
+
+		background: linear-gradient(0deg, #152b26, #102029, #192b34, #dd8888);
+		background-size: 200% 200%;
+
+        -webkit-animation: Waft 3s ease infinite;
+        -moz-animation: Waft 3s ease infinite;
+        -o-animation: Waft 3s ease infinite;
+        animation: Waft 3s ease infinite;
+
+        @-webkit-keyframes Waft {
+            0%{background-position:0% 51%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 51%}
+        }
+        @-moz-keyframes Waft {
+            0%{background-position:0% 51%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 51%}
+        }
+        @-o-keyframes Waft {
+            0%{background-position:0% 51%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 51%}
+        }
+        @keyframes Waft {
+            0%{background-position:0% 51%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 51%}
+        }
+	}
+
+	#background.dark {
+		background: black
+	}
+
+	#controlHeader {
+		height: 25px;
+		width: 100%;
+		text-align: center;
+		line-height: 25px;
+		margin: 10px auto 0px auto;
+		opacity: 1;
+		-webkit-transition: opacity 0.5s ease-in-out;
+		-moz-transition: opacity 0.5s ease-in-out;
+		transition: opacity 0.5s ease-in-out;
+	}
+
+	#controlHeader.hidden {
+		opacity: 0;
+	}
+
+	#canvas {
+		margin: 0px auto;
+		display: block;
+	}
+
+	#score {
+		color: white;
+		width: 30%;
+		text-align: center;
+		font-family: Helvetica;
+		line-height: 25px;
+		font-size: 25px;
+		display: inline-block;
+	}
+
+	.bigButton {
+		color: white;
+		background-color: black;
+		line-height: 25px;
+		height: 25px;
+		font-size: 25px;
+		width: 33%;
+		display: inline-block;
+	}
+
+	.bigButton:hover {
+		cursor: pointer;
+	}
+
+	.bigButton:active {
+		background-color: white;
+		color: black;
+	}
+
+	#fps {
+		display: none;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		color: white;
+	}
