@@ -1,18 +1,22 @@
 module Main where
 
-import Data.Maybe (Maybe(..))
+import Data.Either
 import Effect (Effect)
-import Effect.Console (log)
-import Prelude (Unit, bind, discard, pure, unit)
-import Effect.Aff (launchAff_)
-import Egg.Canvas (getCanvas, setupGame)
+import Effect.Console as Console
+import Prelude (Unit, discard, pure, show, unit)
+import Effect.Aff (runAff_)
+import Egg.Canvas (setupGame)
+
+import Egg.Types.ResourceUrl (ResourceUrl)
+import Egg.Data.TileSet (tileResources)
 
 main :: Effect Unit
 main = do
-  maybeElement <- getCanvas
-  case maybeElement of
-    Just element -> do
-                    launchAff_ (setupGame element)
-                    log "Ready!"
-    _            -> log "Oh no!"
+  runAff_ (\a -> case a of
+    Right _ -> Console.log "Everything went great"
+    Left e  -> Console.error (show e)
+  ) (setupGame imageResources)
   pure unit
+
+imageResources :: Array ResourceUrl
+imageResources = tileResources

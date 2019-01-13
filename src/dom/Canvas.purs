@@ -3,9 +3,8 @@ module Egg.Canvas where
 import Control.Parallel (parTraverse)
 import Data.Maybe (Maybe(..))
 import Data.Array as Array
-import Data.Either (Either(..))
+import Data.Either (Either, note)
 import Data.Tuple (Tuple(..))
-import Data.List (List)
 import Data.Int (toNumber)
 import Data.Map as Map
 import Effect.Exception (Error, error)
@@ -19,21 +18,24 @@ import Effect.Aff (Aff, makeAff)
 import Effect.Random (randomInt)
 
 import Egg.Types.ResourceUrl (ResourceUrl)
-import Egg.Data.TileSet (tileResources)
-
-type ImageSourceMap = (Map.Map ResourceUrl CanvasImageSource)
+import Egg.Data.CanvasData (CanvasData, ImageSourceMap)
 
 canvasSize :: Int
 canvasSize = 320
 
-setupGame :: CanvasElement -> Aff Unit
-setupGame element = do
+setupGame :: Array ResourceUrl -> Aff CanvasData
+setupGame gameResources = do
+  element <- getCanvas
   context2d <- liftEffect $ getContext2D element
   liftEffect $ sizeCanvas element (toNumber canvasSize)
-  imageMap <- loadImages tileResources
+  imageMap <- loadImages gameResources
   liftEffect $ drawMany context2d imageMap
   liftEffect $ log "Yeah!"
-  pure unit
+  pure { element    : element
+       , context    : context2d
+       , imageMap   : imageMap
+       , canvasSize : canvasSize
+       }
 
 -- draw all the images
 drawMany :: Context2D -> ImageSourceMap -> Effect Unit
@@ -48,9 +50,15 @@ drawMany context2d imageMap = foreachE keysArr draw
         pure unit
 
 -- get canvas object from dom
-getCanvas :: Effect (Maybe CanvasElement)
-getCanvas = do
-  getCanvasElementById "canvas"
+getCanvas :: Aff CanvasElement
+getCanvas = makeAff affCallback
+  where
+    affCallback successFn
+      = do
+        maybeCanvas <- getCanvasElementById "canvas"
+        let eitherCanvasOrError = orError "Could not find canvas" maybeCanvas
+        successFn eitherCanvasOrError
+        pure mempty -- returns an empty canceller
 
 -- resize canvas
 sizeCanvas :: CanvasElement -> Number -> Effect Unit
@@ -60,7 +68,7 @@ sizeCanvas element x = do
   pure unit
 
 -- load all images and put handles to resources in a nice map
-loadImages :: List ResourceUrl -> Aff ImageSourceMap
+loadImages :: Array ResourceUrl -> Aff ImageSourceMap
 loadImages resourceUrls = Map.fromFoldable <$> parTraverse tryLoadImageAff resourceUrls
 
 -- Aff version of tryLoadImage from Canvas.Graphics
@@ -84,18 +92,31 @@ tidyImageReturn ::
   ResourceUrl ->
   Maybe CanvasImageSource ->
   Either Error (Tuple ResourceUrl CanvasImageSource)
-tidyImageReturn resourceUrl maybeImg
-  = case maybeImg of
-      Nothing -> Left $ error ("Could not load file: " <> show resourceUrl)
-      Just img -> Right (Tuple resourceUrl img)
+tidyImageReturn resourceUrl maybeImage
+    = (\img -> Tuple resourceUrl img)
+  <$> orError ("Could not load file: " <> show resourceUrl) maybeImage
 
-drawTile :: Context2D -> CanvasImageSource -> Effect Unit
+orError :: forall a.
+  String ->
+  Maybe a ->
+  Either Error a
+orError msg a = note (error msg) a
+
+drawTile ::
+  Context2D ->
+  CanvasImageSource ->
+  Effect Unit
 drawTile context image = do
   x <- toNumber <$> randomInt 0 canvasSize
   y <- toNumber <$> randomInt 0 canvasSize
   drawImage context image x y
 
-drawTileFromImageMap :: Context2D -> ImageSourceMap -> ResourceUrl -> Effect Unit
-drawTileFromImageMap context map res = case Map.lookup res map of
-  Just found -> drawTile context found
-  Nothing    -> log ("Couldn't find " <> show res)
+drawTileFromImageMap ::
+  Context2D ->
+  ImageSourceMap ->
+  ResourceUrl ->
+  Effect Unit
+drawTileFromImageMap context map res
+  = case Map.lookup res map of
+    Just found -> drawTile context found
+    Nothing    -> log ("Couldn't find " <> show res)
