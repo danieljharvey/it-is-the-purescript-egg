@@ -1,4 +1,4 @@
-module Egg.Dom.Loader where
+module Egg.Dom.Loader (loadLevel) where
 
 import Prelude
 
@@ -22,17 +22,17 @@ levelLoader resource = do
   res <- AX.request settings
   pure (hush res.body)
     where
-      settings = 
-        (AX.defaultRequest 
+      settings =
+        (AX.defaultRequest
           { url = (show resource)
           , method = Left GET
-          , responseFormat = ResponseFormat.string 
+          , responseFormat = ResponseFormat.string
           }
         )
 
-getFirstLevel :: Aff (Maybe Level)
-getFirstLevel = do
-  maybeStr <- levelLoader (LevelResource 1)
+loadLevel :: Int -> Aff (Maybe Level)
+loadLevel i = do
+  maybeStr <- levelLoader (LevelResource i)
   let level = maybeStr >>= readLevel
   liftEffect $ log (show level)
   pure level

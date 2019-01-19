@@ -1,6 +1,10 @@
-module Egg.Types.Tile (Tile, TileMap, JSONTile, emptyTile, defaultTile) where
+module Egg.Types.Tile (Tile, TileMap, JSONTile, tileSize, emptyTile, defaultTile) where
 
 import Data.Map as M
+
+-- tile of actual tile image
+tileSize :: Int
+tileSize = 64
 
 type TileMap = M.Map Int Tile
 
@@ -20,7 +24,7 @@ type Tile =
   }
 
 emptyTile :: Tile
-emptyTile = 
+emptyTile =
   defaultTile
     { background = true
     , id         = 1
@@ -46,4 +50,3 @@ defaultTile =
 
 type JSONTile
   = { id :: Int }
-

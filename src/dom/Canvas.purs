@@ -1,8 +1,7 @@
 module Egg.Canvas where
 
 import Control.Parallel (parTraverse)
-import Data.Maybe (Maybe(..))
-import Data.Array as Array
+import Data.Maybe (Maybe)
 import Data.Either (Either, note)
 import Data.Tuple (Tuple(..))
 import Data.Int (toNumber)
@@ -10,46 +9,30 @@ import Data.Map as Map
 import Data.Traversable (class Foldable, class Traversable)
 import Data.List (List)
 import Effect.Exception (Error, error)
-import Effect (Effect, foreachE)
-import Effect.Console (log)
+import Effect (Effect)
 import Graphics.Canvas
 import Prelude (Unit, bind, discard, mempty, pure, show, unit, ($), (<$>), (<>))
 import Effect.Class (liftEffect)
 import Effect.Aff (Aff, makeAff)
 
-import Effect.Random (randomInt)
-
+import Egg.Types.Coord (Coord, totalX, totalY)
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Egg.Data.CanvasData (CanvasData, ImageSourceMap)
 
 canvasSize :: Int
-canvasSize = 320
+canvasSize = 640
 
-setupGame :: List ResourceUrl -> Aff CanvasData
-setupGame gameResources = do
+setupCanvas :: List ResourceUrl -> Aff CanvasData
+setupCanvas gameResources = do
   element <- getCanvas
   context2d <- liftEffect $ getContext2D element
   liftEffect $ sizeCanvas element (toNumber canvasSize)
   imageMap <- loadImages gameResources
-  liftEffect $ drawMany context2d imageMap
-  liftEffect $ log "Yeah!"
   pure { element    : element
        , context    : context2d
        , imageMap   : imageMap
        , canvasSize : canvasSize
        }
-
--- draw all the images
-drawMany :: Context2D -> ImageSourceMap -> Effect Unit
-drawMany context2d imageMap = foreachE keysArr draw
-  where
-    keysArr
-      = (Array.fromFoldable (Map.keys imageMap))
-    draw i
-      = do
-        log "Drawing!"
-        drawTileFromImageMap context2d imageMap i
-        pure unit
 
 -- get canvas object from dom
 getCanvas :: Aff CanvasElement
@@ -108,18 +91,10 @@ orError msg a = note (error msg) a
 drawTile
   :: Context2D
   -> CanvasImageSource
+  -> Coord
   -> Effect Unit
-drawTile context image = do
-  x <- toNumber <$> randomInt 0 canvasSize
-  y <- toNumber <$> randomInt 0 canvasSize
+drawTile context image coord =
   drawImage context image x y
-
-drawTileFromImageMap
-  :: Context2D
-  -> ImageSourceMap
-  -> ResourceUrl
-  -> Effect Unit
-drawTileFromImageMap context map res
-  = case Map.lookup res map of
-    Just found -> drawTile context found
-    Nothing    -> log ("Couldn't find " <> show res)
+    where
+      x = toNumber $ totalX coord
+      y = toNumber $ totalY coord
