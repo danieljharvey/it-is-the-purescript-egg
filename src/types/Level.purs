@@ -1,9 +1,5 @@
-module Egg.Types.Level (JSONLevel) where
+module Egg.Types.Level (Level, JSONLevel) where
 
-import Prelude ((<<<))
-import Simple.JSON (readJSON)
-import Data.Maybe
-import Data.Either (hush)
 
 import Egg.Types.Board (JSONBoard, Board, BoardSize)
 
@@ -18,10 +14,4 @@ type Level =
   , boardSize :: BoardSize
   , levelId   :: Int
 }
-{-}
-convert :: Array Tile -> JSONLevel -> Maybe Level
-convert jl = do
--}
 
-readLevel :: String -> Maybe JSONLevel
-readLevel = hush <<< readJSON

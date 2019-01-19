@@ -2,34 +2,37 @@ module Egg.Dom.Loader where
 
 import Prelude
 
-import Effect (Effect)
 import Affjax as AX
-import Effect.Aff (Aff, runAff_)
+import Effect.Aff (Aff)
 import Affjax.ResponseFormat as ResponseFormat
 import Data.Either (Either(..), hush)
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe)
 import Data.HTTP.Method (Method(..))
+import Effect.Class (liftEffect)
+import Effect.Console (log)
 
-import Effect.Class.Console (log)
 
-import Simple.JSON (readJSON)
-
-import Egg.Types.Level (JSONLevel)
+import Egg.Types.Level (Level)
 
 import Egg.Types.ResourceUrl (ResourceUrl(..))
+import Egg.Logic.LoadLevel (readLevel)
 
-readLevel :: String -> Maybe JSONLevel
-readLevel = hush <<< readJSON
-
-levelLoader :: ResourceUrl -> Aff String
+levelLoader :: ResourceUrl -> Aff (Maybe String)
 levelLoader resource = do
-  AX.request (AX.defaultRequest { url = (show resource), method = Left GET, responseFormat = ResponseFormat.string })
-
-getFirstLevel :: Effect Unit
-getFirstLevel = do
-  runAff_ callback (levelLoader (LevelResource 1))
-  pure unit
+  res <- AX.request settings
+  pure (hush res.body)
     where
-      callback a = case join (hush a) of
-        Nothing -> log "Failed!"
-        Just s  -> log (show s)
+      settings = 
+        (AX.defaultRequest 
+          { url = (show resource)
+          , method = Left GET
+          , responseFormat = ResponseFormat.string 
+          }
+        )
+
+getFirstLevel :: Aff (Maybe Level)
+getFirstLevel = do
+  maybeStr <- levelLoader (LevelResource 1)
+  let level = maybeStr >>= readLevel
+  liftEffect $ log (show level)
+  pure level

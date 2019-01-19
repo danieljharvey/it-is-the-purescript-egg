@@ -7,6 +7,8 @@ import Data.Either (Either, note)
 import Data.Tuple (Tuple(..))
 import Data.Int (toNumber)
 import Data.Map as Map
+import Data.Traversable (class Foldable, class Traversable)
+import Data.List (List)
 import Effect.Exception (Error, error)
 import Effect (Effect, foreachE)
 import Effect.Console (log)
@@ -23,7 +25,7 @@ import Egg.Data.CanvasData (CanvasData, ImageSourceMap)
 canvasSize :: Int
 canvasSize = 320
 
-setupGame :: Array ResourceUrl -> Aff CanvasData
+setupGame :: List ResourceUrl -> Aff CanvasData
 setupGame gameResources = do
   element <- getCanvas
   context2d <- liftEffect $ getContext2D element
@@ -68,7 +70,7 @@ sizeCanvas element x = do
   pure unit
 
 -- load all images and put handles to resources in a nice map
-loadImages :: Array ResourceUrl -> Aff ImageSourceMap
+loadImages :: forall t. Foldable t => Traversable t => t ResourceUrl -> Aff ImageSourceMap
 loadImages resourceUrls = Map.fromFoldable <$> parTraverse tryLoadImageAff resourceUrls
 
 -- Aff version of tryLoadImage from Canvas.Graphics
