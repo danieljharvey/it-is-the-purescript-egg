@@ -1,7 +1,7 @@
 {
   "name": "it-is-the-egg",
-  "set": "psc-0.12.1-20190107",
-  "source": "https://github.com/purescript/package-sets.git",
+  "set": "master",
+  "source": "https://github.com/danieljharvey/package-sets",
   "depends": [
     "console",
     "effect",
@@ -11,6 +11,9 @@
     "web-html",
     "canvas",
     "aff",
-    "random"
+    "random",
+    "affjax",
+    "matrices",
+    "simple-json"
   ]
 }

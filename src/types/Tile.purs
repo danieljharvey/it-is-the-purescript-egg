@@ -1,4 +1,4 @@
-module Egg.Types.Tile (Tile, defaultTile) where
+module Egg.Types.Tile (Tile, JSONTile, defaultTile) where
 
 type Tile =
   { id           :: Int
@@ -30,3 +30,11 @@ defaultTile =
   , x: 0
   , y: 0
 }
+
+type JSONTile
+  = { id :: Int }
+
+{-
+getTileById :: Array Tile -> Int -> Maybe Tile
+getTileById as i =
+-}

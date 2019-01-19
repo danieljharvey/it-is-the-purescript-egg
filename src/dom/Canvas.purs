@@ -88,34 +88,35 @@ tryLoadImageAff resourceUrl = makeAff affCallback
 
 -- take our Maybe CanvasImageSource, add a fallback error, and bundle in the
 -- ResourceUrl on success so we know what the hell it is
-tidyImageReturn ::
-  ResourceUrl ->
-  Maybe CanvasImageSource ->
-  Either Error (Tuple ResourceUrl CanvasImageSource)
+tidyImageReturn
+  :: ResourceUrl
+  -> Maybe CanvasImageSource
+  -> Either Error (Tuple ResourceUrl CanvasImageSource)
 tidyImageReturn resourceUrl maybeImage
     = (\img -> Tuple resourceUrl img)
   <$> orError ("Could not load file: " <> show resourceUrl) maybeImage
 
-orError :: forall a.
-  String ->
-  Maybe a ->
-  Either Error a
+orError
+  :: forall a.
+     String
+  -> Maybe a
+  -> Either Error a
 orError msg a = note (error msg) a
 
-drawTile ::
-  Context2D ->
-  CanvasImageSource ->
-  Effect Unit
+drawTile
+  :: Context2D
+  -> CanvasImageSource
+  -> Effect Unit
 drawTile context image = do
   x <- toNumber <$> randomInt 0 canvasSize
   y <- toNumber <$> randomInt 0 canvasSize
   drawImage context image x y
 
-drawTileFromImageMap ::
-  Context2D ->
-  ImageSourceMap ->
-  ResourceUrl ->
-  Effect Unit
+drawTileFromImageMap
+  :: Context2D
+  -> ImageSourceMap
+  -> ResourceUrl
+  -> Effect Unit
 drawTileFromImageMap context map res
   = case Map.lookup res map of
     Just found -> drawTile context found

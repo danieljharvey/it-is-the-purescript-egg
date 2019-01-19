@@ -3,10 +3,10 @@ module Egg.Data.TileSet (tiles, tileResources) where
 import Prelude ((<$>))
 import Egg.Types.Tile (Tile, defaultTile)
 
-import Egg.Types.ResourceUrl (createResourceUrl, ResourceUrl, ResourceType(..))
+import Egg.Types.ResourceUrl (ResourceUrl(ImageResource))
 
 tileResources :: Array ResourceUrl
-tileResources = (\tile -> createResourceUrl Image tile.img) <$> tiles
+tileResources = (\tile -> ImageResource tile.img) <$> tiles
 
 tiles :: Array Tile
 tiles = [

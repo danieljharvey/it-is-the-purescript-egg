@@ -9,6 +9,7 @@ import Egg.Canvas (setupGame)
 
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Egg.Data.TileSet (tileResources)
+import Egg.Dom.Loader (getFirstLevel)
 
 main :: Effect Unit
 main = do
@@ -16,6 +17,7 @@ main = do
     Right _ -> Console.log "Everything went great"
     Left e  -> Console.error (show e)
   ) (setupGame imageResources)
+  getFirstLevel
   pure unit
 
 imageResources :: Array ResourceUrl
