@@ -1,4 +1,4 @@
-module Egg.Types.Board (Board, BoardSize, JSONBoard) where
+module Egg.Types.Board (Board, BoardSize, JSONBoard, RenderMap, RenderItem, RenderArray) where
 
 import Egg.Types.Tile (JSONTile, Tile)
 
@@ -10,5 +10,16 @@ type BoardSize =
   }
 
 type Board = M.Matrix Tile
+
+type RenderMap = M.Matrix Boolean
+
+type RenderArray
+  = Array RenderItem
+
+type RenderItem
+  = { x :: Int
+    , y :: Int
+    , value :: Tile
+    }
 
 type JSONBoard = Array (Array JSONTile)
