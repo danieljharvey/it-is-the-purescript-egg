@@ -1,4 +1,4 @@
-module Egg.Canvas where
+module Egg.Dom.Canvas where
 
 import Control.Parallel (parTraverse)
 import Data.Maybe (Maybe)
@@ -17,7 +17,7 @@ import Effect.Aff (Aff, makeAff)
 
 import Egg.Types.Coord (Coord, totalX, totalY)
 import Egg.Types.ResourceUrl (ResourceUrl)
-import Egg.Data.CanvasData (CanvasData, ImageSourceMap)
+import Egg.Types.Canvas (CanvasData, ImageSourceMap)
 
 canvasSize :: Int
 canvasSize = 640

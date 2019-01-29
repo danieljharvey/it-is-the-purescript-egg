@@ -1,26 +1,36 @@
 module Main where
 
+import Data.Int (toNumber)
 import Data.List (List)
-import Data.Either (Either(..))
 import Effect (Effect)
-import Effect.Console as Console
-import Prelude (Unit, discard, pure, show, unit)
-import Effect.Aff (runAff_)
-import Egg.Canvas (setupCanvas)
-
+import Prelude
+import Effect.Class (liftEffect)
+import Effect.Aff (Aff, launchAff_)
+import Egg.Dom.Canvas (setupCanvas, sizeCanvas)
+import Data.Maybe (Maybe(..))
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Egg.Data.TileSet (tileResources)
 import Egg.Dom.Loader (loadLevel)
-
+import Egg.Dom.Renderer (renderLevel)
+import Egg.Types.Canvas (CanvasData)
+import Egg.Types.Level (Level)
 
 main :: Effect Unit
-main = do
-  runAff_ (\a -> case a of
-    Right _ -> Console.log "Everything went great"
-    Left e  -> Console.error (show e)
-  ) (setupCanvas imageResources)
-  runAff_ (\a -> pure unit) (loadLevel 1)
-  pure unit
+main = launchAff_ setupGame
+
+setupGame :: Aff Unit
+setupGame = do
+  canvas <- setupCanvas imageResources
+  mLevel <- loadLevel 3
+  case mLevel of
+    Just level -> liftEffect (start canvas level)
+    _          -> pure unit
+
+start :: CanvasData -> Level -> Effect Unit
+start canvas level
+  = do
+    sizeCanvas canvas.element (toNumber level.boardSize.width * 64.0)
+    renderLevel canvas level Nothing
 
 imageResources :: List ResourceUrl
 imageResources = tileResources

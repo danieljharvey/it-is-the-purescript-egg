@@ -5,7 +5,7 @@ import Data.Maybe (fromMaybe)
 import Matrix as Mat
 import Data.Array (filter)
 
-import Egg.Types.Board (Board, BoardSize, RenderMap, RenderArray)
+import Egg.Types.Board (Board, BoardSize, RenderMap, RenderArray, RenderItem)
 import Egg.Types.Coord (Coord, createCoord)
 
 createRenderMap :: Board -> Board -> RenderMap
@@ -29,6 +29,10 @@ boardSizeFromBoard board =
 
 blankRenderMap :: BoardSize -> RenderMap
 blankRenderMap size = Mat.repeat size.width size.height true
+
+shouldDrawItem :: RenderMap -> RenderItem -> Boolean
+shouldDrawItem map item
+  = shouldDraw map (createCoord item.x item.y)
 
 shouldDraw :: RenderMap -> Coord -> Boolean
 shouldDraw map coord = fromMaybe false draw

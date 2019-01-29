@@ -1,4 +1,4 @@
-module Egg.Data.CanvasData (CanvasData, ImageSourceMap) where
+module Egg.Types.Canvas (CanvasData, ImageSourceMap) where
 
 import Data.Map as Map
 import Egg.Types.ResourceUrl (ResourceUrl)
