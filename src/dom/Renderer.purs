@@ -30,7 +30,7 @@ toCoord item
 
 findImageSource :: ImageSourceMap -> String -> Maybe CanvasImageSource
 findImageSource sourceMap src
-  = M.lookup (ImageResource src) sourceMap
+  = M.lookup (TileResource src) sourceMap
 
 render :: CanvasData -> RenderMap -> Board -> Effect Unit
 render canvasData renderMap board

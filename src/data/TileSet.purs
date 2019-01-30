@@ -2,14 +2,14 @@ module Egg.Data.TileSet (tiles, tileResources) where
 
 import Prelude ((<$>))
 import Egg.Types.Tile (Tile, defaultTile, emptyTile)
-import Data.List
+import Data.List (List)
 import Data.Map as M
 import Data.Tuple (Tuple(..))
 
-import Egg.Types.ResourceUrl (ResourceUrl(ImageResource))
+import Egg.Types.ResourceUrl
 
 tileResources :: List ResourceUrl
-tileResources = (\tile -> ImageResource tile.img) <$> M.values tiles
+tileResources = (\tile -> TileResource tile.img) <$> M.values tiles
 
 tiles :: M.Map Int Tile
 tiles = M.fromFoldable [
@@ -169,4 +169,3 @@ tiles = M.fromFoldable [
       title      = "It is the egg splitter"
     }
   ]
-
