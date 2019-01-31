@@ -5,7 +5,9 @@ import Egg.Types.Tile (Tile, defaultTile, emptyTile)
 import Data.List (List)
 import Data.Map as M
 import Data.Tuple (Tuple(..))
+import Data.Maybe
 
+import Egg.Types.PlayerType
 import Egg.Types.ResourceUrl
 
 tileResources :: List ResourceUrl
@@ -71,7 +73,7 @@ tiles = M.fromFoldable [
     Tuple 12 defaultTile {
       action       = "completeLevel",
       background   = true,
-      createPlayer = "egg",
+      createPlayer = Just Egg,
       frontLayer   = true,
       id           = 12,
       img          = "egg-cup",
@@ -138,7 +140,7 @@ tiles = M.fromFoldable [
     },
     Tuple 21 defaultTile {
       background   = true,
-      createPlayer = "silver-egg",
+      createPlayer = Just SilverEgg,
       frontLayer   = true,
       id           = 21,
       img          = "silver-egg-cup",
@@ -146,7 +148,7 @@ tiles = M.fromFoldable [
     },
     Tuple 22 defaultTile {
       background   = true,
-      createPlayer = "blade",
+      createPlayer = Just Blade,
       frontLayer   = true,
       id           = 22,
       img          = "blade-egg-cup",
@@ -154,7 +156,7 @@ tiles = M.fromFoldable [
     },
     Tuple 23 defaultTile {
       background   = true,
-      createPlayer = "find-blade",
+      createPlayer = Just FindBlade,
       frontLayer   = true,
       id           = 23,
       img          = "find-blade-egg-cup",

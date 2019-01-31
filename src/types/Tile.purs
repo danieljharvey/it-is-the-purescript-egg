@@ -1,6 +1,8 @@
 module Egg.Types.Tile (Tile, TileMap, JSONTile, tileSize, emptyTile, defaultTile) where
 
 import Data.Map as M
+import Data.Maybe (Maybe(..))
+import Egg.Types.PlayerType
 
 -- tile of actual tile image
 tileSize :: Int
@@ -11,14 +13,14 @@ type TileMap = M.Map Int Tile
 type Tile =
   { id           :: Int
   , title        :: String
-  , img      :: String
+  , img          :: String
   , background   :: Boolean
   , frontLayer   :: Boolean
   , collectable  :: Int
   , breakable    :: Boolean
   , action       :: String
   , dontAdd      :: Boolean
-  , createPlayer :: String
+  , createPlayer :: Maybe PlayerKind
   , x            :: Int
   , y            :: Int
   }
@@ -38,7 +40,7 @@ defaultTile =
   , background: false
   , breakable: false
   , collectable: 0
-  , createPlayer: ""
+  , createPlayer: Nothing
   , dontAdd: false
   , frontLayer: false
   , id: 0
