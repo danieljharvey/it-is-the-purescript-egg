@@ -1,6 +1,8 @@
 module Egg.Types.PlayerType where
 
 import Data.Eq (class Eq)
+import Data.Ord (class Ord)
+import Data.Show (class Show)
 
 data PlayerKind
   = Egg
@@ -13,6 +15,18 @@ data PlayerKind
   | FindBlade
 
 derive instance eqPlayerKind :: Eq PlayerKind
+
+derive instance ordPlayerKind :: Ord PlayerKind
+
+instance showPlayerKind :: Show PlayerKind where
+  show Egg = "Egg"
+  show RedEgg = "Red Egg"
+  show BlueEgg = "Blue Egg"
+  show YellowEgg = "Yellow Egg"
+  show RainbowEgg = "Rainbow Egg"
+  show SilverEgg = "Silver Egg"
+  show Blade = "Blade"
+  show FindBlade = "Find Blade"
 
 type PlayerType =
   { frames      :: Int

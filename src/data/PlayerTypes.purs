@@ -4,20 +4,21 @@ import Egg.Types.PlayerType
 import Egg.Types.ResourceUrl
 
 import Prelude
-import Data.List (List, fromFoldable)
-import Data.Array hiding (fromFoldable)
+import Data.List as List
+import Data.Array as Arr
 import Data.Map as M
+import Data.Tuple
 
-spriteResources :: List ResourceUrl
-spriteResources = fromFoldable sprites
+spriteResources :: List.List ResourceUrl
+spriteResources = List.fromFoldable sprites
   where
     sprites
       = (\playerType -> SpriteResource playerType.img) <$> playerTypes
 
-playerTypes :: Array PlayerType
+playerTypes :: M.Map PlayerKind PlayerType
 playerTypes
- = [
-    defaultPlayerType {
+ = M.fromFoldable [
+    Tuple Egg defaultPlayerType {
       frames= 18,
       img= "egg-sprite",
       multiplier= 1,
@@ -25,7 +26,7 @@ playerTypes
       type_= Egg,
       value= 1
     },
-    defaultPlayerType {
+    Tuple RedEgg defaultPlayerType {
       frames= 18,
       img= "egg-sprite-red",
       multiplier= 2,
@@ -33,7 +34,7 @@ playerTypes
       type_= RedEgg,
       value= 2
     },
-    defaultPlayerType {
+    Tuple BlueEgg defaultPlayerType {
       frames= 18,
       img= "egg-sprite-blue",
       multiplier= 5,
@@ -41,7 +42,7 @@ playerTypes
       type_= BlueEgg,
       value= 3
     },
-    defaultPlayerType {
+    Tuple YellowEgg defaultPlayerType {
       frames= 18,
       img= "egg-sprite-yellow",
       multiplier= 10,
@@ -49,7 +50,7 @@ playerTypes
       type_= YellowEgg,
       value= 4
     },
-    defaultPlayerType {
+    Tuple RainbowEgg defaultPlayerType {
       frames= 18,
       img= "egg-rainbow",
       multiplier= 1,
@@ -57,7 +58,7 @@ playerTypes
       type_= RainbowEgg,
       value= 1
     },
-    defaultPlayerType {
+    Tuple SilverEgg defaultPlayerType {
       fallSpeed= 20,
       frames= 1,
       img= "silver-egg",
@@ -67,7 +68,7 @@ playerTypes
       type_= SilverEgg,
       value= 0
     },
-    defaultPlayerType {
+    Tuple Blade defaultPlayerType {
       frames= 18,
       img= "blade-sprite",
       title= "It is the mean spirited blade",
@@ -75,7 +76,7 @@ playerTypes
       value= 0,
       flying= true
     },
-    defaultPlayerType {
+    Tuple FindBlade defaultPlayerType {
       frames= 18,
       img= "find-blade-sprite",
       title= "It is the mean spirited blade",

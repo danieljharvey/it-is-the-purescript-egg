@@ -21,8 +21,6 @@ type Tile =
   , action       :: String
   , dontAdd      :: Boolean
   , createPlayer :: Maybe PlayerKind
-  , x            :: Int
-  , y            :: Int
   }
 
 emptyTile :: Tile
@@ -46,8 +44,6 @@ defaultTile =
   , id: 0
   , img: ""
   , title: "Title"
-  , x: 0
-  , y: 0
 }
 
 type JSONTile
