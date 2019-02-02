@@ -5,13 +5,13 @@ import Egg.Types.Tile (Tile, defaultTile, emptyTile)
 import Data.List (List)
 import Data.Map as M
 import Data.Tuple (Tuple(..))
-import Data.Maybe
+import Data.Maybe (Maybe(..))
 
-import Egg.Types.PlayerType
+import Egg.Types.PlayerType (PlayerKind(..))
 import Egg.Types.ResourceUrl
 
 tileResources :: List ResourceUrl
-tileResources = (\tile -> TileResource tile.img) <$> M.values tiles
+tileResources = _.img <$> M.values tiles
 
 tiles :: M.Map Int Tile
 tiles = M.fromFoldable [
@@ -20,7 +20,7 @@ tiles = M.fromFoldable [
     Tuple 2 defaultTile {
       background = false,
       id         = 2,
-      img        = "fabric",
+      img        = TileResource "fabric",
       title      = "Fabric"
     },
     Tuple 3 defaultTile {
@@ -28,7 +28,7 @@ tiles = M.fromFoldable [
       collectable = 1,
       frontLayer  = true,
       id          = 3,
-      img         = "cacti",
+      img         = TileResource "cacti",
       title       = "Cacti"
     },
     Tuple 4 defaultTile {
@@ -36,38 +36,38 @@ tiles = M.fromFoldable [
       collectable = 10,
       frontLayer  = true,
       id          = 4,
-      img         = "plant",
+      img         = TileResource "plant",
       title       = "Plant"
     },
     Tuple 5 defaultTile {
       background = false,
       breakable  = true,
       id         = 5,
-      img        = "crate",
+      img        = TileResource "crate",
       title      = "Crate"
     },
     Tuple 8 defaultTile {
       background = false,
       id         = 8,
-      img        = "work-surface-2",
+      img        = TileResource "work-surface-2",
       title      = "Work surface 2"
     },
     Tuple 9 defaultTile {
       background = false,
       id         = 9,
-      img        = "work-surface-3",
+      img        = TileResource "work-surface-3",
       title      = "Work surface 3"
     },
     Tuple 10 defaultTile {
       background = false,
       id         = 10,
-      img        = "work-surface-4",
+      img        = TileResource "work-surface-4",
       title      = "Work surface 4"
     },
     Tuple 11 defaultTile {
       background = false,
       id         = 11,
-      img        = "tile",
+      img        = TileResource "tile",
       title      = "Tiles"
     },
     Tuple 12 defaultTile {
@@ -76,7 +76,7 @@ tiles = M.fromFoldable [
       createPlayer = Just Egg,
       frontLayer   = true,
       id           = 12,
-      img          = "egg-cup",
+      img          = TileResource "egg-cup",
       title        = "Egg Cup"
     },
     Tuple 13 defaultTile {
@@ -85,7 +85,7 @@ tiles = M.fromFoldable [
       dontAdd     = true,
       frontLayer  = true,
       id          = 13,
-      img         = "toast",
+      img         = TileResource "toast",
       title       = "Toast"
     },
     Tuple 14 defaultTile {
@@ -93,20 +93,20 @@ tiles = M.fromFoldable [
       background = true,
       frontLayer = true,
       id         = 14,
-      img        = "door",
+      img        = TileResource "door",
       title      = "Door"
     },
     Tuple 15 defaultTile {
       background = true,
       frontLayer = true,
       id         = 15,
-      img        = "pink-door-open",
+      img        = TileResource "pink-door-open",
       title      = "Pink door open"
     },
     Tuple 16 defaultTile {
       background = false,
       id         = 16,
-      img        = "pink-door",
+      img        = TileResource "pink-door",
       title      = "Pink door closed"
     },
     Tuple 17 defaultTile {
@@ -114,20 +114,20 @@ tiles = M.fromFoldable [
       background = true,
       frontLayer = true,
       id         = 17,
-      img        = "pink-switch",
+      img        = TileResource "pink-switch",
       title      = "Pink door switch"
     },
     Tuple 18 defaultTile {
       background = true,
       frontLayer = true,
       id         = 18,
-      img        = "green-door-open",
+      img        = TileResource "green-door-open",
       title      = "Green door open"
     },
     Tuple 19 defaultTile {
       background = false,
       id         = 19,
-      img        = "green-door",
+      img        = TileResource "green-door",
       title      = "Green door closed"
     },
     Tuple 20 defaultTile {
@@ -135,7 +135,7 @@ tiles = M.fromFoldable [
       background = true,
       frontLayer = true,
       id         = 20,
-      img        = "green-switch",
+      img        = TileResource "green-switch",
       title      = "Green door switch"
     },
     Tuple 21 defaultTile {
@@ -143,7 +143,7 @@ tiles = M.fromFoldable [
       createPlayer = Just SilverEgg,
       frontLayer   = true,
       id           = 21,
-      img          = "silver-egg-cup",
+      img          = TileResource "silver-egg-cup",
       title        = "Silver Egg Cup"
     },
     Tuple 22 defaultTile {
@@ -151,7 +151,7 @@ tiles = M.fromFoldable [
       createPlayer = Just Blade,
       frontLayer   = true,
       id           = 22,
-      img          = "blade-egg-cup",
+      img          = TileResource "blade-egg-cup",
       title        = "Blade egg cup"
     },
     Tuple 23 defaultTile {
@@ -159,7 +159,7 @@ tiles = M.fromFoldable [
       createPlayer = Just FindBlade,
       frontLayer   = true,
       id           = 23,
-      img          = "find-blade-egg-cup",
+      img          = TileResource "find-blade-egg-cup",
       title        = "Find-blade egg cup"
     },
     Tuple 24 defaultTile {
@@ -167,7 +167,7 @@ tiles = M.fromFoldable [
       id         = 24,
       action     = "split-eggs",
       frontLayer = true,
-      img        = "egg-splitter",
+      img        = TileResource "egg-splitter",
       title      = "It is the egg splitter"
     }
   ]

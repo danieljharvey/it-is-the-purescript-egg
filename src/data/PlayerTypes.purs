@@ -1,26 +1,25 @@
 module Egg.Data.PlayerTypes where
 
-import Egg.Types.PlayerType
-import Egg.Types.ResourceUrl
+import Egg.Types.PlayerType (PlayerKind(..), PlayerType, defaultPlayerType)
+import Egg.Types.ResourceUrl (ResourceUrl(..))
 
 import Prelude
 import Data.List as List
-import Data.Array as Arr
 import Data.Map as M
-import Data.Tuple
+import Data.Tuple (Tuple(..))
 
 spriteResources :: List.List ResourceUrl
 spriteResources = List.fromFoldable sprites
   where
     sprites
-      = (\playerType -> SpriteResource playerType.img) <$> playerTypes
+      = _.img <$> playerTypes
 
 playerTypes :: M.Map PlayerKind PlayerType
 playerTypes
  = M.fromFoldable [
     Tuple Egg defaultPlayerType {
       frames= 18,
-      img= "egg-sprite",
+      img= SpriteResource "egg-sprite",
       multiplier= 1,
       title= "It is of course the egg",
       type_= Egg,
@@ -28,7 +27,7 @@ playerTypes
     },
     Tuple RedEgg defaultPlayerType {
       frames= 18,
-      img= "egg-sprite-red",
+      img= SpriteResource "egg-sprite-red",
       multiplier= 2,
       title= "It is of course the red egg",
       type_= RedEgg,
@@ -36,7 +35,7 @@ playerTypes
     },
     Tuple BlueEgg defaultPlayerType {
       frames= 18,
-      img= "egg-sprite-blue",
+      img= SpriteResource "egg-sprite-blue",
       multiplier= 5,
       title= "It is of course the blue egg",
       type_= BlueEgg,
@@ -44,7 +43,7 @@ playerTypes
     },
     Tuple YellowEgg defaultPlayerType {
       frames= 18,
-      img= "egg-sprite-yellow",
+      img= SpriteResource "egg-sprite-yellow",
       multiplier= 10,
       title= "It is of course the yellow egg",
       type_= YellowEgg,
@@ -52,7 +51,7 @@ playerTypes
     },
     Tuple RainbowEgg defaultPlayerType {
       frames= 18,
-      img= "egg-rainbow",
+      img= SpriteResource "egg-rainbow",
       multiplier= 1,
       title= "It goes without saying that this is the rainbow egg",
       type_= RainbowEgg,
@@ -61,7 +60,7 @@ playerTypes
     Tuple SilverEgg defaultPlayerType {
       fallSpeed= 20,
       frames= 1,
-      img= "silver-egg",
+      img= SpriteResource "silver-egg",
       moveSpeed= 0,
       multiplier= 10,
       title= "It is of course the silver egg",
@@ -70,7 +69,7 @@ playerTypes
     },
     Tuple Blade defaultPlayerType {
       frames= 18,
-      img= "blade-sprite",
+      img= SpriteResource "blade-sprite",
       title= "It is the mean spirited blade",
       type_= Blade,
       value= 0,
@@ -78,7 +77,7 @@ playerTypes
     },
     Tuple FindBlade defaultPlayerType {
       frames= 18,
-      img= "find-blade-sprite",
+      img= SpriteResource "find-blade-sprite",
       title= "It is the mean spirited blade",
       type_= FindBlade,
       value= 0,

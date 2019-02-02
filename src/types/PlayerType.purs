@@ -4,6 +4,8 @@ import Data.Eq (class Eq)
 import Data.Ord (class Ord)
 import Data.Show (class Show)
 
+import Egg.Types.ResourceUrl
+
 data PlayerKind
   = Egg
   | RedEgg
@@ -30,7 +32,7 @@ instance showPlayerKind :: Show PlayerKind where
 
 type PlayerType =
   { frames      :: Int
-  , img         :: String
+  , img         :: ResourceUrl
   , multiplier  :: Int
   , title       :: String
   , type_       :: PlayerKind
@@ -44,7 +46,7 @@ type PlayerType =
 defaultPlayerType :: PlayerType
 defaultPlayerType
   = { frames: 18
-    , img: "egg-sprite.png"
+    , img: SpriteResource "egg-sprite"
     , multiplier: 1
     , title: "The Egg"
     , type_: Egg

@@ -8,13 +8,14 @@ import Effect.Aff (Aff, launchAff_)
 import Egg.Dom.Canvas (setupCanvas, sizeCanvas)
 import Data.Maybe (Maybe(..))
 import Egg.Data.TileSet (tileResources)
-import Egg.Data.PlayerTypes
+import Egg.Data.PlayerTypes (spriteResources)
 import Egg.Dom.Loader (loadLevel)
-import Egg.Dom.Renderer (renderLevel)
+import Egg.Dom.Renderer (renderGameState)
 import Egg.Types.Canvas (CanvasData)
 import Egg.Types.Level (Level)
-import Egg.Types.ResourceUrl
-import Data.List
+import Egg.Types.ResourceUrl (ResourceUrl)
+import Egg.Logic.InitialiseLevel (initialiseGameState)
+import Data.List (List)
 
 main :: Effect Unit
 main = launchAff_ setupGame
@@ -31,7 +32,8 @@ start :: CanvasData -> Level -> Effect Unit
 start canvas level
   = do
     sizeCanvas canvas.element (toNumber level.boardSize.width * 64.0)
-    renderLevel canvas level Nothing
+    let gameState = initialiseGameState level.board
+    renderGameState canvas Nothing gameState
 
 imageResources :: List ResourceUrl
 imageResources = tileResources <> spriteResources

@@ -10,14 +10,17 @@ import Data.Traversable (class Foldable, class Traversable)
 import Data.List (List)
 import Effect.Exception (Error, error)
 import Effect (Effect)
-import Graphics.Canvas
-import Prelude (Unit, bind, discard, mempty, pure, show, unit, ($), (<$>), (<>))
+import Graphics.Canvas (CanvasElement, CanvasImageSource, Context2D, drawImage, drawImageFull, getCanvasElementById, getContext2D, setCanvasHeight, setCanvasWidth, tryLoadImage)
+import Prelude
 import Effect.Class (liftEffect)
 import Effect.Aff (Aff, makeAff)
 
 import Egg.Types.Coord (Coord, totalX, totalY)
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Egg.Types.Canvas (CanvasData, ImageSourceMap)
+
+tileSize :: Int
+tileSize = 64
 
 canvasSize :: Int
 canvasSize = 640
@@ -98,3 +101,20 @@ drawTile context image coord =
     where
       x = toNumber $ totalX coord
       y = toNumber $ totalY coord
+
+drawPlayer
+  :: Context2D
+  -> CanvasImageSource
+  -> Coord
+  -> Int
+  -> Effect Unit
+drawPlayer context image coord frame
+  = do
+    drawImageFull context image sx sy tileSize' tileSize' destX destY tileSize' tileSize'
+    pure unit
+    where
+      destX = toNumber $ totalX coord
+      destY = toNumber $ totalY coord
+      sx = toNumber $ frame * tileSize
+      sy = 0.0
+      tileSize' = toNumber tileSize

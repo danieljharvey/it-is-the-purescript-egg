@@ -13,7 +13,7 @@ createRenderMap before after
   = fromMaybe blankMap renderMap
   where
     blankMap
-      = blankRenderMap (boardSizeFromBoard before)
+      = blankRenderMap before
 
     renderMap
       = Mat.zipWith compare before after
@@ -27,8 +27,8 @@ boardSizeFromBoard board =
   , height: Mat.height board
   }
 
-blankRenderMap :: BoardSize -> RenderMap
-blankRenderMap size = Mat.repeat size.width size.height true
+blankRenderMap :: Board -> RenderMap
+blankRenderMap board = Mat.repeat (Mat.width board) (Mat.height board) true
 
 shouldDrawItem :: RenderMap -> RenderItem -> Boolean
 shouldDrawItem map item
