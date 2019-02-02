@@ -8,6 +8,9 @@ import Egg.Types.GameState (GameState)
 import Egg.Types.Player (Player)
 import Egg.Types.Action (Action(..))
 
+go :: Int -> GameState -> GameState
+go i gs = doAction gs Playing i
+
 doAction :: GameState -> Action -> Int -> GameState
 doAction old Paused _  = old
 doAction old Playing i | i >= 1 = doGameMove i old

@@ -15,6 +15,9 @@ import Egg.Types.Canvas (CanvasData)
 import Egg.Types.Level (Level)
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Egg.Logic.InitialiseLevel (initialiseGameState)
+import Egg.Dom.AnimationLoop (animationLoop)
+import Egg.Logic.TakeTurn as TakeTurn
+import Effect.Console (log)
 import Data.List (List)
 
 main :: Effect Unit
@@ -34,6 +37,7 @@ start canvas level
     sizeCanvas canvas.element (toNumber level.boardSize.width * 64.0)
     let gameState = initialiseGameState level.board
     renderGameState canvas Nothing gameState
+    animationLoop gameState TakeTurn.go (\ogs -> \ngs -> log (show ngs))
 
 imageResources :: List ResourceUrl
 imageResources = tileResources <> spriteResources
