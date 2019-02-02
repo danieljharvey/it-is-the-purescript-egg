@@ -7,6 +7,7 @@ import Egg.Types.Board (Board, RenderItem)
 import Egg.Types.Player (Player)
 import Egg.Types.PlayerType (PlayerKind, PlayerType)
 import Egg.Types.Coord (Coord, createCoord)
+import Egg.Types.CurrentFrame (createCurrentFrame)
 
 import Data.Maybe (Maybe)
 import Data.Array as Arr
@@ -26,12 +27,12 @@ getPlayerTypeByKind playerKind
 
 createPlayerFromTile :: Int -> RenderItem -> Maybe Player
 createPlayerFromTile i renderItem
-  = createPlayer i coord <$> playerType 
+  = createPlayer i coord <$> playerType
   where
     playerType
       = renderItem.value.createPlayer >>= getPlayerTypeByKind
-    
-    coord 
+
+    coord
       = createCoord renderItem.x renderItem.y
 
 createPlayer :: Int -> Coord -> PlayerType -> Player
@@ -40,7 +41,7 @@ createPlayer i coord playerType
     , coords: coord
     , direction: createCoord 0 0
     , oldDirection: createCoord 0 0
-    , currentFrame: 0
+    , currentFrame: createCurrentFrame playerType.frames
     , id: i
     , falling: false
     , stop: false

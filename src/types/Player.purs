@@ -2,12 +2,13 @@ module Egg.Types.Player where
 
 import Egg.Types.PlayerType
 import Egg.Types.Coord (Coord, createCoord)
+import Egg.Types.CurrentFrame (CurrentFrame, createCurrentFrame)
 
 type Player
   = { coords       :: Coord
     , direction    :: Coord
     , oldDirection :: Coord
-    , currentFrame :: Int
+    , currentFrame :: CurrentFrame
     , id           :: Int
     , falling      :: Boolean
     , stop         :: Boolean
@@ -19,7 +20,7 @@ type Player
 defaultPlayer :: Player
 defaultPlayer
   = { coords: createCoord 0 0
-    , currentFrame: 0
+    , currentFrame: createCurrentFrame 1
     , direction: createCoord 1 0
     , falling: false
     , id: 0

@@ -7,6 +7,7 @@ import Data.Traversable (traverse)
 import Data.Maybe (Maybe(..))
 import Data.Map as M
 
+import Egg.Types.CurrentFrame (getCurrentFrame)
 import Egg.Types.Player (Player)
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Egg.Types.GameState (GameState)
@@ -45,7 +46,7 @@ renderPlayer :: CanvasData -> Player -> Effect Unit
 renderPlayer canvasData player = do
   let imageSource = findImageSource canvasData.imageMap player.playerType.img
   case imageSource of
-    Just img -> Canvas.drawPlayer (canvasData.context) img player.coords player.currentFrame
+    Just img -> Canvas.drawPlayer (canvasData.context) img player.coords (getCurrentFrame player.currentFrame)
     Nothing  -> pure unit
 
 renderBoard :: CanvasData -> RenderMap -> Board -> Effect Unit
