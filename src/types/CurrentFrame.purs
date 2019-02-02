@@ -7,6 +7,12 @@ type Current = Int
 
 data CurrentFrame = CurrentFrame Maximum Current
 
+derive instance eqCurrentFrame  :: Eq CurrentFrame
+derive instance ordCurrentFrame :: Ord CurrentFrame
+instance showCurrentFrame :: Show CurrentFrame where
+  show (CurrentFrame max current)
+    = "Frame " <> show current <> ", maxiumum " <> show max
+
 createCurrentFrame :: Maximum -> CurrentFrame
 createCurrentFrame max = CurrentFrame max 0
 

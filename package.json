@@ -16,6 +16,7 @@
     "watch": "pulp -w browserify --to ./public/egg.js",
     "serve": "serve ./public",
     "test": "pulp test",
+    "test:watch": "pulp -w test",
     "pscid": "pscid src/Main.purs"
   }
 }

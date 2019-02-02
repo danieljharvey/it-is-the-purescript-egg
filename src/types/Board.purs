@@ -1,6 +1,6 @@
-module Egg.Types.Board (Board, BoardSize, JSONBoard, RenderMap, RenderItem, RenderArray) where
+module Egg.Types.Board (Board, BoardSize, JSONBoard, RenderMap, RenderItem, RenderArray, emptyBoard) where
 
-import Egg.Types.Tile (JSONTile, Tile)
+import Egg.Types.Tile
 
 import Matrix as M
 
@@ -23,3 +23,7 @@ type RenderItem
     }
 
 type JSONBoard = Array (Array JSONTile)
+
+emptyBoard :: Int -> Board
+emptyBoard size
+  = M.repeat size size emptyTile

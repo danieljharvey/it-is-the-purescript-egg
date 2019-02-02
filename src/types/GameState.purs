@@ -10,6 +10,7 @@ type GameState
     , rotations   :: Int
     , rotateAngle :: Int
     , outcome     :: String
+    , turns       :: Int
     }
 
 createGameState :: Board -> GameState
@@ -20,4 +21,5 @@ createGameState board
     , rotations: 0
     , rotateAngle: 0
     , outcome: ""
+    , turns: 0
   }

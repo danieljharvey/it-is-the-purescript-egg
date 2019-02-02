@@ -21,6 +21,7 @@ createRenderMap before after
     compare a b
       = a == b
 
+
 boardSizeFromBoard :: Board -> BoardSize
 boardSizeFromBoard board =
   { width : Mat.width board
