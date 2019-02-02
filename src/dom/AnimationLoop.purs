@@ -1,12 +1,11 @@
 module Egg.Dom.AnimationLoop where
 
-import Prelude (Unit, bind, discard, pure, show, unit)
+import Prelude (Unit, bind, discard, pure, unit)
 import Effect (Effect)
 import Web.HTML.Window
 import Web.HTML (window)
 import Effect.Now as Now
 import Effect.Ref as Ref
-import Effect.Console (log)
 import Data.Time (Time, diff)
 import Data.Time.Duration (Milliseconds(..), fromDuration)
 import Data.Int as Int
@@ -40,7 +39,6 @@ duration ref callback = do
   oldTime <- Ref.read ref
   Ref.write time ref
   let change = difference oldTime time
-  log (show change)
   callback change
 
 millisecondsToInt :: Milliseconds -> Int

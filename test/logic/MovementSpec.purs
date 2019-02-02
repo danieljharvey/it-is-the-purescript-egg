@@ -1,12 +1,13 @@
 module Test.Logic.Movement where
 
-import Prelude (Unit, discard)
+import Prelude (Unit, discard, negate)
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions
 
 import Egg.Types.Coord (createCoord)
 import Egg.Types.Player (defaultPlayer)
 import Egg.Logic.Movement (incrementPlayerFrame)
+import Egg.Types.CurrentFrame (createCurrentFrame, dec, getCurrentFrame)
 
 tests :: Spec Unit
 tests =
@@ -20,6 +21,33 @@ tests =
         let oldPlayer = defaultPlayer { oldDirection = createCoord 1 0 }
         incrementPlayerFrame oldPlayer `shouldEqual` defaultPlayer
 
+      it "Decreases current frame when moving left" do
+        let oldPlayer = defaultPlayer { direction = createCoord (-1) 0
+                                      , currentFrame = createCurrentFrame 18
+                                      }
+        let newPlayer = incrementPlayerFrame oldPlayer
+        getCurrentFrame newPlayer.currentFrame `shouldEqual` 17
+
+      it "Increases current frame when moving right" do
+        let oldPlayer = defaultPlayer { direction = createCoord 1 0
+                                      , currentFrame = dec (createCurrentFrame 18)
+                                      }
+        let newPlayer = incrementPlayerFrame oldPlayer
+        getCurrentFrame newPlayer.currentFrame `shouldEqual` 0
+
+      it "Decreases current frame when moving up" do
+        let oldPlayer = defaultPlayer { direction = createCoord 0 (-1)
+                                      , currentFrame = createCurrentFrame 18
+                                      }
+        let newPlayer = incrementPlayerFrame oldPlayer
+        getCurrentFrame newPlayer.currentFrame `shouldEqual` 17
+
+      it "Increases current frame when moving down" do
+        let oldPlayer = defaultPlayer { direction = createCoord 0 1
+                                      , currentFrame = dec (createCurrentFrame 18)
+                                      }
+        let newPlayer = incrementPlayerFrame oldPlayer
+        getCurrentFrame newPlayer.currentFrame `shouldEqual` 0
 {-
 
 
@@ -119,55 +147,8 @@ test("Move down", () => {
   expect(response).toEqual(expected);
 });
 
-test("change frame left", () => {
-  const player = new Player({
-    currentFrame: 3,
-    direction: new Coords({
-      x: -1,
-      y: 0
-    })
-  });
-  const response = Movement.incrementPlayerFrame(player);
-  expect(response.currentFrame).toEqual(2);
-});
 
-test("change frame right", () => {
-  const player = new Player({
-    currentFrame: 10,
-    frames: 11,
-    oldDirection: new Coords({
-      x: 1,
-      y: 0
-    })
-  });
-  const response = Movement.incrementPlayerFrame(player);
-  expect(response.currentFrame).toEqual(0);
-});
 
-test("change going up", () => {
-  const player = new Player({
-    currentFrame: 3,
-    direction: new Coords({
-      x: 0,
-      y: -1
-    })
-  });
-  const response = Movement.incrementPlayerFrame(player);
-  expect(response.currentFrame).toEqual(2);
-});
-
-test("change going down", () => {
-  const player = new Player({
-    currentFrame: 10,
-    frames: 11,
-    oldDirection: new Coords({
-      x: 0,
-      y: 1
-    })
-  });
-  const response = Movement.incrementPlayerFrame(player);
-  expect(response.currentFrame).toEqual(0);
-});
 
 test("Calculate move amount", () => {
   const player = new Player();

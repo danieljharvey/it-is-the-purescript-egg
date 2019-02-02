@@ -6,6 +6,7 @@ import Data.Array (filter)
 import Data.Traversable (traverse)
 import Data.Maybe (Maybe(..))
 import Data.Map as M
+import Effect.Console
 
 import Egg.Types.CurrentFrame (getCurrentFrame)
 import Egg.Types.Player (Player)
@@ -15,7 +16,7 @@ import Egg.Types.Canvas (CanvasData, ImageSourceMap)
 import Egg.Types.Board (Board, RenderItem, RenderMap)
 import Egg.Types.Coord (Coord, createCoord)
 
-import Egg.Logic.RenderMap (blankRenderMap, createRenderMap, shouldDrawItem)
+import Egg.Logic.RenderMap
 
 import Egg.Dom.Canvas as Canvas
 
@@ -25,8 +26,8 @@ import Matrix as Mat
 renderGameState :: CanvasData -> Maybe GameState -> GameState -> Effect Unit
 renderGameState canvasData maybeOld new = do
   let renderMap = case maybeOld of
-                  Nothing        -> blankRenderMap new.board
-                  Just gameState -> createRenderMap gameState.board new.board
+                  Nothing  -> blankRenderMap new.board
+                  Just old -> gameStatesToRenderMap old new
   renderBoard canvasData renderMap new.board
   renderPlayers canvasData new.players
 

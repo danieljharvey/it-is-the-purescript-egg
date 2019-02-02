@@ -39,7 +39,7 @@ createPlayer :: Int -> Coord -> PlayerType -> Player
 createPlayer i coord playerType
   = { playerType: playerType
     , coords: coord
-    , direction: createCoord 0 0
+    , direction: createCoord 1 0
     , oldDirection: createCoord 0 0
     , currentFrame: createCurrentFrame playerType.frames
     , id: i
