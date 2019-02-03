@@ -39,7 +39,7 @@ start canvas level
 
 renderCallback :: CanvasData -> GameState -> GameState -> Effect Unit
 renderCallback canvasData old new
-  = renderGameState canvasData (Just old) new
+  = renderGameState canvasData old new
 
 
 imageResources :: List ResourceUrl

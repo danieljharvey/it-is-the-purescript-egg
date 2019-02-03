@@ -6,7 +6,6 @@ import Data.Array (filter)
 import Data.Traversable (traverse)
 import Data.Maybe (Maybe(..))
 import Data.Map as M
-import Effect.Console
 
 import Egg.Types.CurrentFrame (getCurrentFrame)
 import Egg.Types.Player (Player)
@@ -16,20 +15,33 @@ import Egg.Types.Canvas (CanvasData, ImageSourceMap)
 import Egg.Types.Board (Board, RenderItem, RenderMap)
 import Egg.Types.Coord (Coord, createCoord)
 
-import Egg.Logic.RenderMap
+import Egg.Logic.RenderMap (boardSizeFromBoard, gameStatesToRenderMap, getRenderList, shouldDrawItem)
 
 import Egg.Dom.Canvas as Canvas
 
 import Graphics.Canvas (CanvasImageSource)
 import Matrix as Mat
 
-renderGameState :: CanvasData -> Maybe GameState -> GameState -> Effect Unit
-renderGameState canvasData maybeOld new = do
-  let renderMap = case maybeOld of
-                  Nothing  -> blankRenderMap new.board
-                  Just old -> gameStatesToRenderMap old new
+renderGameState :: CanvasData -> GameState -> GameState -> Effect Unit
+renderGameState canvasData old new = do
+  let renderMap = gameStatesToRenderMap old new
+  Canvas.clearScreen canvasData.context (boardSizeFromBoard new.board)
+  clearTiles canvasData renderMap
   renderBoard canvasData renderMap new.board
   renderPlayers canvasData new.players
+  showRenderingTiles canvasData renderMap
+
+showRenderingTiles :: CanvasData -> RenderMap -> Effect Unit
+showRenderingTiles canvasData renderMap = do
+  let clearList = getRenderList renderMap
+  _ <- traverse (\coord -> Canvas.fillTile canvasData.context coord) clearList
+  pure unit
+
+clearTiles :: CanvasData -> RenderMap -> Effect Unit
+clearTiles canvasData renderMap = do
+  let clearList = getRenderList renderMap
+  _ <- traverse (\coord -> Canvas.clearTile canvasData.context coord) clearList
+  pure unit
 
 toCoord :: RenderItem -> Coord
 toCoord item

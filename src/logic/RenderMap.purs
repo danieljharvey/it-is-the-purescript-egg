@@ -4,7 +4,7 @@ import Prelude
 import Data.Maybe (fromMaybe)
 import Matrix as Mat
 import Egg.Types.Player (Player)
-import Egg.Types.Board (Board, BoardSize, RenderMap, RenderArray, RenderItem)
+import Egg.Types.Board (Board, BoardSize, RenderArray, RenderItem, RenderMap)
 import Egg.Types.Coord (Coord, createCoord)
 import Egg.Types.GameState (GameState)
 import Data.Array (filter, range)
@@ -28,7 +28,7 @@ createRenderMap before after
       = Mat.zipWith compare before after
 
     compare a b
-      = a == b
+      = a /= b
 
 addPlayersToRenderMap :: Array Player -> RenderMap -> RenderMap
 addPlayersToRenderMap players rMap
@@ -61,6 +61,13 @@ boardSizeFromBoard board =
 
 blankRenderMap :: Board -> RenderMap
 blankRenderMap board = Mat.repeat (Mat.width board) (Mat.height board) true
+
+getRenderList :: RenderMap -> Array Coord
+getRenderList rMap
+  = map (\item -> createCoord item.x item.y) filtered
+  where
+    filtered
+      = filter (\item -> item.value == true) (Mat.toIndexedArray rMap)
 
 shouldDrawItem :: RenderMap -> RenderItem -> Boolean
 shouldDrawItem map item

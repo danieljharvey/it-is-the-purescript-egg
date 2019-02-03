@@ -10,11 +10,12 @@ import Data.Traversable (class Foldable, class Traversable)
 import Data.List (List)
 import Effect.Exception (Error, error)
 import Effect (Effect)
-import Graphics.Canvas (CanvasElement, CanvasImageSource, Context2D, drawImage, drawImageFull, getCanvasElementById, getContext2D, setCanvasHeight, setCanvasWidth, tryLoadImage)
+import Graphics.Canvas (CanvasElement, CanvasImageSource, Context2D, clearRect, drawImage, drawImageFull, fillRect, getCanvasElementById, getContext2D, setCanvasHeight, setCanvasWidth, setFillStyle, tryLoadImage)
 import Prelude
 import Effect.Class (liftEffect)
 import Effect.Aff (Aff, makeAff)
 
+import Egg.Types.Board (BoardSize)
 import Egg.Types.Coord (Coord, totalX, totalY)
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Egg.Types.Canvas (CanvasData, ImageSourceMap)
@@ -91,6 +92,15 @@ orError
   -> Either Error a
 orError msg a = note (error msg) a
 
+clearScreen :: Context2D -> BoardSize -> Effect Unit
+clearScreen context size = do
+  clearRect context
+    { x: 0.0
+    , y: 0.0
+    , width: toNumber (size.width * tileSize)
+    , height: toNumber (size.height * tileSize)
+    }
+
 drawTile
   :: Context2D
   -> CanvasImageSource
@@ -101,6 +111,32 @@ drawTile context image coord =
     where
       x = toNumber $ totalX coord
       y = toNumber $ totalY coord
+
+fillTile
+  :: Context2D
+  -> Coord
+  -> Effect Unit
+fillTile context coord = do
+  let rect = { x: toNumber $ (coord.x * tileSize) + 5
+             , y: toNumber $ (coord.y * tileSize) + 5
+             , width: toNumber $ tileSize - 10
+             , height: toNumber $ tileSize - 10
+             }
+  setFillStyle context "rgba(255,0,0,0.5)"
+  fillRect context rect
+
+clearTile
+  :: Context2D
+  -> Coord
+  -> Effect Unit
+clearTile context coord
+  = clearRect context rect
+    where
+      rect = { x: toNumber $ coord.x * tileSize
+             , y: toNumber $ coord.y * tileSize
+             , width: toNumber $ tileSize
+             , height: toNumber $ tileSize
+             }
 
 drawPlayer
   :: Context2D
