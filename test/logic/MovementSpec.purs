@@ -1,12 +1,12 @@
 module Test.Logic.Movement where
 
-import Prelude (Unit, discard, negate)
+import Prelude (Unit, discard, negate, (*))
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions
 
 import Egg.Types.Coord (createCoord)
 import Egg.Types.Player (defaultPlayer)
-import Egg.Logic.Movement (incrementPlayerFrame)
+import Egg.Logic.Movement (calcMoveAmount, incrementPlayerDirection, incrementPlayerFrame)
 import Egg.Types.CurrentFrame (createCurrentFrame, dec, getCurrentFrame)
 
 tests :: Spec Unit
@@ -48,6 +48,26 @@ tests =
                                       }
         let newPlayer = incrementPlayerFrame oldPlayer
         getCurrentFrame newPlayer.currentFrame `shouldEqual` 0
+
+    describe "calcMoveAmount" do
+      it "Does one" do
+        calcMoveAmount 10 10 `shouldEqual` 7
+      it "Does another" do
+        calcMoveAmount 10 20 `shouldEqual` 15
+      it "Checks that no timePassed does not break it" do
+        calcMoveAmount 10 0 `shouldEqual` 0
+      it "Checks that no moveSpeed does not break it" do
+        calcMoveAmount 0 10 `shouldEqual` 0
+
+
+    describe "calcMoveAmount" do
+      it "Moves left" do
+        let player = defaultPlayer { direction = createCoord (-1) 0
+                                   , coords = createCoord 2 2
+                                   }
+        let expectedMoveAmount = calcMoveAmount player.playerType.moveSpeed 100
+        let newPlayer = incrementPlayerDirection 100 player
+        newPlayer.coords.offsetX `shouldEqual` (-1 * expectedMoveAmount)
 {-
 
 
@@ -147,14 +167,6 @@ test("Move down", () => {
   expect(response).toEqual(expected);
 });
 
-
-
-
-test("Calculate move amount", () => {
-  const player = new Player();
-  expect(Movement.calcMoveAmount(10, 10)).toEqual(5);
-  expect(Movement.calcMoveAmount(10, 20)).toEqual(10);
-});
 
 test("Egg with no speed stays still", () => {
   const player = new Player({
