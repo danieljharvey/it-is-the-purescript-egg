@@ -6,7 +6,7 @@ import Test.Spec.Assertions
 
 import Egg.Types.Coord (createCoord)
 import Egg.Types.Player (defaultPlayer)
-import Egg.Logic.Movement (calcMoveAmount, incrementPlayerDirection, incrementPlayerFrame)
+import Egg.Logic.Movement 
 import Egg.Types.CurrentFrame (createCurrentFrame, dec, getCurrentFrame)
 
 tests :: Spec Unit
@@ -68,162 +68,65 @@ tests =
         let expectedMoveAmount = calcMoveAmount player.playerType.moveSpeed 100
         let newPlayer = incrementPlayerDirection 100 player
         newPlayer.coords.offsetX `shouldEqual` (-1 * expectedMoveAmount)
+
+      it "Moves right" do
+        let player = defaultPlayer { direction = createCoord 1 0
+                                   , coords = createCoord 2 2
+                                   }
+        let expectedMoveAmount = calcMoveAmount player.playerType.moveSpeed 100
+        let newPlayer = incrementPlayerDirection 100 player
+        newPlayer.coords.offsetX `shouldEqual` (expectedMoveAmount)
+      
+      it "Moves up" do
+        let player = defaultPlayer { direction = createCoord 0 (-1)
+                                   , coords = createCoord 2 2
+                                   }
+        let expectedMoveAmount = calcMoveAmount player.playerType.moveSpeed 100
+        let newPlayer = incrementPlayerDirection 100 player
+        newPlayer.coords.offsetY `shouldEqual` (-1 * expectedMoveAmount)
+      
+      it "Moves down" do
+        let player = defaultPlayer { direction = createCoord 0 1
+                                   , coords = createCoord 2 2
+                                   }
+        let expectedMoveAmount = calcMoveAmount player.playerType.moveSpeed 100
+        let newPlayer = incrementPlayerDirection 100 player
+        newPlayer.coords.offsetY `shouldEqual` (expectedMoveAmount)
+      
+      it "Egg with no speed stays still" do
+        let player = defaultPlayer { direction = createCoord 0 1
+                                   , coords = createCoord 2 2
+                                   , playerType = defaultPlayer.playerType {
+                                   moveSpeed = 0 }
+                                   }
+        let expectedMoveAmount = calcMoveAmount player.playerType.moveSpeed 100
+        let newPlayer = incrementPlayerDirection 100 player
+        newPlayer.coords.offsetY `shouldEqual` 0
+    
+    describe "correctTileOverflow" do
+       it "Overflow remains the same when within boundary" do
+          let coord = { x: 1, y: 0, offsetX: 75, offsetY: 0 }
+          correctTileOverflow coord `shouldEqual` coord
+
+       it "Moves right when overflowing there" do
+          let coord = { x: 0, y: 0, offsetX: 150, offsetY: 0 }
+          correctTileOverflow coord `shouldEqual` coord { x = 1, offsetX = 0 }
+
+       it "Moves left when overflowing there" do
+          let coord = { x: 3, y: 0, offsetX: -150, offsetY: 0 }
+          correctTileOverflow coord `shouldEqual` coord { x = 2, offsetX = 0 }
+
+       it "Moves up when overflowing there" do
+          let coord = { x: 0, y: 4, offsetX: 0, offsetY: -150 }
+          correctTileOverflow coord `shouldEqual` coord { y = 3, offsetY = 0 }
+
+       it "Moves down when overflowing there" do
+          let coord = { x: 0, y: 4, offsetX: 0, offsetY: 150 }
+          correctTileOverflow coord `shouldEqual` coord { y = 5, offsetY = 0 }
+
+
 {-
 
-
-test("Move left", () => {
-  const player = new Player({
-    direction: new Coords({
-      x: -1
-    }),
-    coords: new Coords({
-      x: 2,
-      y: 2
-    })
-  });
-
-  const timePassed = 10;
-  const moveAmount = Movement.calcMoveAmount(player.moveSpeed, timePassed);
-
-  const expected = player.modify({
-    coords: player.coords.modify({
-      offsetX: -moveAmount
-    })
-  });
-
-  const response = Movement.incrementPlayerDirection(timePassed)(player);
-  expect(response).toEqual(expected);
-});
-
-test("Move right", () => {
-  const player = new Player({
-    direction: new Coords({
-      x: 1
-    }),
-    coords: new Coords({
-      x: 2,
-      y: 2
-    })
-  });
-
-  const timePassed = 10;
-  const moveAmount = Movement.calcMoveAmount(player.moveSpeed, timePassed);
-
-  const expected = player.modify({
-    coords: player.coords.modify({
-      offsetX: moveAmount
-    })
-  });
-
-  const response = Movement.incrementPlayerDirection(timePassed)(player);
-  expect(response).toEqual(expected);
-});
-
-test("Move up", () => {
-  const player = new Player({
-    direction: new Coords({
-      y: -1
-    }),
-    coords: new Coords({
-      x: 2,
-      y: 2
-    })
-  });
-
-  const timePassed = 10;
-  const moveAmount = Movement.calcMoveAmount(player.moveSpeed, timePassed);
-
-  const expected = player.modify({
-    coords: player.coords.modify({
-      offsetY: -moveAmount
-    })
-  });
-
-  const response = Movement.incrementPlayerDirection(timePassed)(player);
-  expect(response).toEqual(expected);
-});
-
-test("Move down", () => {
-  const player = new Player({
-    direction: new Coords({
-      y: 1
-    }),
-    coords: new Coords({
-      x: 2,
-      y: 2
-    })
-  });
-
-  const timePassed = 10;
-  const moveAmount = Movement.calcMoveAmount(player.moveSpeed, timePassed);
-
-  const expected = player.modify({
-    coords: player.coords.modify({
-      offsetY: moveAmount
-    })
-  });
-
-  const response = Movement.incrementPlayerDirection(timePassed)(player);
-  expect(response).toEqual(expected);
-});
-
-
-test("Egg with no speed stays still", () => {
-  const player = new Player({
-    moveSpeed: 0
-  });
-  const movedPlayer = Movement.incrementPlayerDirection(1)(player);
-
-  const oldCoords = player.coords;
-  const newCoords = movedPlayer.coords;
-
-  expect(oldCoords.equals(newCoords)).toEqual(true);
-});
-
-test("Overflow remains the same", () => {
-  const coords = new Coords({ x: 1, y: 0, offsetX: 75, offsetY: 0 });
-
-  const fixedCoords = Movement.correctTileOverflow(coords);
-
-  expect(fixedCoords.x).toEqual(1);
-  expect(fixedCoords.offsetX).toEqual(75);
-});
-
-test("No overflow to right", () => {
-  const coords = new Coords({ x: 0, y: 0, offsetX: 100, offsetY: 0 });
-
-  const fixedCoords = Movement.correctTileOverflow(coords);
-
-  expect(fixedCoords.x).toEqual(1);
-  expect(fixedCoords.offsetX).toEqual(0);
-});
-
-test("No overflow to left", () => {
-  const coords = new Coords({ x: 3, y: 0, offsetX: -100, offsetY: 0 });
-
-  const fixedCoords = Movement.correctTileOverflow(coords);
-
-  expect(fixedCoords.x).toEqual(2);
-  expect(fixedCoords.offsetX).toEqual(0);
-});
-
-test("No overflow above", () => {
-  const coords = new Coords({ x: 0, y: 4, offsetX: 0, offsetY: -100 });
-
-  const fixedCoords = Movement.correctTileOverflow(coords);
-
-  expect(fixedCoords.y).toEqual(3);
-  expect(fixedCoords.offsetY).toEqual(0);
-});
-
-test("No overflow below", () => {
-  const coords = new Coords({ x: 0, y: 4, offsetX: 0, offsetY: 100 });
-
-  const fixedCoords = Movement.correctTileOverflow(coords);
-
-  expect(fixedCoords.y).toEqual(5);
-  expect(fixedCoords.offsetY).toEqual(0);
-});
 
 test("Fall through breakable block", () => {
   const boardArray = [

@@ -13,11 +13,14 @@ moveDivision = 128
 speedConst :: Int
 speedConst = 10
 
-movePlayers :: Array Player -> Array Player
-movePlayers = map movePlayer
+movePlayers :: Int -> Array Player -> Array Player
+movePlayers i = map (movePlayer i)
 
-movePlayer :: Player -> Player
-movePlayer = incrementPlayerFrame
+movePlayer :: Int -> Player -> Player
+movePlayer timePassed
+  = incrementPlayerFrame
+  <<< correctPlayerOverflow 
+  <<< (incrementPlayerDirection timePassed)
 
 incrementPlayerFrame :: Player -> Player
 incrementPlayerFrame = resetDirectionWhenStationary
@@ -64,3 +67,19 @@ incrementPlayerDirection timePassed player
           { offsetX = player.coords.offsetX + (player.direction.x * moveAmount)
           , offsetY = player.coords.offsetY + (player.direction.y * moveAmount)
           }
+
+correctPlayerOverflow :: Player -> Player
+correctPlayerOverflow p
+  = p { coords = correctTileOverflow p.coords }
+
+correctTileOverflow :: Coord -> Coord
+correctTileOverflow coord
+  | coord.offsetX >= moveDivision 
+    = coord { x = coord.x + 1, offsetX = 0 }
+  | coord.offsetX <= (-1) * moveDivision
+    = coord { x = coord.x - 1, offsetX = 0 } 
+  | coord.offsetY >= moveDivision
+    = correctTileOverflow (coord { y = coord.y + 1, offsetY = 0})
+  | coord.offsetY <= (-1) * moveDivision
+    = correctTileOverflow (coord { y = coord.y - 1, offsetY = 0 })
+  | otherwise                     = coord
