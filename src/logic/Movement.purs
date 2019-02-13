@@ -2,9 +2,13 @@ module Egg.Logic.Movement where
 
 import Prelude
 import Egg.Types.Player (Player)
+import Egg.Types.Board
 import Egg.Types.Coord (Coord, createCoord)
 import Egg.Types.CurrentFrame (dec, inc)
+import Egg.Types.Tile
 
+import Data.Maybe
+import Matrix as Mat
 import Data.Int (floor, toNumber)
 
 moveDivision :: Int
@@ -83,3 +87,28 @@ correctTileOverflow coord
   | coord.offsetY <= (-1) * moveDivision
     = correctTileOverflow (coord { y = coord.y - 1, offsetY = 0 })
   | otherwise                     = coord
+
+checkFloorBelowPlayer :: Board -> Player -> Player
+checkFloorBelowPlayer board player
+  = player { falling = breakable || hollow }
+  where
+    breakable
+      = belowTile.breakable && player.falling
+    
+    hollow
+      = belowTile.background
+    
+    belowTile
+      = getTileByCoord board coord
+
+    coord
+      = player.coords { y = player.coords.y + 1 } 
+
+getTileByCoord :: Board -> Coord -> Tile
+getTileByCoord board coord
+  = fromMaybe emptyTile tile
+    where
+      tile = Mat.get x y board
+      x = coord.x `mod` Mat.width board
+      y = coord.y `mod` Mat.height board    
+

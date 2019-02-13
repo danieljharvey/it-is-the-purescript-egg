@@ -17,6 +17,7 @@
     "serve": "serve ./public",
     "test": "pulp test",
     "test:watch": "pulp -w test",
-    "pscid": "pscid src/Main.purs"
+    "pscid": "pscid src/Main.purs",
+    "pscid:test": "pscid test/Main.purs"
   }
 }

@@ -1,13 +1,17 @@
 module Test.Logic.Movement where
 
-import Prelude (Unit, discard, negate, (*))
+import Prelude (Unit, discard, negate, ($), (*))
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions
+import Data.Maybe (fromMaybe)
 
+import Egg.Types.Tile (defaultTile)
 import Egg.Types.Coord (createCoord)
 import Egg.Types.Player (defaultPlayer)
-import Egg.Logic.Movement 
+import Egg.Logic.Movement (calcMoveAmount, correctTileOverflow, incrementPlayerDirection, incrementPlayerFrame, checkFloorBelowPlayer) 
 import Egg.Types.CurrentFrame (createCurrentFrame, dec, getCurrentFrame)
+
+import Matrix as Mat
 
 tests :: Spec Unit
 tests =
@@ -124,86 +128,33 @@ tests =
           let coord = { x: 0, y: 4, offsetX: 0, offsetY: 150 }
           correctTileOverflow coord `shouldEqual` coord { y = 5, offsetY = 0 }
 
+    describe "checkFloorBelowPlayer" do
+       it "Fall through breakable block" do
+          let bgTile = defaultTile { background = true, breakable = false }
+          let fgTile = defaultTile { background = false, breakable = true }
+          let board = fromMaybe Mat.empty $ Mat.fromArray [ [ bgTile ], [ fgTile ] ]
+          let player = defaultPlayer { falling = true }
+          let newPlayer = checkFloorBelowPlayer board player 
+          newPlayer.falling `shouldEqual` true
+       
+       it "Don't fall through floor" do
+          let bgTile = defaultTile { background = true, breakable = false }
+          let fgTile = defaultTile { background = false, breakable = false }
+          let board = fromMaybe Mat.empty $ Mat.fromArray [ [ bgTile ], [ fgTile ] ]
+          let player = defaultPlayer { falling = true }
+          let newPlayer = checkFloorBelowPlayer board player 
+          newPlayer.falling `shouldEqual` false
+       
+       it "Non-flying players fall downwards" do
+          let bgTile = defaultTile { background = true, breakable = false }
+          let board = fromMaybe Mat.empty $ Mat.fromArray [ [ bgTile ], [ bgTile ] ]
+          let player = defaultPlayer { falling = false }
+          let newPlayer = checkFloorBelowPlayer board player 
+          newPlayer.falling `shouldEqual` true
+
 
 {-
 
-
-test("Fall through breakable block", () => {
-  const boardArray = [
-    [
-      new Tile({ background: true, breakable: false }),
-      new Tile({ background: false, breakable: true })
-    ]
-  ];
-
-  const board = new Board(boardArray);
-
-  const player = new Player({
-    coords: new Coords({
-      x: 0,
-      y: 0
-    }),
-    falling: true
-  });
-
-  const result = Movement.checkFloorBelowPlayer(board, 10)(player);
-
-  expect(result.equals(player)).toEqual(true);
-  expect(result.falling).toEqual(true);
-});
-
-test("Don't fall through floor", () => {
-  const boardArray = [
-    [
-      new Tile({ background: true, breakable: false }),
-      new Tile({ background: false, breakable: false })
-    ]
-  ];
-
-  const board = new Board(boardArray);
-
-  const player = new Player({
-    coords: new Coords({
-      x: 0,
-      y: 0
-    }),
-    falling: true
-  });
-
-  const expected = player.modify({
-    falling: false
-  });
-
-  const result = Movement.checkFloorBelowPlayer(board, 10)(player);
-
-  expect(result.equals(expected)).toEqual(true);
-  expect(result.falling).toEqual(false);
-});
-
-test("Non-flying players fall downwards", () => {
-  const boardArray = [
-    [new Tile({ background: true }), new Tile({ background: true })]
-  ];
-
-  const board = new Board(boardArray);
-
-  const player = new Player({
-    coords: new Coords({
-      x: 0,
-      y: 0
-    }),
-    falling: false
-  });
-
-  const expected = player.modify({
-    falling: true
-  });
-
-  const result = Movement.checkFloorBelowPlayer(board, 10)(player);
-
-  expect(result.equals(expected)).toEqual(true);
-  expect(result.falling).toEqual(true);
-});
 
 test("Flying players don't fall through floor", () => {
   const boardArray = [
