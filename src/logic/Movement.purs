@@ -2,12 +2,12 @@ module Egg.Logic.Movement where
 
 import Prelude
 import Egg.Types.Player (Player)
-import Egg.Types.Board
+import Egg.Types.Board (Board)
 import Egg.Types.Coord (Coord, createCoord)
 import Egg.Types.CurrentFrame (dec, inc)
-import Egg.Types.Tile
+import Egg.Types.Tile (Tile, emptyTile)
 
-import Data.Maybe
+import Data.Maybe (fromMaybe)
 import Matrix as Mat
 import Data.Int (floor, toNumber)
 
@@ -17,12 +17,13 @@ moveDivision = 128
 speedConst :: Int
 speedConst = 10
 
-movePlayers :: Int -> Array Player -> Array Player
-movePlayers i = map (movePlayer i)
+movePlayers :: Board -> Int -> Array Player -> Array Player
+movePlayers board i = map (movePlayer board i)
 
-movePlayer :: Int -> Player -> Player
-movePlayer timePassed
+movePlayer :: Board -> Int -> Player -> Player
+movePlayer board timePassed
   = incrementPlayerFrame
+  <<< (checkFloorBelowPlayer board)
   <<< correctPlayerOverflow 
   <<< (incrementPlayerDirection timePassed)
 
@@ -90,8 +91,11 @@ correctTileOverflow coord
 
 checkFloorBelowPlayer :: Board -> Player -> Player
 checkFloorBelowPlayer board player
-  = player { falling = breakable || hollow }
+  = player { falling = canFall && (breakable || hollow) }
   where
+    canFall
+      = not $ player.playerType.flying
+
     breakable
       = belowTile.breakable && player.falling
     

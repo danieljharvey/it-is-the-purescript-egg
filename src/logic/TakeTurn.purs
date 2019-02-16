@@ -30,7 +30,7 @@ doGameMove i = (doPlayerMove i) <<< incrementTurnCount <<< resetOutcome
 doPlayerMove :: Int -> GameState -> GameState
 doPlayerMove i old = old { players = newPlayers }
   where
-    newPlayers = Movement.movePlayers i old.players
+    newPlayers = Movement.movePlayers old.board i old.players
 
 isRainbowEggTime :: GameState -> Array Player
 isRainbowEggTime gameState = gameState.players

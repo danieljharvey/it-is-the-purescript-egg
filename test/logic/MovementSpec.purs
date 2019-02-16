@@ -152,38 +152,17 @@ tests =
           let newPlayer = checkFloorBelowPlayer board player 
           newPlayer.falling `shouldEqual` true
 
+       it "Flying players don't fall through floor" do
+          let bgTile = defaultTile { background = true, breakable = false }
+          let board = fromMaybe Mat.empty $ Mat.fromArray [ [ bgTile ], [ bgTile ] ]
+          let player = defaultPlayer 
+                { falling = true
+                , playerType = defaultPlayer.playerType { flying = true }
+                }
+          let newPlayer = checkFloorBelowPlayer board player 
+          newPlayer.falling `shouldEqual` false
 
 {-
-
-
-test("Flying players don't fall through floor", () => {
-  const boardArray = [
-    [
-      new Tile({ background: true, breakable: false }),
-      new Tile({ background: true, breakable: false })
-    ]
-  ];
-
-  const board = new Board(boardArray);
-
-  const player = new Player({
-    coords: new Coords({
-      x: 0,
-      y: 0
-    }),
-    flying: true,
-    falling: true
-  });
-
-  const expected = player.modify({
-    falling: false // flying players are never falling
-  });
-
-  const result = Movement.checkFloorBelowPlayer(board, 10)(player);
-
-  expect(result.equals(expected)).toEqual(true);
-  expect(result.falling).toEqual(false);
-});
 
 test("Check player has not moved", () => {
   const oldPlayer = new Player({
