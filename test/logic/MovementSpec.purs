@@ -9,7 +9,7 @@ import Egg.Types.Board (Board)
 import Egg.Types.Tile (Tile, defaultTile)
 import Egg.Types.Coord (Coord(..), createCoord)
 import Egg.Types.Player (Player, defaultPlayer)
-import Egg.Logic.Movement (calcMoveAmount, checkFloorBelowPlayer, checkPlayerDirection, correctTileOverflow, incrementPlayerDirection, incrementPlayerFrame, playerHasMoved)
+import Egg.Logic.Movement (calcMoveAmount, checkFloorBelowPlayer, checkPlayerDirection, correctTileOverflow, incrementPlayerDirection, incrementPlayerFrame, markPlayerIfMoved, playerHasMoved)
 import Egg.Types.CurrentFrame (createCurrentFrame, dec, getCurrentFrame)
 
 import Matrix as Mat
@@ -72,9 +72,9 @@ tests =
 
     describe "calcMoveAmount" do
       it "Does one" do
-        calcMoveAmount 10 10 `shouldEqual` 7
+        calcMoveAmount 10 10 `shouldEqual` 31
       it "Does another" do
-        calcMoveAmount 10 20 `shouldEqual` 15
+        calcMoveAmount 10 20 `shouldEqual` 62
       it "Checks that no timePassed does not break it" do
         calcMoveAmount 10 0 `shouldEqual` 0
       it "Checks that no moveSpeed does not break it" do
@@ -135,7 +135,7 @@ tests =
 
     describe "correctTileOverflow" do
        it "Overflow remains the same when within boundary" do
-          let coord = Coord { x: 1, y: 0, offsetX: 75, offsetY: 0 }
+          let coord = Coord { x: 1, y: 0, offsetX: 54, offsetY: 0 }
           correctTileOverflow coord `shouldEqual` coord
 
        it "Moves right when overflowing there" do
@@ -185,7 +185,16 @@ tests =
        it "Sees we have moved" do
           let newPlayer = defaultPlayer { coords = createCoord 5 6 }
           playerHasMoved defaultPlayer newPlayer `shouldEqual` true
-          
+
+    describe "markPlayerIfMoved" do
+       it "Sees we have not moved" do
+          let newPlayer = markPlayerIfMoved defaultPlayer defaultPlayer
+          newPlayer.moved `shouldEqual` false
+       it "Sees we have moved" do
+          let newPlayer = defaultPlayer { coords = createCoord 5 6 }
+          let movedPlayer = markPlayerIfMoved defaultPlayer newPlayer
+          movedPlayer.moved `shouldEqual` true
+
     describe "checkPlayerDirection" do
        it "Continues in the same direction when there are no obstacles" do
           let board = boardFromArray [ [ bgTile, bgTile, bgTile ] ]
@@ -201,6 +210,14 @@ tests =
                                      }
           let expected = player { direction = createCoord 1 0 }
           checkPlayerDirection board player `shouldEqual` expected
+       
+       it "Does not bounce off a wall to the left when falling" do
+          let board = boardFromArray [ [ empty, bgTile, bgTile ] ]
+          let player = defaultPlayer { coords    = createCoord 1 0
+                                     , direction = createCoord (-1) 0
+                                     , falling = true
+                                     }
+          checkPlayerDirection board player `shouldEqual` player
 
        it "Bounces off a wall to the right" do
           let board = boardFromArray [ [ bgTile, bgTile, empty ] ]

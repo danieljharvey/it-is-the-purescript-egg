@@ -12,21 +12,25 @@ import Matrix as Mat
 import Data.Int (floor, toNumber)
 
 moveDivision :: Int
-moveDivision = 128
+moveDivision = 64
 
 speedConst :: Int
-speedConst = 10
+speedConst = 20
 
 movePlayers :: Board -> Int -> Array Player -> Array Player
 movePlayers board i = map (movePlayer board i)
 
 movePlayer :: Board -> Int -> Player -> Player
-movePlayer board timePassed
-  = incrementPlayerFrame
-  <<< (checkFloorBelowPlayer board)
-  <<< (checkPlayerDirection board)
-  <<< correctPlayerOverflow 
-  <<< (incrementPlayerDirection timePassed)
+movePlayer board timePassed player
+  = doMove player
+  where 
+    doMove
+      = (markPlayerIfMoved player)
+      <<< incrementPlayerFrame
+      <<< (checkFloorBelowPlayer board)
+      <<< (checkPlayerDirection board)
+      <<< correctPlayerOverflow 
+      <<< (incrementPlayerDirection timePassed)
 
 incrementPlayerFrame :: Player -> Player
 incrementPlayerFrame = resetDirectionWhenStationary
@@ -121,6 +125,10 @@ getTileByCoord board (Coord coord)
       x = coord.x `mod` Mat.width board
       y = coord.y `mod` Mat.height board    
 
+markPlayerIfMoved :: Player -> Player -> Player
+markPlayerIfMoved old new
+  = new { moved = playerHasMoved old new }
+
 playerHasMoved :: Player -> Player -> Boolean
 playerHasMoved old new
   = old.coords /= new.coords
@@ -130,9 +138,9 @@ checkPlayerDirection board player
   = player { direction = newDirection }
   where
     newDirection 
-      = if nextTile.background
+      = if nextTile.background || player.falling
            then player.direction
-            else invert player.direction
+           else invert player.direction
     
     nextTile
       = getTileByCoord board coord
