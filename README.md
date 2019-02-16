@@ -3,23 +3,27 @@ Puzzle game thing with an egg
 
 ![Picture of the egg](http://itistheegg.com/apple-icon-180x180.png)
 
-Can't bloody wait? Play in browser RIGHT NOW at http://itistheegg.com/
+Can't bloody wait for me to finish this? Play the old Typescript version in browser RIGHT NOW at http://itistheegg.com/
 
 The aim of the game is to combine all of the eggs into the One True Egg and also collect all of the things to make your dreams come true and also complete the level and go onto the next.
 
-Written in Typescript with a little bit of Immutable.js to make the egg transitions less slow.
+This is a rewrite in Purescript which seems to be going pretty OK, all told.
 
-Typescript files:
-`/include/ts`
+Install it!
 
-Compile with 
-`tsc -w`
+```
+git clone https://gtithub.com/danieljharvey/it-is-the-purescript-egg
+cd it-is-the-purescript-egg
+yarn install
+```
 
-Run tests with
-`npm test`
+To build the app run
+```
+yarn watch
+```
 
-Run prettier with
-`npm run prettier`
+And to serve it to a browser use
 
-Run tslint with
-`npm run lint`
+```
+yarn serve
+```
