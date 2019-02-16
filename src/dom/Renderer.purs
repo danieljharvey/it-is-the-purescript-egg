@@ -25,7 +25,6 @@ import Matrix as Mat
 renderGameState :: CanvasData -> GameState -> GameState -> Effect Unit
 renderGameState canvasData old new = do
   let renderMap = gameStatesToRenderMap old new
-  Canvas.clearScreen canvasData.context (boardSizeFromBoard new.board)
   clearTiles canvasData renderMap
   renderBoard canvasData renderMap new.board
   renderPlayers canvasData new.players

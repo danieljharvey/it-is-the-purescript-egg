@@ -5,7 +5,7 @@ import Data.Maybe (fromMaybe)
 import Matrix as Mat
 import Egg.Types.Player (Player)
 import Egg.Types.Board (Board, BoardSize, RenderArray, RenderItem, RenderMap)
-import Egg.Types.Coord (Coord, createCoord)
+import Egg.Types.Coord
 import Egg.Types.GameState (GameState)
 import Data.Array (filter, range)
 import Data.Traversable (foldr)
@@ -41,13 +41,14 @@ addPlayerToRenderMap player map
     coordList
       = getPlayerCoordList map player
 
-    markCoord coord rMap
+    markCoord (Coord coord) rMap
       = fromMaybe rMap (Mat.set coord.x coord.y true rMap)
 
 getPlayerCoordList :: RenderMap -> Player -> Array Coord
 getPlayerCoordList map player = do
-  xs <- range (player.coords.x - 1) (player.coords.x + 1)
-  ys <- range (player.coords.y - 1) (player.coords.y + 1)
+  let (Coord coords) = player.coords
+  xs <- range (coords.x - 1) (coords.x + 1)
+  ys <- range (coords.y - 1) (coords.y + 1)
   pure (createCoord (xs `mod` maxX) (ys `mod` maxY))
     where
       maxX = Mat.width map
@@ -74,7 +75,7 @@ shouldDrawItem map item
   = shouldDraw map (createCoord item.x item.y)
 
 shouldDraw :: RenderMap -> Coord -> Boolean
-shouldDraw map coord = fromMaybe false draw
+shouldDraw map (Coord coord) = fromMaybe false draw
   where
     draw = Mat.get coord.x coord.y map
 

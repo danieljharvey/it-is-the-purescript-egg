@@ -16,7 +16,7 @@ import Effect.Class (liftEffect)
 import Effect.Aff (Aff, makeAff)
 
 import Egg.Types.Board (BoardSize)
-import Egg.Types.Coord (Coord, totalX, totalY)
+import Egg.Types.Coord
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Egg.Types.Canvas (CanvasData, ImageSourceMap)
 
@@ -116,7 +116,7 @@ fillTile
   :: Context2D
   -> Coord
   -> Effect Unit
-fillTile context coord = do
+fillTile context (Coord coord) = do
   let rect = { x: toNumber $ (coord.x * tileSize) + 5
              , y: toNumber $ (coord.y * tileSize) + 5
              , width: toNumber $ tileSize - 10
@@ -129,7 +129,7 @@ clearTile
   :: Context2D
   -> Coord
   -> Effect Unit
-clearTile context coord
+clearTile context (Coord coord)
   = clearRect context rect
     where
       rect = { x: toNumber $ coord.x * tileSize
