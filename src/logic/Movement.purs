@@ -94,7 +94,7 @@ correctTileOverflow (Coord coord)
     = Coord coord
 
 checkFloorBelowPlayer :: Board -> Player -> Player
-checkFloorBelowPlayer board player@{ coords: Coord coords }
+checkFloorBelowPlayer board player
   = player { falling = canFall && (breakable || hollow) }
   where
     canFall
@@ -110,7 +110,7 @@ checkFloorBelowPlayer board player@{ coords: Coord coords }
       = getTileByCoord board coord
     
     coord
-      = Coord $ coords { y = coords.y + 1 } 
+      = player.coords <> (createCoord 0 1) 
 
     
 getTileByCoord :: Board -> Coord -> Tile
