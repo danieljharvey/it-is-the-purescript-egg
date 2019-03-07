@@ -26,7 +26,7 @@ renderGameState canvasData old new = do
   renderBoard canvasData renderMap new.board
   renderPlayers canvasData new.players
   -- showRenderingTiles canvasData renderMap
-  Canvas.copyBufferToCanvas canvasData.buffer.element canvasData.screen.context (boardSizeFromBoard new.board)
+  Canvas.copyBufferToCanvas canvasData.buffer canvasData.screen
 
 showRenderingTiles :: CanvasData -> RenderMap -> Effect Unit
 showRenderingTiles canvasData renderMap = do

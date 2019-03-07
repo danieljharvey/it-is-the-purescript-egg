@@ -3,6 +3,7 @@ module Egg.Logic.TakeTurn where
 import Prelude
 
 import Egg.Logic.Movement as Movement
+import Egg.Logic.Action   as Action
 
 import Egg.Types.GameState (GameState)
 import Egg.Types.Player (Player)
@@ -25,7 +26,10 @@ incrementTurnCount gameState
     next = gameState.turns + 1
 
 doGameMove :: Int -> GameState -> GameState
-doGameMove i = (doPlayerMove i) <<< incrementTurnCount <<< resetOutcome
+doGameMove i = Action.checkAllPlayerTileActions 
+          <<< (doPlayerMove i) 
+          <<< incrementTurnCount 
+          <<< resetOutcome
 
 doPlayerMove :: Int -> GameState -> GameState
 doPlayerMove i old = old { players = newPlayers }

@@ -1,13 +1,18 @@
 module Egg.Dom.Canvas where
 
+import Egg.Logic.Board
+import Egg.Types.Canvas
 import Egg.Types.Coord
+import Graphics.Canvas
 import Prelude
 
 import Control.Parallel (parTraverse)
 import Data.Either (Either, note)
 import Data.Int (toNumber)
 import Data.List (List)
+import Data.Map as Map
 import Data.Maybe (Maybe)
+import Data.String.Regex (source)
 import Data.Traversable (class Foldable, class Traversable)
 import Data.Tuple (Tuple(..))
 import Effect (Effect)
@@ -15,17 +20,18 @@ import Effect.Aff (Aff, makeAff)
 import Effect.Class (liftEffect)
 import Effect.Exception (Error, error)
 import Egg.Types.Board (BoardSize)
-import Egg.Types.Canvas (CanvasData, ImageSourceMap)
 import Egg.Types.ResourceUrl (ResourceUrl)
-import Graphics.Canvas
- 
-import Data.Map as Map
+import Web.HTML.HTMLElement (offsetHeight)
+import Web.HTML.HTMLSelectElement (size)
 
 tileSize :: Int
 tileSize = 64
 
+bufferSize :: Int
+bufferSize = 640
+
 canvasSize :: Int
-canvasSize = 640
+canvasSize = 480
 
 newtype CanvasDomId = CanvasDomId String
 
@@ -36,10 +42,9 @@ setupCanvas gameResources = do
   onScreenElement <- getCanvas (CanvasDomId "canvas")
   onScreenContext <- liftEffect $ getContext2D onScreenElement
   imageMap <- loadImages gameResources
-  pure { screen: { element: onScreenElement, context: onScreenContext }
-       , buffer: { element, context: context2d }
+  pure { screen: { element: onScreenElement, context: onScreenContext, size: canvasSize }
+       , buffer: { element, context: context2d, size: bufferSize }
        , imageMap
-       , canvasSize
        }
 
 -- get canvas object from dom
@@ -107,10 +112,37 @@ clearScreen context size = do
                     , height: toNumber (size.height * tileSize)
                     }
 
-copyBufferToCanvas :: CanvasElement -> Context2D -> BoardSize -> Effect Unit
-copyBufferToCanvas buffer dest size = do
-  clearScreen dest size
-  drawImageScale dest (canvasElementToImageSource buffer) 0.0 0.0 480.0 480.0
+copyBufferToCanvas :: CanvasInfo -> CanvasInfo -> Effect Unit
+copyBufferToCanvas buffer screen = do
+  clearScreen screen.context (createBoardSize screen.size)
+  withTranslate (createCenteredTranslation screen.size) screen.context $ do
+    withRotate (0.05) screen.context $ do
+      drawWithOffset buffer.element screen.context screen.size
+
+drawWithOffset :: CanvasElement -> Context2D -> Int -> Effect Unit
+drawWithOffset element dest screenSize = 
+  drawImageScale 
+    dest source offset offset size size
+  where
+    source
+      = canvasElementToImageSource element
+    size 
+      = toNumber screenSize
+    offset
+      = (-1.0) * toNumber (screenSize / 2)
+
+withTranslate :: TranslateTransform -> Context2D -> Effect Unit -> Effect Unit
+withTranslate trans dest callback = do
+  _ <- translate dest trans
+  callback
+  translate dest (invertTranslation trans)
+
+-- rotate the drawing surface, do your operation, then puts it back
+withRotate :: Number -> Context2D -> Effect Unit -> Effect Unit
+withRotate angle dest callback = do
+  _ <- rotate dest angle
+  callback
+  rotate dest (-1.0 * angle)
 
 drawTile :: Context2D -> CanvasImageSource -> Coord -> Effect Unit
 drawTile context image coord = drawImage context image x y
