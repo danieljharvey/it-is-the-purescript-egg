@@ -34,13 +34,13 @@ setupGame = do
 start :: CanvasData -> Level -> Effect Unit
 start canvas level
   = do
-    sizeCanvas canvas.element (toNumber level.boardSize.width * 64.0)
+    sizeCanvas canvas.buffer.element (toNumber level.boardSize.width * 64.0)
+    sizeCanvas canvas.screen.element (toNumber level.boardSize.width * 64.0)
     animationLoop (initialiseGameState level.board) TakeTurn.go (renderCallback canvas)
 
 renderCallback :: CanvasData -> GameState -> GameState -> Effect Unit
 renderCallback canvasData old new
   = renderGameState canvasData old new
-
 
 imageResources :: List ResourceUrl
 imageResources = tileResources <> spriteResources
