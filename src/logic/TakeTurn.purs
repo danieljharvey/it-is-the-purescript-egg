@@ -6,6 +6,7 @@ import Egg.Logic.Movement as Movement
 import Egg.Logic.Action   as Action
 
 import Egg.Types.GameState (GameState)
+import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Player (Player)
 import Egg.Types.Action (Action(..))
 
@@ -43,7 +44,7 @@ doRotate :: GameState -> Boolean -> GameState
 doRotate gameState clockwise = gameState
 
 resetOutcome :: GameState -> GameState
-resetOutcome gs = gs { outcome = "" }
+resetOutcome gs = gs { outcome = Outcome "" }
 
 {-
 

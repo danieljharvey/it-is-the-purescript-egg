@@ -1,112 +1,55 @@
 module Test.Logic.Action where
 
-import Prelude (Unit, discard, negate, ($), (*))
+import Prelude (Unit, discard, ($))
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions
 import Data.Maybe (fromMaybe)
 
+import Egg.Types.Player (defaultPlayer)
+import Egg.Types.Coord (createFullCoord)
 import Egg.Types.Board (Board)
 import Egg.Types.Tile (Tile, defaultTile)
-import Egg.Types.Coord (Coord(..), createCoord)
-import Egg.Types.Player (Player, defaultPlayer)
-import Egg.Logic.Movement (calcMoveAmount, checkFloorBelowPlayer, checkPlayerDirection, correctTileOverflow, incrementPlayerDirection, incrementPlayerFrame, markPlayerIfMoved, playerHasMoved)
-import Egg.Types.CurrentFrame (createCurrentFrame, dec, getCurrentFrame)
+import Egg.Types.Score (Score(..))
+import Egg.Types.Outcome (Outcome(..))
+
+import Egg.Logic.Action (checkPlayerTileAction)
 
 import Matrix as Mat
 
-bgTile :: Tile
-bgTile = defaultTile { background = true, breakable = false }
+collectable :: Tile
+collectable = defaultTile { background = true, breakable = false, collectable = 100 }
     
-breakable :: Tile
-breakable = defaultTile { background = false, breakable = true }
-
-empty :: Tile
-empty = defaultTile { background = false, breakable = false }
-
 boardFromArray :: Array (Array Tile) -> Board
 boardFromArray tiles
   = fromMaybe Mat.empty $ Mat.fromArray tiles 
 
-flyingPlayer :: Player
-flyingPlayer = defaultPlayer { playerType = defaultPlayer.playerType { flying = true } }
+collectableBoard :: Board
+collectableBoard = boardFromArray [[collectable]]
 
 tests :: Spec Unit
 tests =
   describe "Action" do
-    describe "empty tests" do
-      it "Blah" do
-        1 `shouldEqual` 1
+    describe "checkPlayerTileAction" do
+      it "Does nothing if player not centered on board in X axis" do
+        let player = defaultPlayer { coords = createFullCoord 0 0 1 0
+                                   }
+        let after = checkPlayerTileAction player collectableBoard (Score 0) (Outcome "")
+        after.board `shouldEqual` collectableBoard
 
+      it "Does nothing if player not centered on board in Y axis" do
+        let player = defaultPlayer { coords = createFullCoord 0 0 0 1
+                                   }
+        let after = checkPlayerTileAction player collectableBoard (Score 0) (Outcome "")
+        after.board `shouldEqual` collectableBoard
+
+      it "Does nothing if player has not moved" do
+        let player = defaultPlayer { coords = createFullCoord 0 0 0 0
+                                   , moved  = false
+                                   }
+        let after = checkPlayerTileAction player collectableBoard (Score 0) (Outcome "")
+        after.board `shouldEqual` collectableBoard
 
 {-
-
-
-// create board with one Tile which is collectable
-const makeSimpleBoard = () => {
-  const tile = new Tile({
-    x: 0,
-    y: 0,
-    collectable: 100
-  });
-
-  const boardArray = [[tile]];
-
-  return new Board(boardArray);
-};
-
-test("Do nothing if player not centered on board in X axis", () => {
-  const board = makeSimpleBoard();
-
-  const player = new Player({
-    coords: new Coords({
-      x: 0,
-      y: 0,
-      offsetX: 1
-    })
-  });
-
-  const action = new Action();
-
-  const output = action.checkPlayerTileAction(player, board, 0, "");
-
-  expect(is(output.board, board)).toEqual(true);
-});
-
-test("Do nothing if player not centered on board in Y axis", () => {
-  const board = makeSimpleBoard();
-
-  const player = new Player({
-    coords: new Coords({
-      x: 0,
-      y: 0,
-      offsetY: -10
-    })
-  });
-
-  const action = new Action();
-
-  const output = action.checkPlayerTileAction(player, board, 0, "");
-
-  expect(is(output.board, board)).toEqual(true);
-});
-
-test("Do nothing if player has not moved", () => {
-  const board = makeSimpleBoard();
-
-  const player = new Player({
-    coords: new Coords({
-      x: 0,
-      y: 0
-    }),
-    moved: false
-  });
-
-  const action = new Action();
-
-  const output = action.checkPlayerTileAction(player, board, 0, "");
-
-  expect(is(output.board, board)).toEqual(true);
-});
 
 test("Change board if player has moved", () => {
   const board = makeSimpleBoard();

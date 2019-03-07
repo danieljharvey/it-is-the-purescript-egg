@@ -2,10 +2,23 @@ module Egg.Logic.Action where
 
 -- collisions between player and items on the board
 
-import Egg.Types.GameState
+import Egg.Types.Player (Player)
+import Egg.Types.Board (Board)
+import Egg.Types.GameState (GameState)
+import Egg.Types.Score
+import Egg.Types.Outcome (Outcome)
 
 checkAllPlayerTileActions :: GameState -> GameState
 checkAllPlayerTileActions gameState = gameState
+
+type TileReturn = { outcome :: Outcome
+                  , board   :: Board
+                  , score   :: Score
+                  }
+
+checkPlayerTileAction :: Player -> Board -> Score -> Outcome -> TileReturn
+checkPlayerTileAction player board score outcome
+  = { outcome, board, score }
 
 {-
 
