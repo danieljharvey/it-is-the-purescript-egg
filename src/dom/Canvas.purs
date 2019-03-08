@@ -55,9 +55,9 @@ getCanvas (CanvasDomId canvasId) = makeAff affCallback
     maybeCanvas <- getCanvasElementById canvasId
     let eitherCanvasOrError = orError ("Could not find canvas #" <> canvasId) maybeCanvas
     successFn eitherCanvasOrError
+    -- returns an empty canceller
     pure mempty
-
--- returns an empty canceller
+    
 -- resize canvas
 sizeCanvas ::
   CanvasElement ->

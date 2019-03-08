@@ -19,6 +19,8 @@
     "datetime",
     "now",
     "refs",
-    "enums"
+    "enums",
+    "debug",
+    "web-uievents"
   ]
 }

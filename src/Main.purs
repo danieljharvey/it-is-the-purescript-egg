@@ -11,12 +11,13 @@ import Egg.Data.TileSet (tileResources)
 import Egg.Data.PlayerTypes (spriteResources)
 import Egg.Dom.Loader (loadLevel)
 import Egg.Dom.Renderer (renderGameState)
+import Egg.Dom.Events (setupEvents)
 import Egg.Types.Canvas (CanvasData)
 import Egg.Types.Level (Level)
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Egg.Types.GameState (GameState)
 import Egg.Logic.InitialiseLevel (initialiseGameState)
-import Egg.Dom.AnimationLoop (animationLoop)
+import Egg.Dom.AnimationLoop (animationLoop, createBlankState)
 import Egg.Logic.TakeTurn as TakeTurn
 import Data.List (List)
 
@@ -36,7 +37,9 @@ start canvas level
   = do
     sizeCanvas canvas.buffer.element (toNumber level.boardSize.width * 64.0)
     sizeCanvas canvas.screen.element (toNumber level.boardSize.width * 64.0)
-    animationLoop (initialiseGameState level.board) TakeTurn.go (renderCallback canvas)
+    refs <- createBlankState (initialiseGameState level.board)
+    animationLoop refs TakeTurn.go (renderCallback canvas)
+    setupEvents refs.inputEvent
 
 renderCallback :: CanvasData -> GameState -> GameState -> Effect Unit
 renderCallback canvasData old new

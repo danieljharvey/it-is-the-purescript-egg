@@ -1,6 +1,7 @@
 module Egg.Logic.TakeTurn where
 
 import Prelude
+import Data.Maybe (Maybe(..))
 
 import Egg.Logic.Movement as Movement
 import Egg.Logic.Action   as Action
@@ -9,9 +10,23 @@ import Egg.Types.GameState (GameState)
 import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Player (Player)
 import Egg.Types.Action (Action(..))
+import Egg.Types.InputEvent (InputEvent(..))
 
-go :: Int -> GameState -> GameState
-go i gs = doAction gs Playing i
+go :: Int -> Maybe InputEvent -> GameState -> GameState
+go i input gs 
+  = doAction gameState nextAction i
+    where
+      gameState
+        = setAction nextAction gs
+      nextAction
+        = calcNextAction gs.current input
+
+-- take input and current game state and work out what we should be doing next
+calcNextAction :: Action -> Maybe InputEvent -> Action
+calcNextAction a Nothing            = a
+calcNextAction Playing (Just Pause) = Paused
+calcNextAction Paused (Just Pause)  = Playing
+calcNextAction a _                  = a
 
 doAction :: GameState -> Action -> Int -> GameState
 doAction old Paused _  = old
@@ -31,6 +46,10 @@ doGameMove i = Action.checkAllPlayerTileActions
           <<< (doPlayerMove i) 
           <<< incrementTurnCount 
           <<< resetOutcome
+
+setAction :: Action -> GameState -> GameState
+setAction action old
+  = old { current = action }
 
 doPlayerMove :: Int -> GameState -> GameState
 doPlayerMove i old = old { players = newPlayers }

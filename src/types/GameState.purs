@@ -1,7 +1,8 @@
 module Egg.Types.GameState where
 
+import Egg.Types.Action (Action(..))
 import Egg.Types.Board (Board)
-import Egg.Types.Player
+import Egg.Types.Player (Player)
 import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Score
 
@@ -13,6 +14,7 @@ type GameState
     , rotateAngle :: Int
     , outcome     :: Outcome
     , turns       :: Int
+    , current     :: Action
     }
 
 createGameState :: Board -> GameState
@@ -24,4 +26,5 @@ createGameState board
     , rotateAngle: 0
     , outcome: Outcome ""
     , turns: 0
+    , current: Playing
   }
