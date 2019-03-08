@@ -55,3 +55,6 @@ totalX (Coord c) = (c.x * subparts) + c.offsetX
 
 totalY :: Coord -> Int
 totalY (Coord c) = (c.y * subparts) + c.offsetY
+
+isCentered :: Coord -> Boolean
+isCentered (Coord c) = c.offsetX == 0 && c.offsetY == 0

@@ -5,10 +5,9 @@ import Egg.Types.Player (Player)
 import Egg.Types.Board (Board)
 import Egg.Types.Coord (Coord(..), createCoord, createMoveCoord, invert)
 import Egg.Types.CurrentFrame (dec, inc)
-import Egg.Types.Tile (Tile, emptyTile)
 
-import Data.Maybe (fromMaybe)
-import Matrix as Mat
+import Egg.Logic.Board (getTileByCoord)
+
 import Data.Int (floor, toNumber)
 
 moveDivision :: Int
@@ -43,7 +42,6 @@ changeFrameIfMoving player@{ direction: Coord direction }
   | direction.y < 0 = player { currentFrame = dec player.currentFrame }
   | direction.y > 0 = player { currentFrame = inc player.currentFrame }
   | otherwise       = player
-
 
 resetDirectionWhenStationary :: Player -> Player
 resetDirectionWhenStationary player
@@ -115,15 +113,6 @@ checkFloorBelowPlayer board player
     
     coord
       = player.coords <> (createCoord 0 1) 
-
-    
-getTileByCoord :: Board -> Coord -> Tile
-getTileByCoord board (Coord coord)
-  = fromMaybe emptyTile tile
-    where
-      tile = Mat.get x y board
-      x = coord.x `mod` Mat.width board
-      y = coord.y `mod` Mat.height board    
 
 markPlayerIfMoved :: Player -> Player -> Player
 markPlayerIfMoved old new

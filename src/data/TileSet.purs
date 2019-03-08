@@ -8,7 +8,8 @@ import Data.Tuple (Tuple(..))
 import Data.Maybe (Maybe(..))
 
 import Egg.Types.PlayerType (PlayerKind(..))
-import Egg.Types.ResourceUrl
+import Egg.Types.ResourceUrl (ResourceUrl(..))
+import Egg.Types.TileAction
 
 tileResources :: List ResourceUrl
 tileResources = _.img <$> M.values tiles
@@ -25,7 +26,7 @@ tiles = M.fromFoldable [
     },
     Tuple 3 defaultTile {
       background  = true,
-      collectable = 1,
+      action      = Collectable 1,
       frontLayer  = true,
       id          = 3,
       img         = TileResource "cacti",
@@ -33,7 +34,7 @@ tiles = M.fromFoldable [
     },
     Tuple 4 defaultTile {
       background  = true,
-      collectable = 10,
+      action      = Collectable 10,
       frontLayer  = true,
       id          = 4,
       img         = TileResource "plant",
@@ -71,7 +72,7 @@ tiles = M.fromFoldable [
       title      = "Tiles"
     },
     Tuple 12 defaultTile {
-      action       = "completeLevel",
+      action       = CompleteLevel,
       background   = true,
       createPlayer = Just Egg,
       frontLayer   = true,
@@ -81,7 +82,7 @@ tiles = M.fromFoldable [
     },
     Tuple 13 defaultTile {
       background  = true,
-      collectable = 100,
+      action      = Collectable 100,
       dontAdd     = true,
       frontLayer  = true,
       id          = 13,
@@ -89,7 +90,7 @@ tiles = M.fromFoldable [
       title       = "Toast"
     },
     Tuple 14 defaultTile {
-      action     = "teleport",
+      action     = Teleport,
       background = true,
       frontLayer = true,
       id         = 14,
@@ -110,7 +111,7 @@ tiles = M.fromFoldable [
       title      = "Pink door closed"
     },
     Tuple 17 defaultTile {
-      action     = "pink-switch",
+      action     = Switch Pink,
       background = true,
       frontLayer = true,
       id         = 17,
@@ -131,7 +132,7 @@ tiles = M.fromFoldable [
       title      = "Green door closed"
     },
     Tuple 20 defaultTile {
-      action     = "green-switch",
+      action     = Switch Green,
       background = true,
       frontLayer = true,
       id         = 20,
@@ -165,7 +166,7 @@ tiles = M.fromFoldable [
     Tuple 24 defaultTile {
       background = true,
       id         = 24,
-      action     = "split-eggs",
+      action     = SplitEggs,
       frontLayer = true,
       img        = TileResource "egg-splitter",
       title      = "It is the egg splitter"

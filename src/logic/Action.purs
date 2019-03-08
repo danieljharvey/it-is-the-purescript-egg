@@ -2,14 +2,30 @@ module Egg.Logic.Action where
 
 -- collisions between player and items on the board
 
-import Egg.Types.Player (Player)
+import Prelude
+
+import Data.Foldable (foldr)
+import Data.Maybe (Maybe(..))
+import Egg.Logic.Board (getTileByCoord, replaceTile)
 import Egg.Types.Board (Board)
+import Egg.Types.Coord (Coord, isCentered)
 import Egg.Types.GameState (GameState)
-import Egg.Types.Score
-import Egg.Types.Outcome (Outcome)
+import Egg.Types.Outcome (Outcome(..))
+import Egg.Types.Player (Player)
+import Egg.Types.Score (Score(..))
+import Egg.Types.Tile (Tile, emptyTile)
+import Egg.Types.TileAction (TileAction(..))
 
 checkAllPlayerTileActions :: GameState -> GameState
-checkAllPlayerTileActions gameState = gameState
+checkAllPlayerTileActions gameState
+  = foldr checkPlayer gameState gameState.players
+  where
+    checkPlayer player gameState'
+      = let tileReturn = checkPlayerTileAction player gameState'.board gameState'.score gameState'.outcome
+        in gameState' { outcome = tileReturn.outcome
+                      , board   = tileReturn.board
+                      , score   = tileReturn.score
+                      }
 
 type TileReturn = { outcome :: Outcome
                   , board   :: Board
@@ -18,8 +34,40 @@ type TileReturn = { outcome :: Outcome
 
 checkPlayerTileAction :: Player -> Board -> Score -> Outcome -> TileReturn
 checkPlayerTileAction player board score outcome
-  = { outcome, board, score }
+  = case _.action <$> getPlayerTile player board of
+      Just tileAction -> doTileAction tileAction player.coords { outcome, board, score }
+      _               -> { outcome, board, score } 
 
+playerIsOverTile :: Player -> Boolean
+playerIsOverTile player
+  = isCentered player.coords && player.moved
+
+getPlayerTile :: Player -> Board -> Maybe Tile
+getPlayerTile player board
+  = if playerIsOverTile player 
+    then Just (getTileByCoord board player.coords)
+    else Nothing
+
+doTileAction :: TileAction -> Coord -> TileReturn -> TileReturn
+doTileAction action coords vals
+  = case action of
+      Collectable i -> collectItem (Score i) coords vals
+      CompleteLevel -> returnOutcome (Outcome "completeLevel") vals
+      _             -> vals
+
+returnOutcome :: Outcome -> TileReturn -> TileReturn
+returnOutcome newOutcome vals
+  = vals { outcome = newOutcome }
+
+collectItem :: Score -> Coord -> TileReturn -> TileReturn
+collectItem addScore coords { outcome, board, score }
+  = { outcome
+    , board: newBoard
+    , score: score + addScore 
+    }
+  where
+    newBoard
+      = replaceTile board coords emptyTile
 {-
 
 
@@ -56,44 +104,7 @@ export class Action {
   ): { outcome: string; board: Board; score: number } {
     const currentCoords = player.coords;
 
-    if (
-      currentCoords.offsetX !== 0 ||
-      currentCoords.offsetY !== 0 ||
-      player.moved === false
-    ) {
-      return {
-        board,
-        outcome,
-        score
-      };
-    }
-
-    const coords = Map.correctForOverflow(board, currentCoords);
-
-    const tile = board.getTile(coords.x, coords.y);
-
-    if (tile.collectable > 0) {
-      const newScore = tile.collectable * player.multiplier;
-      const blankTile = Map.cloneTile(1);
-      const newTile = blankTile.modify({
-        x: coords.x,
-        y: coords.y
-      });
-
-      return {
-        board: board.modify(coords.x, coords.y, newTile),
-        outcome,
-        score: score + newScore
-      };
-    }
-
-    if (tile.action === "completeLevel") {
-      return {
-        board,
-        outcome: "completeLevel",
-        score
-      };
-    } else if (tile.action === "pink-switch") {
+    if (tile.action === "pink-switch") {
       return {
         board: Map.switchTiles(board, 15, 16),
         outcome,

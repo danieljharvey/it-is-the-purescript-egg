@@ -1,30 +1,36 @@
 module Test.Logic.Action where
 
+import Test.Spec.Assertions
+
+import Data.Maybe (fromMaybe)
+import Egg.Logic.Action (checkPlayerTileAction)
+import Egg.Types.Board (Board)
+import Egg.Types.Coord (createCoord, createFullCoord)
+import Egg.Types.Outcome (Outcome(..))
+import Egg.Types.Player (defaultPlayer)
+import Egg.Types.Score (Score(..))
+import Egg.Types.Tile (Tile, defaultTile)
+import Egg.Types.TileAction (TileAction(..))
+import Matrix as Mat
 import Prelude (Unit, discard, ($))
 import Test.Spec (Spec, describe, it)
-import Test.Spec.Assertions
-import Data.Maybe (fromMaybe)
-
-import Egg.Types.Player (defaultPlayer)
-import Egg.Types.Coord (createFullCoord)
-import Egg.Types.Board (Board)
-import Egg.Types.Tile (Tile, defaultTile)
-import Egg.Types.Score (Score(..))
-import Egg.Types.Outcome (Outcome(..))
-
-import Egg.Logic.Action (checkPlayerTileAction)
-
-import Matrix as Mat
 
 collectable :: Tile
-collectable = defaultTile { background = true, breakable = false, collectable = 100 }
-    
+collectable = defaultTile { action = Collectable 100 }
+
+collectableBoard :: Board
+collectableBoard = boardFromArray [[collectable]]
+
+completeLevel :: Tile
+completeLevel = defaultTile { action = CompleteLevel }
+
+completeBoard :: Board
+completeBoard = boardFromArray [[completeLevel]]
+
 boardFromArray :: Array (Array Tile) -> Board
 boardFromArray tiles
   = fromMaybe Mat.empty $ Mat.fromArray tiles 
 
-collectableBoard :: Board
-collectableBoard = boardFromArray [[collectable]]
 
 tests :: Spec Unit
 tests =
@@ -48,6 +54,22 @@ tests =
                                    }
         let after = checkPlayerTileAction player collectableBoard (Score 0) (Outcome "")
         after.board `shouldEqual` collectableBoard
+      
+      it "Changes board and increments score if player has moved" do
+        let player = defaultPlayer { coords = createFullCoord 0 0 0 0
+                                   , moved  = true
+                                   }
+        let after = checkPlayerTileAction player collectableBoard (Score 0) (Outcome "")
+        after.board `shouldNotEqual` collectableBoard
+        after.score `shouldEqual` Score 100
+      
+      it "Returns 'completeLevel' outcome" do
+        let player = defaultPlayer { coords = createCoord 0 0
+                                   , moved  = true
+                                   }
+        let after = checkPlayerTileAction player completeBoard (Score 0) (Outcome "")
+        after.board `shouldEqual` completeBoard
+        after.outcome `shouldEqual` Outcome "completeLevel"
 
 {-
 

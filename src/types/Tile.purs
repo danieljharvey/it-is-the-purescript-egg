@@ -3,7 +3,8 @@ module Egg.Types.Tile (Tile, TileMap, JSONTile, tileSize, emptyTile, defaultTile
 import Data.Map as M
 import Data.Maybe (Maybe(..))
 import Egg.Types.PlayerType (PlayerKind)
-import Egg.Types.ResourceUrl
+import Egg.Types.ResourceUrl (ResourceUrl(..))
+import Egg.Types.TileAction
 
 -- tile of actual tile image
 tileSize :: Int
@@ -17,9 +18,8 @@ type Tile =
   , img          :: ResourceUrl
   , background   :: Boolean
   , frontLayer   :: Boolean
-  , collectable  :: Int
   , breakable    :: Boolean
-  , action       :: String
+  , action       :: TileAction
   , dontAdd      :: Boolean
   , createPlayer :: Maybe PlayerKind
   }
@@ -35,10 +35,9 @@ emptyTile =
 
 defaultTile :: Tile
 defaultTile =
-  { action: ""
+  { action: NoOp
   , background: false
   , breakable: false
-  , collectable: 0
   , createPlayer: Nothing
   , dontAdd: false
   , frontLayer: false
