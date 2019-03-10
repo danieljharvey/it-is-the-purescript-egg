@@ -11,10 +11,9 @@ import Matrix as Mat
 import Data.Map as M
 
 import Egg.Types.Action (Action(..))
-import Egg.Types.GameState
+import Egg.Types.GameState (GameState)
 import Egg.Types.Board (Board, emptyBoard)
 import Egg.Data.TileSet (tiles)
-import Egg.Types.Score (Score(..))
 import Egg.Types.Outcome (Outcome(..))
 
 import Egg.Logic.InitialiseLevel (initialiseGameState)

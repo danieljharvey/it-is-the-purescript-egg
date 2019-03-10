@@ -7,9 +7,9 @@ import Data.Maybe (fromMaybe)
 
 import Egg.Types.Board (Board)
 import Egg.Types.Tile (Tile, defaultTile)
-import Egg.Types.Coord (Coord(..), createCoord)
+import Egg.Types.Coord (Coord(..), createCoord, createFullCoord)
 import Egg.Types.Player (Player, defaultPlayer)
-import Egg.Logic.Movement (calcMoveAmount, checkFloorBelowPlayer, checkPlayerDirection, correctTileOverflow, incrementPlayerDirection, incrementPlayerFrame, markPlayerIfMoved, playerHasMoved)
+import Egg.Logic.Movement (calcMoveAmount, checkFloorBelowPlayer, checkPlayerDirection, correctPlayerMapOverflow, correctTileOverflow, incrementPlayerDirection, incrementPlayerFrame, markPlayerIfMoved, playerHasMoved)
 import Egg.Types.CurrentFrame (createCurrentFrame, dec, getCurrentFrame)
 
 import Matrix as Mat
@@ -153,7 +153,38 @@ tests =
        it "Moves down when overflowing there" do
           let coord@(Coord inner) = Coord { x: 0, y: 4, offsetX: 0, offsetY: 150 }
           correctTileOverflow coord `shouldEqual` (Coord $ inner { y = 5, offsetY = 0 })
-          
+
+    describe "correctPlayerMapOverflow" do      
+      it "Does nothing when inside map" do
+         let testMap = boardFromArray [ [ bgTile, bgTile], [ bgTile, bgTile ] ]
+         let player = defaultPlayer { coords = createFullCoord 0 0 19 20}
+         let newPlayer = correctPlayerMapOverflow testMap player
+         newPlayer.coords `shouldEqual` player.coords
+      
+      it "Corrects when off left hand side of map" do
+         let testMap = boardFromArray [ [ bgTile, bgTile], [ bgTile, bgTile ] ]
+         let player = defaultPlayer { coords = createFullCoord (-1) 0 95 23}
+         let newPlayer = correctPlayerMapOverflow testMap player
+         newPlayer.coords `shouldEqual` createFullCoord 1 0 95 23
+      
+      it "Corrects when off right hand side of map" do
+         let testMap = boardFromArray [ [ bgTile, bgTile], [ bgTile, bgTile ] ]
+         let player = defaultPlayer { coords = createFullCoord 2 0 10 20 }
+         let newPlayer = correctPlayerMapOverflow testMap player
+         newPlayer.coords `shouldEqual` createFullCoord 0 0 10 20
+
+      it "Corrects when off top of map" do
+         let testMap = boardFromArray [ [ bgTile, bgTile], [ bgTile, bgTile ] ]
+         let player = defaultPlayer { coords = createFullCoord 0 (-1) 12 22 }
+         let newPlayer = correctPlayerMapOverflow testMap player
+         newPlayer.coords `shouldEqual` createFullCoord 0 1 12 22
+
+      it "Corrects when off bottom of map" do
+         let testMap = boardFromArray [ [ bgTile, bgTile], [ bgTile, bgTile ] ]
+         let player = defaultPlayer { coords = createCoord 0 2 }
+         let newPlayer = correctPlayerMapOverflow testMap player
+         newPlayer.coords `shouldEqual` createCoord 0 0
+    
     describe "checkFloorBelowPlayer" do
        it "Fall through breakable block" do
           let board = boardFromArray [ [ bgTile ], [ breakable ] ]

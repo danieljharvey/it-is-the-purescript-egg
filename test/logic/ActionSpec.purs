@@ -2,17 +2,16 @@ module Test.Logic.Action where
 
 import Test.Spec.Assertions
 
-import Data.Maybe (fromMaybe)
 import Egg.Logic.Action (checkPlayerTileAction)
 import Egg.Types.Board (Board)
+import Egg.Logic.Board (boardFromArray)
 import Egg.Types.Coord (createCoord, createFullCoord)
 import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Player (defaultPlayer)
 import Egg.Types.Score (Score(..))
 import Egg.Types.Tile (Tile, defaultTile)
 import Egg.Types.TileAction (TileAction(..))
-import Matrix as Mat
-import Prelude (Unit, discard, ($))
+import Prelude (Unit, discard)
 import Test.Spec (Spec, describe, it)
 
 collectable :: Tile
@@ -26,11 +25,6 @@ completeLevel = defaultTile { action = CompleteLevel }
 
 completeBoard :: Board
 completeBoard = boardFromArray [[completeLevel]]
-
-boardFromArray :: Array (Array Tile) -> Board
-boardFromArray tiles
-  = fromMaybe Mat.empty $ Mat.fromArray tiles 
-
 
 tests :: Spec Unit
 tests =

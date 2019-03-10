@@ -1,17 +1,27 @@
 module Egg.Logic.Map where
 
 import Prelude
-import Egg.Types.Board (BoardSize)
-import Egg.Types.Coord (Coord(..), createCoord)
+import Egg.Logic.Board (boardSizeFromBoard)
+import Egg.Types.Board (Board, BoardSize, RenderItem)
+import Egg.Types.Coord (Coord(..), center, createCoord)
+import Egg.Types.Player (Player)
 import Egg.Logic.Movement (isStationary)
+import Egg.Types.Clockwise (Clockwise(..))
+import Egg.Types.Tile (Tile)
+import Egg.Types.RenderAngle (RenderAngle(..), decrease, increase)
+import Data.Maybe (Maybe, fromMaybe)
+import Data.Array (filter, head)
+import Matrix as Mat
 
 translateRotation
   :: BoardSize
   -> Coord
-  -> Boolean
+  -> Clockwise
   -> Coord
 translateRotation size (Coord coord) clockwise
-  = if clockwise then right else left
+  = case clockwise of
+      Clockwise     -> right
+      AntiClockwise -> left
   where
     width 
       = size.width - 1
@@ -28,47 +38,59 @@ translateRotation size (Coord coord) clockwise
                   , y = height - coord.x
                   }
 
-getNewPlayerDirection :: Coord -> Boolean -> Coord
+getNewPlayerDirection :: Coord -> Clockwise -> Coord
 getNewPlayerDirection coord clockwise
   = if isStationary coord 
     then newCoord
     else coord
   where
     newCoord
-      = if clockwise 
-        then createCoord 1 0 
-        else createCoord (-1) 0
+      = case clockwise of
+          Clockwise     -> createCoord 1 0 
+          AntiClockwise -> createCoord (-1) 0
 
 rotateBoard :: Board -> Clockwise -> Board
-rotateBoard board _ = board
+rotateBoard board clockwise
+  = Mat.indexedMap mapItem board
+  where
+    items
+      = updateRenderItem size clockwise <$> Mat.toIndexedArray board
+    size
+      = boardSizeFromBoard board
+    mapItem x y a
+      = fromMaybe a (findArrayItem (createCoord x y) items)
+
+findArrayItem :: Coord -> Array RenderItem -> Maybe Tile
+findArrayItem (Coord coord) items
+  = _.value <$> foundItem
+  where
+    foundItem
+      = head $ filter (\item -> item.x == coord.x && item.y == coord.y) items 
+
+updateRenderItem :: BoardSize -> Clockwise -> RenderItem -> RenderItem
+updateRenderItem size clockwise { x, y, value: tile }
+  = { x: newCoord.x, y: newCoord.y, value: tile }
+  where
+    (Coord newCoord)
+      = translateRotation size (createCoord x y) clockwise
+
+changeRenderAngle :: RenderAngle -> Clockwise -> RenderAngle
+changeRenderAngle angle clockwise
+  = case clockwise of
+      Clockwise     -> increase angle (RenderAngle 90)
+      AntiClockwise -> decrease angle (RenderAngle 90)
+
+rotatePlayer :: BoardSize -> Clockwise -> Player -> Player
+rotatePlayer size clockwise player
+  = player { coords = newCoords, direction = direction }
+  where
+    newCoords
+      = center (translateRotation size player.coords clockwise)
+    direction
+      = getNewPlayerDirection player.direction clockwise
+
 
 {-
-
-// rotates board, returns new board and new renderAngle
-export const rotateBoard = (board: Board, clockwise: boolean): Board => {
-  const tiles = board.getAllTiles();
-
-  const width = board.getLength() - 1;
-  const height = board.getLength() - 1;
-
-  const boardSize = new BoardSize(calcBoardSize(board));
-
-  const rotatedBoard = tiles.reduce((currentBoard, tile) => {
-    const coords = new Coords({ x: tile.x, y: tile.y });
-    const newCoords = translateRotation(boardSize, coords, clockwise);
-    const newTile = tile.modify({
-      x: newCoords.x,
-      y: newCoords.y
-    });
-    return currentBoard.modify(newCoords.x, newCoords.y, newTile);
-  }, board);
-
-  return rotatedBoard;
-};
-
-export const calcBoardSize = (board: Board): number => {
-  return board.getLength();
-};
 
 export const correctForOverflow = (board: Board, coords: Coords): Coords => {
   const boardSize = calcBoardSize(board);
@@ -98,65 +120,6 @@ export const findTile = (board: Board, currentCoords: Coords, id): Tile => {
 
   const newTile = teleporters.get(chosenID); // this is an Immutable list so needs to use their functions
   return newTile;
-};
-
-export const shrinkBoard = (board: Board): Board => {
-  const boardSize = new BoardSize(board.getLength());
-  const shrunkBoardSize = boardSize.shrink();
-  return correctBoardSizeChange(board, shrunkBoardSize);
-};
-
-export const growBoard = (board: Board): Board => {
-  const boardSize = new BoardSize(board.getLength());
-  const grownBoardSize = boardSize.grow();
-  return correctBoardSizeChange(board, grownBoardSize);
-};
-
-// board is current board
-// boardSize is intended board size
-// returns new Board
-export const correctBoardSizeChange = (
-  board: Board,
-  boardSize: BoardSize
-): Board => {
-  const newBoard = [];
-
-  const currentWidth = board.getLength();
-
-  const currentHeight = currentWidth;
-
-  for (let x = 0; x < boardSize.width; x++) {
-    newBoard[x] = [];
-    for (let y = 0; y < boardSize.height; y++) {
-      if (x < currentWidth && y < currentHeight) {
-        // using current board
-        const tile = board.getTile(x, y);
-        newBoard[x][y] = tile;
-      } else {
-        // adding blank tiles
-        const tile = cloneTile(1);
-        newBoard[x][y] = tile;
-      }
-    }
-  }
-  return new Board(newBoard);
-};
-
-export const generateBlankBoard = (boardSize: BoardSize): Board => {
-  const board = [];
-
-  for (let x = 0; x < boardSize.width; x++) {
-    board[x] = [];
-    for (let y = 0; y < boardSize.height; y++) {
-      const blankTile = cloneTile(1);
-      const positionedTile = blankTile.modify({
-        x,
-        y
-      });
-      board[x][y] = positionedTile;
-    }
-  }
-  return new Board(board);
 };
 
 export const getTileWithCoords = (board: Board, coords: Coords): Tile => {
@@ -235,29 +198,6 @@ export const switchTiles = (board: Board, id1, id2): Board => {
   }, board);
 };
 
-// rotates board, returns new board and new renderAngle
-// really should be two functions
-export const rotateBoard = (board: Board, clockwise: boolean): Board => {
-  const tiles = board.getAllTiles();
-
-  const width = board.getLength() - 1;
-  const height = board.getLength() - 1;
-
-  const boardSize = new BoardSize(calcBoardSize(board));
-
-  const rotatedBoard = tiles.reduce((currentBoard, tile) => {
-    const coords = new Coords({ x: tile.x, y: tile.y });
-    const newCoords = translateRotation(boardSize, coords, clockwise);
-    const newTile = tile.modify({
-      x: newCoords.x,
-      y: newCoords.y
-    });
-    return currentBoard.modify(newCoords.x, newCoords.y, newTile);
-  }, board);
-
-  return rotatedBoard;
-};
-
 export const changeRenderAngle = (renderAngle: number, clockwise: boolean) => {
   let newRenderAngle;
   if (clockwise) {
@@ -304,16 +244,5 @@ export const generateRandomBoard = (boardSize: BoardSize): Board => {
   }
   return new Board(boardArray);
 };
-
-export const getTile = (board: Board, x: number, y: number) => {
-  const coords = new Coords({ x, y });
-  return getTileWithCoords(board, coords);
-};
-
-export const getPrototypeTile = (id: number): object => {
-  return getOriginalTile(id);
-};
-
-
 
 -}

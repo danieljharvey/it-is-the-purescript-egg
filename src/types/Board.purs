@@ -1,4 +1,4 @@
-module Egg.Types.Board (Board, BoardSize, JSONBoard, RenderMap, RenderItem, RenderArray, RenderMapItem, emptyBoard) where
+module Egg.Types.Board where
 
 import Egg.Types.Tile
 

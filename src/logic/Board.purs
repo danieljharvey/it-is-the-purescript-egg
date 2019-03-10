@@ -1,12 +1,12 @@
 module Egg.Logic.Board where
 
-import Egg.Types.Board
-import Egg.Types.Coord
-import Egg.Types.Tile
+import Egg.Types.Board (Board, BoardSize, RenderItem)
+import Egg.Types.Coord (Coord(..), createCoord)
+import Egg.Types.Tile (Tile, emptyTile)
 
 import Prelude
-import Data.Maybe
-import Graphics.Canvas
+import Data.Maybe (fromMaybe)
+import Graphics.Canvas (TranslateTransform)
 import Matrix as Mat
 import Data.Int (toNumber)
 
@@ -42,3 +42,16 @@ replaceTile board (Coord coord) tile
     where
       newBoard 
         = Mat.set coord.x coord.y tile board
+
+boardFromArray :: Array (Array Tile) -> Board
+boardFromArray tiles
+  = fromMaybe Mat.empty $ Mat.fromArray tiles 
+
+renderItemToCoord :: RenderItem -> Coord
+renderItemToCoord { x, y } = createCoord x y
+
+boardSizeFromBoard :: Board -> BoardSize
+boardSizeFromBoard board =
+  { width : Mat.width board
+  , height: Mat.height board
+  }

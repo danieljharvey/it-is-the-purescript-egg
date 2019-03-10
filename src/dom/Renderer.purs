@@ -9,7 +9,7 @@ import Data.Traversable (traverse)
 import Effect (Effect)
 import Egg.Dom.Canvas as Canvas
 import Egg.Logic.RenderMap (gameStatesToRenderMap, getRenderList, shouldDrawItem)
-import Egg.Types.Board
+import Egg.Types.Board (Board, RenderItem, RenderMap)
 import Egg.Types.Canvas (CanvasData, ImageSourceMap)
 import Egg.Types.Coord (Coord, createCoord)
 import Egg.Types.CurrentFrame (getCurrentFrame)
@@ -24,7 +24,7 @@ renderGameState canvasData old new = do
   let renderMap = gameStatesToRenderMap old new
   clearTiles canvasData renderMap
   renderBoard canvasData renderMap new.board
-  renderPlayers canvasData new.players
+  renderPlayers canvasData new.board new.players
   -- showRenderingTiles canvasData renderMap
   Canvas.copyBufferToCanvas canvasData.buffer canvasData.screen
 
@@ -44,18 +44,12 @@ toCoord :: RenderItem -> Coord
 toCoord item
  = createCoord item.x item.y
 
-boardSizeFromBoard :: Board -> BoardSize
-boardSizeFromBoard board
-  = { width: Mat.width board
-    , height: Mat.height board 
-    }
-
 findImageSource :: ImageSourceMap -> ResourceUrl -> Maybe CanvasImageSource
 findImageSource sourceMap src
   = M.lookup src sourceMap
 
-renderPlayers :: CanvasData -> Array Player -> Effect Unit
-renderPlayers canvasData players
+renderPlayers :: CanvasData -> Board -> Array Player -> Effect Unit
+renderPlayers canvasData board players
   = const unit <$> traverse (renderPlayer canvasData) players
 
 renderPlayer :: CanvasData -> Player -> Effect Unit

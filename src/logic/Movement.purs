@@ -2,11 +2,11 @@ module Egg.Logic.Movement where
 
 import Prelude
 import Egg.Types.Player (Player)
-import Egg.Types.Board (Board)
+import Egg.Types.Board (Board, BoardSize)
 import Egg.Types.Coord (Coord(..), createCoord, createMoveCoord, invert)
 import Egg.Types.CurrentFrame (dec, inc)
 
-import Egg.Logic.Board (getTileByCoord)
+import Egg.Logic.Board (boardSizeFromBoard, getTileByCoord)
 
 import Data.Int (floor, toNumber)
 
@@ -25,6 +25,7 @@ movePlayer board timePassed player
   where 
     doMove
       = (markPlayerIfMoved player)
+      <<< (correctPlayerMapOverflow board)
       <<< incrementPlayerFrame
       <<< (checkFloorBelowPlayer board)
       <<< (checkPlayerDirection board)
@@ -79,8 +80,15 @@ incrementPlayerDirection timePassed player
            else player.direction
 
 correctPlayerOverflow :: Player -> Player
-correctPlayerOverflow p
-  = p { coords = correctTileOverflow p.coords }
+correctPlayerOverflow = mapCoords correctTileOverflow
+
+correctPlayerMapOverflow :: Board -> Player -> Player
+correctPlayerMapOverflow board =
+  mapCoords $ correctMapOverflow (boardSizeFromBoard board)
+
+mapCoords :: (Coord -> Coord) -> Player -> Player
+mapCoords f player
+  = player { coords = f player.coords }
 
 correctTileOverflow :: Coord -> Coord
 correctTileOverflow (Coord coord)
@@ -94,6 +102,13 @@ correctTileOverflow (Coord coord)
     = correctTileOverflow (createCoord coord.x (coord.y - 1))
   | otherwise                     
     = Coord coord
+
+correctMapOverflow :: BoardSize -> Coord -> Coord
+correctMapOverflow size (Coord coord)
+  = Coord $ coord { x = x, y = y }
+  where
+    x = coord.x `mod` size.width
+    y = coord.y `mod` size.height
 
 checkFloorBelowPlayer :: Board -> Player -> Player
 checkFloorBelowPlayer board player

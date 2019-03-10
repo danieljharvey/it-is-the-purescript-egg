@@ -4,8 +4,8 @@ import Prelude
 import Data.Maybe (fromMaybe)
 import Matrix as Mat
 import Egg.Types.Player (Player)
-import Egg.Types.Board (Board, BoardSize, RenderArray, RenderItem, RenderMap)
-import Egg.Types.Coord
+import Egg.Types.Board (Board, RenderArray, RenderItem, RenderMap)
+import Egg.Types.Coord (Coord(..), createCoord)
 import Egg.Types.GameState (GameState)
 import Data.Array (filter, range)
 import Data.Traversable (foldr)
@@ -54,12 +54,6 @@ getPlayerCoordList map player = do
       maxX = Mat.width map
       maxY = Mat.height map
 
-boardSizeFromBoard :: Board -> BoardSize
-boardSizeFromBoard board =
-  { width : Mat.width board
-  , height: Mat.height board
-  }
-
 blankRenderMap :: Board -> RenderMap
 blankRenderMap board = Mat.repeat (Mat.width board) (Mat.height board) true
 
@@ -86,3 +80,10 @@ buildRenderArray map board = filter filterFunc array
       = shouldDraw map (createCoord item.x item.y)
 
     array = Mat.toIndexedArray board
+
+-- when a player is on the edge of the map, add a duplicate on other side for rendering
+addEdgePlayers :: Board -> Array Player -> Array Player
+addEdgePlayers board players
+  = players >>= addDuplicates board
+  where
+    addDuplicates _ player = [player]

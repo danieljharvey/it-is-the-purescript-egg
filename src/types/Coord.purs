@@ -58,3 +58,6 @@ totalY (Coord c) = (c.y * subparts) + c.offsetY
 
 isCentered :: Coord -> Boolean
 isCentered (Coord c) = c.offsetX == 0 && c.offsetY == 0
+
+center :: Coord -> Coord
+center (Coord c) = Coord $ c { offsetX = 0, offsetY = 0 }

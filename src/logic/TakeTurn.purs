@@ -5,12 +5,15 @@ import Data.Maybe (Maybe(..))
 
 import Egg.Logic.Movement as Movement
 import Egg.Logic.Action   as Action
+import Egg.Logic.Map      as Map
+import Egg.Logic.Board    as Board
 
 import Egg.Types.GameState (GameState)
 import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Player (Player)
 import Egg.Types.Action (Action(..))
 import Egg.Types.InputEvent (InputEvent(..))
+import Egg.Types.Clockwise (Clockwise(..))
 
 go :: Int -> Maybe InputEvent -> GameState -> GameState
 go i input gs 
@@ -23,17 +26,20 @@ go i input gs
 
 -- take input and current game state and work out what we should be doing next
 calcNextAction :: Action -> Maybe InputEvent -> Action
-calcNextAction a Nothing            = a
-calcNextAction Playing (Just Pause) = Paused
-calcNextAction Paused (Just Pause)  = Playing
-calcNextAction a _                  = a
+calcNextAction Playing (Just Pause)      = Paused
+calcNextAction Paused (Just Pause)       = Playing
+calcNextAction Playing (Just LeftArrow)  = RotateAntiClockwise
+calcNextAction Playing (Just RightArrow) = RotateClockwise
+calcNextAction RotateClockwise _         = Playing
+calcNextAction RotateAntiClockwise _     = Playing
+calcNextAction a _                       = a
 
 doAction :: GameState -> Action -> Int -> GameState
 doAction old Paused _  = old
 doAction old Playing i | i >= 1 = doGameMove i old
 doAction old Playing _ = old
-doAction old RotateAntiClockwise _ = doRotate old false
-doAction old RotateClockwise _ = doRotate old true
+doAction old RotateAntiClockwise _ = doRotate old AntiClockwise
+doAction old RotateClockwise _ = doRotate old Clockwise
 
 incrementTurnCount :: GameState -> GameState
 incrementTurnCount gameState
@@ -59,8 +65,16 @@ doPlayerMove i old = old { players = newPlayers }
 isRainbowEggTime :: GameState -> Array Player
 isRainbowEggTime gameState = gameState.players
 
-doRotate :: GameState -> Boolean -> GameState
-doRotate gameState clockwise = gameState
+doRotate :: GameState -> Clockwise -> GameState
+doRotate gameState clockwise
+  = gameState { rotations   = gameState.rotations + 1
+              , board       = Map.rotateBoard gameState.board clockwise
+              , players     = Map.rotatePlayer boardSize clockwise <$> gameState.players
+              , rotateAngle = Map.changeRenderAngle gameState.rotateAngle clockwise
+              }
+  where
+    boardSize
+      = Board.boardSizeFromBoard gameState.board
 
 resetOutcome :: GameState -> GameState
 resetOutcome gs = gs { outcome = Outcome "" }
@@ -113,29 +127,5 @@ resetOutcome gs = gs { outcome = Outcome "" }
     return gameState.players;
   };
 
-  // this rotates board and players
-  // it DOES NOT do animation - not our problem
-  protected doRotate(gameState: GameState, clockwise: boolean): GameState {
-    const rotations = gameState.rotations + 1;
-
-    const boardSize = new BoardSize(gameState.board.getLength());
-
-    const newBoard = Map.rotateBoard(gameState.board, clockwise);
-
-    const rotatedPlayers = gameState.players.map(player => {
-      return Map.rotatePlayer(boardSize, player, clockwise);
-    });
-
-    const rotateAngle: number = Map.changeRenderAngle(
-      gameState.rotateAngle,
-      clockwise
-    );
-
-    return gameState.modify({
-      board: newBoard,
-      players: rotatedPlayers,
-      rotateAngle,
-      rotations
-    });
-  }
+ 
 -}
