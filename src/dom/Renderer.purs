@@ -8,13 +8,13 @@ import Data.Maybe (Maybe(..))
 import Data.Traversable (traverse)
 import Effect (Effect)
 import Egg.Dom.Canvas as Canvas
-import Egg.Logic.RenderMap (gameStatesToRenderMap, getRenderList, shouldDrawItem)
 import Egg.Types.Board (Board, RenderItem, RenderMap)
 import Egg.Types.Canvas (CanvasData, ImageSourceMap)
 import Egg.Types.Coord (Coord, createCoord)
 import Egg.Types.CurrentFrame (getCurrentFrame)
 import Egg.Types.GameState (GameState)
 import Egg.Types.Player (Player)
+import Egg.Logic.RenderMap (addEdgePlayers, gameStatesToRenderMap, getRenderList, shouldDrawItem)
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Graphics.Canvas (CanvasImageSource)
 import Matrix as Mat
@@ -50,7 +50,10 @@ findImageSource sourceMap src
 
 renderPlayers :: CanvasData -> Board -> Array Player -> Effect Unit
 renderPlayers canvasData board players
-  = const unit <$> traverse (renderPlayer canvasData) players
+  = const unit <$> traverse (renderPlayer canvasData) allPlayers
+  where
+    allPlayers
+      = addEdgePlayers board players
 
 renderPlayer :: CanvasData -> Player -> Effect Unit
 renderPlayer canvasData player = do

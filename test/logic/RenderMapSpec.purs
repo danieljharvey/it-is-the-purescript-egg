@@ -1,21 +1,33 @@
 module Test.Logic.RenderMap where
 
-import Test.Spec.Assertions
-import Egg.Types.Board (BoardSize)
-import Egg.Types.Coord (Coord, createCoord)
-import Egg.Types.Clockwise (Clockwise(..))
-import Egg.Types.Tile (defaultTile, emptyTile)
-import Egg.Logic.Board (boardFromArray)
-import Egg.Logic.RenderMap
-import Effect.Aff (Aff)
-import Egg.Types.RenderAngle
 import Prelude (Unit, discard, negate)
+import Test.Spec.Assertions
+import Egg.Types.Board (Board, emptyBoard)
+import Egg.Types.Coord (createFullCoord)
+import Egg.Types.Player (defaultPlayer)
+import Egg.Logic.RenderMap (addEdgePlayers)
 import Test.Spec (Spec, describe, it)
-import Data.Traversable (traverse_)
+
+testBoard :: Board
+testBoard = emptyBoard 3
 
 tests :: Spec Unit
 tests =
   describe "RenderMap" do
     describe "addEdgePlayers" do
-      it "Test test" do
-        1 `shouldEqual` 1
+      it "Duplicate on left" do
+        let player = defaultPlayer { coords = createFullCoord 0 0 (-30) 0 }
+        let second = defaultPlayer { coords = createFullCoord 3 0 (-30) 0 }
+        addEdgePlayers testBoard [player] `shouldEqual` [player, second]
+      it "Duplicate on right" do
+        let player = defaultPlayer { coords = createFullCoord 3 0 30 0 }
+        let second = defaultPlayer { coords = createFullCoord 0 0 30 0 }
+        addEdgePlayers testBoard [player] `shouldEqual` [player, second]
+      it "Duplicate on top" do
+        let player = defaultPlayer { coords = createFullCoord 0 0 0 (-30) }
+        let second = defaultPlayer { coords = createFullCoord 0 3 0 (-30) }
+        addEdgePlayers testBoard [player] `shouldEqual` [player, second]
+      it "Duplicate on bottom" do
+        let player = defaultPlayer { coords = createFullCoord 0 3 0 30 }
+        let second = defaultPlayer { coords = createFullCoord 0 0 0 30 }
+        addEdgePlayers testBoard [player] `shouldEqual` [player, second]

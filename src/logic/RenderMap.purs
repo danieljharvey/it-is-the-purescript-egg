@@ -4,9 +4,11 @@ import Prelude
 import Data.Maybe (fromMaybe)
 import Matrix as Mat
 import Egg.Types.Player (Player)
-import Egg.Types.Board (Board, RenderArray, RenderItem, RenderMap)
-import Egg.Types.Coord (Coord(..), createCoord)
+import Egg.Types.Board (Board, BoardSize, RenderArray, RenderItem, RenderMap)
+import Egg.Logic.Board (boardSizeFromBoard)
+import Egg.Types.Coord (Coord(..), createCoord, invert, totalX, totalY)
 import Egg.Types.GameState (GameState)
+import Egg.Types.Tile (tileSize)
 import Data.Array (filter, range)
 import Data.Traversable (foldr)
 
@@ -84,6 +86,29 @@ buildRenderArray map board = filter filterFunc array
 -- when a player is on the edge of the map, add a duplicate on other side for rendering
 addEdgePlayers :: Board -> Array Player -> Array Player
 addEdgePlayers board players
-  = players >>= addDuplicates board
+  = join $ addPlayers (boardSizeFromBoard board) <$> players
+
+addPlayers :: BoardSize -> Player -> Array Player
+addPlayers size player
+  = [player] <> left <> right <> top <> bottom
   where
-    addDuplicates _ player = [player]
+    height
+      = size.height - 1
+    width 
+      = size.width - 1
+    left
+      = if totalX player.coords < 0 
+        then [ player { coords = player.coords <> (createCoord (width + 1) 0) } ]
+        else mempty
+    right
+      = if totalX player.coords > width * tileSize
+        then [ player { coords = player.coords <> invert (createCoord (width + 1) 0) } ]
+        else mempty
+    top
+      = if totalY player.coords < 0 
+        then [ player { coords = player.coords <> (createCoord 0 (height + 1)) } ]
+        else mempty
+    bottom
+      = if totalY player.coords > height * tileSize
+        then [ player { coords = player.coords <> invert (createCoord 0 (height + 1)) } ]
+        else mempty
