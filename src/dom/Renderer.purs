@@ -31,7 +31,7 @@ renderGameState canvasData old new = do
   let renderMap = getBoardForRender new.rotateAngle (gameStatesToRenderMap old new)
   clearTiles canvasData renderMap
   renderBoard canvasData renderMap (getBoardForRender new.rotateAngle new.board)
-  renderPlayers canvasData new.board (getPlayersForRender new.rotateAngle new.board new.players)
+  renderPlayers canvasData new.rotateAngle new.board (getPlayersForRender new.rotateAngle new.board new.players)
   --showRenderingTiles canvasData renderMap
   Canvas.copyBufferToCanvas canvasData.buffer canvasData.screen (calcRenderAngle new)
 
@@ -92,18 +92,18 @@ findImageSource :: ImageSourceMap -> ResourceUrl -> Maybe CanvasImageSource
 findImageSource sourceMap src
   = M.lookup src sourceMap
 
-renderPlayers :: CanvasData -> Board -> Array Player -> Effect Unit
-renderPlayers canvasData board players
-  = const unit <$> traverse (renderPlayer canvasData) allPlayers
+renderPlayers :: CanvasData -> RenderAngle -> Board -> Array Player -> Effect Unit
+renderPlayers canvasData angle board players
+  = const unit <$> traverse (renderPlayer canvasData angle) allPlayers
   where
     allPlayers
       = addEdgePlayers board players
 
-renderPlayer :: CanvasData -> Player -> Effect Unit
-renderPlayer canvasData player = do
+renderPlayer :: CanvasData -> RenderAngle -> Player -> Effect Unit
+renderPlayer canvasData angle player = do
   let imageSource = findImageSource canvasData.imageMap player.playerType.img
   case imageSource of
-    Just img -> Canvas.drawPlayer (canvasData.buffer.context) img player.coords (getCurrentFrame player.currentFrame)
+    Just img -> Canvas.drawPlayer (canvasData.buffer.context) img angle player.coords (getCurrentFrame player.currentFrame)
     Nothing  -> pure unit
 
 renderBoard :: CanvasData -> RenderMap -> Board -> Effect Unit

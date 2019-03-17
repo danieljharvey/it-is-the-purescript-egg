@@ -1,8 +1,8 @@
 module Egg.Logic.Board where
 
 import Egg.Types.Board (Board, BoardSize, RenderItem)
-import Egg.Types.Coord (Coord(..), createCoord)
-import Egg.Types.Tile (Tile, emptyTile)
+import Egg.Types.Coord (Coord(..), createCoord, totalX, totalY)
+import Egg.Types.Tile (Tile, emptyTile, tileSize)
 
 import Prelude
 import Data.Maybe (fromMaybe)
@@ -24,8 +24,14 @@ invertTranslation trans
 
 createCenteredTranslation :: Int -> TranslateTransform
 createCenteredTranslation i
-  = { translateX: toNumber (i / 2) 
-    , translateY: toNumber (i / 2)
+  = { translateX: toNumber $ (i / 2)
+    , translateY: toNumber $ (i / 2)
+    }
+
+createTileTranslation :: Coord -> TranslateTransform
+createTileTranslation c
+  = { translateX: toNumber $ (tileSize / 2) + (totalX c) 
+    , translateY: toNumber $ (tileSize / 2) + (totalY c)
     }
 
 getTileByCoord :: Board -> Coord -> Tile

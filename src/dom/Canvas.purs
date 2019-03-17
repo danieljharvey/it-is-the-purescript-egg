@@ -1,6 +1,6 @@
 module Egg.Dom.Canvas where
 
-import Egg.Logic.Board (createBoardSize, createCenteredTranslation, invertTranslation)
+import Egg.Logic.Board (createBoardSize, createCenteredTranslation, createTileTranslation, invertTranslation)
 import Egg.Types.Canvas (CanvasData, CanvasInfo, ImageSourceMap)
 import Egg.Types.Coord (Coord(..), totalX, totalY)
 import Egg.Types.Board (BoardSize)
@@ -173,13 +173,14 @@ clearTile context (Coord coord) = clearRect context rect
          , height: toNumber $ tileSize
          }
 
-drawPlayer :: Context2D -> CanvasImageSource -> Coord -> Int -> Effect Unit
-drawPlayer context image coord frame = do
-  drawImageFull context image sx sy tileSize' tileSize' destX destY tileSize' tileSize'
-  pure unit
+drawPlayer :: Context2D -> CanvasImageSource -> RenderAngle -> Coord -> Int -> Effect Unit
+drawPlayer context image angle coord frame = do
+  withTranslate (createTileTranslation coord) context $ do
+    withRotate (invertAngle angle) context $ do
+      drawImageFull context image sx sy tileSize' tileSize' destX destY tileSize' tileSize'
   where
-  destX = toNumber $ totalX coord
-  destY = toNumber $ totalY coord
-  sx = toNumber $ frame * tileSize
-  sy = 0.0
-  tileSize' = toNumber tileSize
+    destX = -1.0 * toNumber (tileSize / 2) 
+    destY = -1.0 * toNumber (tileSize / 2) 
+    sx = toNumber $ frame * tileSize
+    sy = 0.0
+    tileSize' = toNumber tileSize
