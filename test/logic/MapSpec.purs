@@ -2,13 +2,13 @@ module Test.Logic.Map where
 
 import Test.Spec.Assertions
 import Egg.Types.Board (BoardSize)
-import Egg.Types.Coord (Coord, createCoord)
+import Egg.Types.Coord (Coord, createCoord, createFullCoord)
 import Egg.Types.Clockwise (Clockwise(..))
 import Egg.Types.Tile (defaultTile, emptyTile)
 import Egg.Logic.Board (boardFromArray)
-import Egg.Logic.Map
+import Egg.Logic.Map (changeRenderAngle, getNewPlayerDirection, rotateBoard, rotateOffset, translateRotation)
 import Effect.Aff (Aff)
-import Egg.Types.RenderAngle
+import Egg.Types.RenderAngle (RenderAngle(..))
 import Prelude (Unit, discard, negate)
 import Test.Spec (Spec, describe, it)
 import Data.Traversable (traverse_)
@@ -76,7 +76,7 @@ tests =
                                       , [ emptyTile, emptyTile, defaultTile ]
                                       , [ emptyTile, emptyTile, defaultTile ] 
                                       ]
-        rotateBoard oldBoard Clockwise `shouldEqual` expected
+        rotateBoard Clockwise oldBoard `shouldEqual` expected
       it "Rotates anticlockwise correctly" do
         let oldBoard = boardFromArray [ [ defaultTile, defaultTile, defaultTile]
                                       , [ emptyTile, emptyTile, defaultTile ]
@@ -86,7 +86,7 @@ tests =
                                       , [ defaultTile, emptyTile, emptyTile ]
                                       , [ defaultTile, emptyTile, emptyTile ] 
                                       ]
-        rotateBoard oldBoard AntiClockwise `shouldEqual` expected
+        rotateBoard AntiClockwise oldBoard `shouldEqual` expected
 
     describe "changeRenderAngle" do
       it "Rotates correctly" do
@@ -99,3 +99,8 @@ tests =
                                  , { in: RenderAngle 180, clockwise: AntiClockwise, out: RenderAngle 90 } 
                                  , { in: RenderAngle 270, clockwise: AntiClockwise, out: RenderAngle 180 } 
                                 ]
+    describe "rotateOffset" do
+      it "Rotates anticlockwise" do
+        rotateOffset AntiClockwise (createFullCoord 0 0 (-10) (-5)) `shouldEqual` createFullCoord 0 0 (-5) 10
+      it "Rotates clockwise" do
+        rotateOffset Clockwise (createFullCoord 0 0 10 5) `shouldEqual` createFullCoord 0 0 (-5) 10

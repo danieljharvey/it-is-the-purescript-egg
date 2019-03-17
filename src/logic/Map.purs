@@ -2,12 +2,11 @@ module Egg.Logic.Map where
 
 import Prelude
 import Egg.Logic.Board (boardSizeFromBoard)
-import Egg.Types.Board (Board, BoardSize, RenderItem)
-import Egg.Types.Coord (Coord(..), center, createCoord)
+import Egg.Types.Board (BoardSize, GenericRenderItem)
+import Egg.Types.Coord (Coord(..), center, createCoord, createFullCoord)
 import Egg.Types.Player (Player)
 import Egg.Logic.Movement (isStationary)
 import Egg.Types.Clockwise (Clockwise(..))
-import Egg.Types.Tile (Tile)
 import Egg.Types.RenderAngle (RenderAngle(..), decrease, increase)
 import Data.Maybe (Maybe, fromMaybe)
 import Data.Array (filter, head)
@@ -49,8 +48,12 @@ getNewPlayerDirection coord clockwise
           Clockwise     -> createCoord 1 0 
           AntiClockwise -> createCoord (-1) 0
 
-rotateBoard :: Board -> Clockwise -> Board
-rotateBoard board clockwise
+rotateBoard 
+  :: forall a
+   . Clockwise 
+  -> Mat.Matrix a 
+  -> Mat.Matrix a
+rotateBoard clockwise board
   = Mat.indexedMap mapItem board
   where
     items
@@ -60,14 +63,18 @@ rotateBoard board clockwise
     mapItem x y a
       = fromMaybe a (findArrayItem (createCoord x y) items)
 
-findArrayItem :: Coord -> Array RenderItem -> Maybe Tile
+findArrayItem 
+  :: forall a
+   . Coord 
+  -> Array (GenericRenderItem a) 
+  -> Maybe a
 findArrayItem (Coord coord) items
   = _.value <$> foundItem
   where
     foundItem
       = head $ filter (\item -> item.x == coord.x && item.y == coord.y) items 
 
-updateRenderItem :: BoardSize -> Clockwise -> RenderItem -> RenderItem
+updateRenderItem :: forall a. BoardSize -> Clockwise -> GenericRenderItem a -> GenericRenderItem a
 updateRenderItem size clockwise { x, y, value: tile }
   = { x: newCoord.x, y: newCoord.y, value: tile }
   where
@@ -89,6 +96,11 @@ rotatePlayer size clockwise player
     direction
       = getNewPlayerDirection player.direction clockwise
 
+rotateOffset :: Clockwise -> Coord -> Coord
+rotateOffset Clockwise (Coord c)
+  = createFullCoord 0 0 (-1 * c.offsetY) c.offsetX
+rotateOffset AntiClockwise (Coord c)
+  = createFullCoord 0 0 c.offsetY (-1 * c.offsetX)
 
 {-
 

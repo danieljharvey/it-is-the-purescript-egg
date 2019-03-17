@@ -16,17 +16,15 @@ type RenderMap = M.Matrix Boolean
 type RenderArray
   = Array RenderItem
 
-type RenderItem
+type GenericRenderItem a
   = { x :: Int
     , y :: Int
-    , value :: Tile
+    , value :: a
     }
 
-type RenderMapItem
-  = { x :: Int
-    , y :: Int
-    , value :: Boolean
-    }
+type RenderItem = GenericRenderItem Tile
+
+type RenderMapItem = GenericRenderItem Boolean
 
 type JSONBoard = Array (Array JSONTile)
 

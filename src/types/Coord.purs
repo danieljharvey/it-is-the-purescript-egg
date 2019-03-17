@@ -50,6 +50,10 @@ createMoveCoord speed (Coord coord)
       newY
         = speed * coord.y
 
+justOffset :: Coord -> Coord
+justOffset (Coord c)
+  = Coord $ c { x = 0, y = 0 }
+
 totalX :: Coord -> Int
 totalX (Coord c) = (c.x * subparts) + c.offsetX
 

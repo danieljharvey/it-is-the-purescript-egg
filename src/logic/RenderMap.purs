@@ -14,7 +14,9 @@ import Data.Traversable (foldr)
 
 gameStatesToRenderMap :: GameState -> GameState -> RenderMap
 gameStatesToRenderMap old new
-  = addPlayersToRenderMap new.players boardMap
+  = if needsFullRefresh old new 
+      then fillWholeBoard true new.board
+      else addPlayersToRenderMap new.players boardMap
   where
     boardMap
       = createRenderMap old.board new.board
@@ -34,7 +36,7 @@ createRenderMap before after
       = Mat.zipWith compare before after
 
     compare a b
-      = a == b
+      = a /= b
 
 addPlayersToRenderMap :: Array Player -> RenderMap -> RenderMap
 addPlayersToRenderMap players rMap
@@ -60,8 +62,12 @@ getPlayerCoordList map player = do
       maxX = Mat.width map
       maxY = Mat.height map
 
+fillWholeBoard :: Boolean -> Board -> RenderMap
+fillWholeBoard value board
+  = Mat.repeat (Mat.width board) (Mat.height board) value
+
 blankRenderMap :: Board -> RenderMap
-blankRenderMap board = Mat.repeat (Mat.width board) (Mat.height board) true
+blankRenderMap = fillWholeBoard false
 
 getRenderList :: RenderMap -> Array Coord
 getRenderList rMap

@@ -12,6 +12,9 @@ derive newtype instance showRenderAngle :: Show RenderAngle
 derive newtype instance semiringRenderAngle :: Semiring RenderAngle
 derive newtype instance ringRenderAngle :: Ring RenderAngle
 
+instance semigroupRenderAngle :: Semigroup RenderAngle where
+  append = increase
+
 newtype RenderAngleRad = RenderAngleRad Number
 
 toRadians :: RenderAngle -> RenderAngleRad

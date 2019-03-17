@@ -50,7 +50,7 @@ boardFromArray tiles
 renderItemToCoord :: RenderItem -> Coord
 renderItemToCoord { x, y } = createCoord x y
 
-boardSizeFromBoard :: Board -> BoardSize
+boardSizeFromBoard :: forall a. Mat.Matrix a -> BoardSize
 boardSizeFromBoard board =
   { width : Mat.width board
   , height: Mat.height board

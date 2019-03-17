@@ -91,7 +91,7 @@ isRainbowEggTime gameState = gameState.players
 doRotate :: GameState -> Clockwise -> GameState
 doRotate gameState clockwise
   = gameState { rotations   = gameState.rotations + 1
-              , board       = Map.rotateBoard gameState.board clockwise
+              , board       = Map.rotateBoard clockwise gameState.board
               , players     = Map.rotatePlayer boardSize clockwise <$> gameState.players
               , rotateAngle = Map.changeRenderAngle gameState.rotateAngle clockwise
               , renderAngle = RenderAngle 0
