@@ -1,9 +1,12 @@
 module Egg.Dom.Canvas where
 
-import Egg.Logic.Board
-import Egg.Types.Canvas
-import Egg.Types.Coord
-import Graphics.Canvas
+import Egg.Logic.Board (createBoardSize, createCenteredTranslation, invertTranslation)
+import Egg.Types.Canvas (CanvasData, CanvasInfo, ImageSourceMap)
+import Egg.Types.Coord (Coord(..), totalX, totalY)
+import Egg.Types.Board (BoardSize)
+import Egg.Types.ResourceUrl (ResourceUrl)
+import Egg.Types.RenderAngle (RenderAngle, RenderAngleRad(..), invertAngle, toRadians)
+import Graphics.Canvas (CanvasElement, CanvasImageSource, Context2D, TranslateTransform, canvasElementToImageSource, clearRect, drawImage, drawImageFull, drawImageScale, fillRect, getCanvasElementById, getContext2D, rotate, setCanvasHeight, setCanvasWidth, setFillStyle, translate, tryLoadImage)
 import Prelude
 
 import Control.Parallel (parTraverse)
@@ -12,17 +15,13 @@ import Data.Int (toNumber)
 import Data.List (List)
 import Data.Map as Map
 import Data.Maybe (Maybe)
-import Data.String.Regex (source)
 import Data.Traversable (class Foldable, class Traversable)
 import Data.Tuple (Tuple(..))
 import Effect (Effect)
 import Effect.Aff (Aff, makeAff)
 import Effect.Class (liftEffect)
 import Effect.Exception (Error, error)
-import Egg.Types.Board (BoardSize)
-import Egg.Types.ResourceUrl (ResourceUrl)
-import Web.HTML.HTMLElement (offsetHeight)
-import Web.HTML.HTMLSelectElement (size)
+
 
 tileSize :: Int
 tileSize = 64
@@ -112,11 +111,11 @@ clearScreen context size = do
                     , height: toNumber (size.height * tileSize)
                     }
 
-copyBufferToCanvas :: CanvasInfo -> CanvasInfo -> Effect Unit
-copyBufferToCanvas buffer screen = do
+copyBufferToCanvas :: CanvasInfo -> CanvasInfo -> RenderAngle -> Effect Unit
+copyBufferToCanvas buffer screen angle = do
   clearScreen screen.context (createBoardSize screen.size)
   withTranslate (createCenteredTranslation screen.size) screen.context $ do
-    withRotate (0.05) screen.context $ do
+    withRotate angle screen.context $ do
       drawWithOffset buffer.element screen.context screen.size
 
 drawWithOffset :: CanvasElement -> Context2D -> Int -> Effect Unit
@@ -138,11 +137,16 @@ withTranslate trans dest callback = do
   translate dest (invertTranslation trans)
 
 -- rotate the drawing surface, do your operation, then puts it back
-withRotate :: Number -> Context2D -> Effect Unit -> Effect Unit
+withRotate :: RenderAngle -> Context2D -> Effect Unit -> Effect Unit
 withRotate angle dest callback = do
-  _ <- rotate dest angle
+  _ <- rotate' dest angle
   callback
-  rotate dest (-1.0 * angle)
+  rotate' dest (invertAngle angle)
+
+rotate' :: Context2D -> RenderAngle -> Effect Unit
+rotate' dest angle = do
+  let (RenderAngleRad rad) = toRadians angle
+  rotate dest rad
 
 drawTile :: Context2D -> CanvasImageSource -> Coord -> Effect Unit
 drawTile context image coord = drawImage context image x y

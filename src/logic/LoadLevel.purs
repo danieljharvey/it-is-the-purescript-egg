@@ -5,7 +5,7 @@ import Prelude
 import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Map as M
 import Data.Either (hush)
-import Data.Int (fromString)
+import Data.String (trim)
 import Simple.JSON (readJSON)
 
 import Matrix as Mat
@@ -30,7 +30,7 @@ checkWidthAndHeight board bs
 
 convert :: TileMap -> JSONLevel -> Maybe Level
 convert tiles json = do
-    levelId   <- fromString json.levelID
+    levelId   <- pure json.levelID
     board     <- createBoard tiles json.board
     boardSize <- checkWidthAndHeight board json.boardSize
     pure { board:     board
@@ -38,9 +38,17 @@ convert tiles json = do
          , levelId:   levelId
          }
 
+cleanString :: String -> String
+cleanString
+  = trim
+
+readLevelJSON :: String -> Maybe JSONLevel
+readLevelJSON str
+  = (hush <<< readJSON) str
+
 readLevel :: String -> Maybe Level
 readLevel str = do
-    jsonLevel <- (hush <<< readJSON) str
+    jsonLevel <- readLevelJSON str
     convert tiles jsonLevel
 
 tileFromJSON :: TileMap -> JSONTile -> Tile

@@ -13,6 +13,7 @@ type GameState
     , score       :: Score
     , rotations   :: Int
     , rotateAngle :: RenderAngle
+    , renderAngle :: RenderAngle
     , outcome     :: Outcome
     , turns       :: Int
     , current     :: Action
@@ -25,6 +26,7 @@ createGameState board
     , score: Score 0
     , rotations: 0
     , rotateAngle: RenderAngle 0
+    , renderAngle: RenderAngle 0
     , outcome: Outcome ""
     , turns: 0
     , current: Playing

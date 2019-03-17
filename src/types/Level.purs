@@ -6,7 +6,7 @@ import Egg.Types.Board (JSONBoard, Board, BoardSize)
 type JSONLevel =
   { board :: JSONBoard
   , boardSize :: BoardSize
-  , levelID :: String
+  , levelID :: Int
   }
 
 type Level =

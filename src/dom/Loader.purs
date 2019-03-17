@@ -1,4 +1,4 @@
-module Egg.Dom.Loader (loadLevel) where
+module Egg.Dom.Loader where
 
 import Prelude
 

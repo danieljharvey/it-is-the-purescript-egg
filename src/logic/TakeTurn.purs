@@ -8,12 +8,16 @@ import Egg.Logic.Action   as Action
 import Egg.Logic.Map      as Map
 import Egg.Logic.Board    as Board
 
+import Egg.Types.Action (Action(..))
+import Egg.Types.Clockwise (Clockwise(..))
 import Egg.Types.GameState (GameState)
+import Egg.Types.InputEvent (InputEvent(..))
 import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Player (Player)
-import Egg.Types.Action (Action(..))
-import Egg.Types.InputEvent (InputEvent(..))
-import Egg.Types.Clockwise (Clockwise(..))
+import Egg.Types.RenderAngle (RenderAngle(..))
+
+spinSpeed :: Int
+spinSpeed = 3
 
 go :: Int -> Maybe InputEvent -> GameState -> GameState
 go i input gs 
@@ -26,20 +30,24 @@ go i input gs
 
 -- take input and current game state and work out what we should be doing next
 calcNextAction :: Action -> Maybe InputEvent -> Action
+calcNextAction (Turning c a) _           = Turning c a
 calcNextAction Playing (Just Pause)      = Paused
 calcNextAction Paused (Just Pause)       = Playing
-calcNextAction Playing (Just LeftArrow)  = RotateAntiClockwise
-calcNextAction Playing (Just RightArrow) = RotateClockwise
-calcNextAction RotateClockwise _         = Playing
-calcNextAction RotateAntiClockwise _     = Playing
+calcNextAction Playing (Just LeftArrow)  = Turning AntiClockwise 0
+calcNextAction Playing (Just RightArrow) = Turning Clockwise 0
 calcNextAction a _                       = a
 
 doAction :: GameState -> Action -> Int -> GameState
-doAction old Paused _  = old
-doAction old Playing i | i >= 1 = doGameMove i old
-doAction old Playing _ = old
-doAction old RotateAntiClockwise _ = doRotate old AntiClockwise
-doAction old RotateClockwise _ = doRotate old Clockwise
+doAction old Paused _  
+  = old
+doAction old Playing i | i >= 1 
+  = doGameMove i old
+doAction old Playing _ 
+  = old
+doAction old (Turning clockwise angle) _ | angle >= 90 
+  = doRotate old clockwise
+doAction old (Turning clockwise angle) _
+  = doTurn clockwise angle old
 
 incrementTurnCount :: GameState -> GameState
 incrementTurnCount gameState
@@ -57,6 +65,21 @@ setAction :: Action -> GameState -> GameState
 setAction action old
   = old { current = action }
 
+doTurn :: Clockwise -> Int -> GameState -> GameState
+doTurn clockwise angle gs
+  = case clockwise of 
+      Clockwise 
+        -> gs { renderAngle = RenderAngle angle
+              , current     = next
+              }
+      AntiClockwise 
+        -> gs { renderAngle = RenderAngle (-1 * angle)
+              , current     = next
+              }
+  where
+    next
+      = Turning clockwise (angle + spinSpeed)
+    
 doPlayerMove :: Int -> GameState -> GameState
 doPlayerMove i old = old { players = newPlayers }
   where
@@ -71,6 +94,8 @@ doRotate gameState clockwise
               , board       = Map.rotateBoard gameState.board clockwise
               , players     = Map.rotatePlayer boardSize clockwise <$> gameState.players
               , rotateAngle = Map.changeRenderAngle gameState.rotateAngle clockwise
+              , renderAngle = RenderAngle 0
+              , current     = Playing
               }
   where
     boardSize

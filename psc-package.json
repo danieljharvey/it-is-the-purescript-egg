@@ -21,6 +21,7 @@
     "refs",
     "enums",
     "debug",
-    "web-uievents"
+    "web-uievents",
+    "node-fs-aff"
   ]
 }

@@ -8,13 +8,15 @@ import Data.Maybe (Maybe(..))
 import Data.Traversable (traverse)
 import Effect (Effect)
 import Egg.Dom.Canvas as Canvas
+import Egg.Logic.Board (boardSizeFromBoard)
 import Egg.Types.Board (Board, RenderItem, RenderMap)
 import Egg.Types.Canvas (CanvasData, ImageSourceMap)
 import Egg.Types.Coord (Coord, createCoord)
 import Egg.Types.CurrentFrame (getCurrentFrame)
 import Egg.Types.GameState (GameState)
 import Egg.Types.Player (Player)
-import Egg.Logic.RenderMap (addEdgePlayers, gameStatesToRenderMap, getRenderList, shouldDrawItem)
+import Egg.Types.RenderAngle (RenderAngle) 
+import Egg.Logic.RenderMap (addEdgePlayers, gameStatesToRenderMap, getRenderList, needsFullRefresh, shouldDrawItem)
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Graphics.Canvas (CanvasImageSource)
 import Matrix as Mat
@@ -22,11 +24,18 @@ import Matrix as Mat
 renderGameState :: CanvasData -> GameState -> GameState -> Effect Unit
 renderGameState canvasData old new = do
   let renderMap = gameStatesToRenderMap old new
-  clearTiles canvasData renderMap
+  let needsWipe = needsFullRefresh old new
+  if needsWipe
+    then Canvas.clearScreen canvasData.buffer.context (boardSizeFromBoard new.board)
+    else clearTiles canvasData renderMap
   renderBoard canvasData renderMap new.board
   renderPlayers canvasData new.board new.players
   -- showRenderingTiles canvasData renderMap
-  Canvas.copyBufferToCanvas canvasData.buffer canvasData.screen
+  Canvas.copyBufferToCanvas canvasData.buffer canvasData.screen (calcRenderAngle new)
+
+calcRenderAngle :: GameState -> RenderAngle
+calcRenderAngle gs
+  = gs.renderAngle -- invertAngle gs.rotateAngle
 
 showRenderingTiles :: CanvasData -> RenderMap -> Effect Unit
 showRenderingTiles canvasData renderMap = do

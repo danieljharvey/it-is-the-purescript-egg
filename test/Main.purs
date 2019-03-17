@@ -10,6 +10,7 @@ import Test.Logic.Movement  as Movement
 import Test.Logic.Action    as Action
 import Test.Logic.Map       as Map
 import Test.Logic.RenderMap as RenderMap
+import Test.Logic.LoadLevel as LoadLevel
 
 main :: Effect Unit
 main = run [consoleReporter] do
@@ -18,3 +19,4 @@ main = run [consoleReporter] do
   Action.tests
   Map.tests
   RenderMap.tests
+  LoadLevel.tests

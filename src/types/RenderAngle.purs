@@ -1,6 +1,8 @@
 module Egg.Types.RenderAngle where
 
 import Prelude
+import Math as Math
+import Data.Int (toNumber)
 
 newtype RenderAngle = RenderAngle Int
 
@@ -9,6 +11,16 @@ derive newtype instance ordRenderAngle :: Ord RenderAngle
 derive newtype instance showRenderAngle :: Show RenderAngle
 derive newtype instance semiringRenderAngle :: Semiring RenderAngle
 derive newtype instance ringRenderAngle :: Ring RenderAngle
+
+newtype RenderAngleRad = RenderAngleRad Number
+
+toRadians :: RenderAngle -> RenderAngleRad
+toRadians (RenderAngle renderAngle)
+  = RenderAngleRad $ (toNumber renderAngle) * (Math.pi / 180.0)
+
+invertAngle :: RenderAngle -> RenderAngle
+invertAngle (RenderAngle angle)
+  = RenderAngle (-1 * angle)
 
 increase :: RenderAngle -> RenderAngle -> RenderAngle
 increase fst snd

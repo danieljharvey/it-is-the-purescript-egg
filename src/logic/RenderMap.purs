@@ -19,6 +19,10 @@ gameStatesToRenderMap old new
     boardMap
       = createRenderMap old.board new.board
 
+needsFullRefresh :: GameState -> GameState -> Boolean
+needsFullRefresh old new
+  = old.rotateAngle /= new.rotateAngle
+
 createRenderMap :: Board -> Board -> RenderMap
 createRenderMap before after
   = fromMaybe blankMap renderMap
@@ -30,7 +34,7 @@ createRenderMap before after
       = Mat.zipWith compare before after
 
     compare a b
-      = a /= b
+      = a == b
 
 addPlayersToRenderMap :: Array Player -> RenderMap -> RenderMap
 addPlayersToRenderMap players rMap

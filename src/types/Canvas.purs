@@ -8,8 +8,8 @@ type ImageSourceMap = (Map.Map ResourceUrl CanvasImageSource)
 
 type CanvasInfo 
   = { element :: CanvasElement
-    , context         :: Context2D
-    , size            :: Int
+    , context :: Context2D
+    , size    :: Int
     }
 
 type CanvasData

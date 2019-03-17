@@ -1,1 +1,2047 @@
-{"levelID":6,"boardSize":{"width":14,"height":14},"board":[[{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"0","y":"0"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"0","y":"1"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"0","y":"2"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"0","y":"3"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"0","y":"4"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"0","y":"5"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"0","y":"6","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"0","y":"7","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"0","y":"8","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"0","y":"9"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"0","y":"10"},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"0","y":"11","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"0","y":"12","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"0","y":"13"}],[{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"1","y":"0"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"1","y":"1"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"1","y":"2"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"1","y":"3"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"1","y":"4"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"1","y":"5","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"1","y":"6","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"1","y":"7","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"1","y":"8"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"1","y":"9"},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"1","y":"10","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"1","y":"11","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"1","y":"12"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"1","y":"13","drawnBefore":true}],[{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"2","y":"0"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"2","y":"1"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"2","y":"2"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"2","y":"3"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"2","y":"4","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"2","y":"5","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"2","y":"6","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"2","y":"7"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"2","y":"8"},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"2","y":"9","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"2","y":"10","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"2","y":"11"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"2","y":"12","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"2","y":"13","drawnBefore":true}],[{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"3","y":"0"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"3","y":"1"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"3","y":"2"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"3","y":"3","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"3","y":"4","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"3","y":"5","drawnBefore":true},{"id":18,"title":"Green door open","img":"green-door-open.png","background":true,"needsDraw":false,"frontLayer":true,"x":"3","y":"6","drawnBefore":true},{"id":18,"title":"Green door open","img":"green-door-open.png","background":true,"needsDraw":false,"frontLayer":true,"x":"3","y":"7","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"3","y":"8","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"3","y":"9","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"3","y":"10","drawnBefore":true},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"3","y":"11","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"3","y":"12","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"3","y":"13","drawnBefore":true}],[{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"4","y":"0"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"4","y":"1"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"4","y":"2","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"4","y":"3","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"4","y":"4","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"4","y":"5"},{"id":18,"title":"Green door open","img":"green-door-open.png","background":true,"needsDraw":false,"frontLayer":true,"x":"4","y":"6","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"4","y":"7","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"4","y":"8","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"4","y":"9","drawnBefore":true},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"4","y":"10","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"4","y":"11","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"4","y":"12","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"4","y":"13"}],[{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"5","y":"0"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"5","y":"1","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"5","y":"2","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"5","y":"3","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"5","y":"4"},{"id":12,"title":"Egg Cup","img":"egg-cup.png","background":true,"needsDraw":false,"frontLayer":true,"createPlayer":"egg","action":"completeLevel","x":"5","y":"5","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"5","y":"6","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"5","y":"7","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"5","y":"8","drawnBefore":true},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"5","y":"9","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"5","y":"10","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"5","y":"11","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"5","y":"12","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"5","y":"13","drawnBefore":true}],[{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"6","y":"0","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"6","y":"1","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"6","y":"2","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"6","y":"3"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"6","y":"4"},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"6","y":"5","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"6","y":"6","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"6","y":"7","drawnBefore":true},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"6","y":"8","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"6","y":"9","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"6","y":"10","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"6","y":"11","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"6","y":"12","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"6","y":"13","drawnBefore":true}],[{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"7","y":"0","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"7","y":"1","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"7","y":"2"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"7","y":"3"},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"7","y":"4","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"7","y":"5","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"7","y":"6"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"7","y":"7","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"7","y":"8","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"7","y":"9","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"7","y":"10"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"7","y":"11"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"7","y":"12","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"7","y":"13","drawnBefore":true}],[{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"8","y":"0","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"8","y":"1"},{"id":14,"title":"Door","img":"door.png","background":true,"needsDraw":false,"frontLayer":true,"action":"teleport","x":"8","y":"2","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"8","y":"3","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"8","y":"4","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"8","y":"5"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"8","y":"6","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"8","y":"7","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"8","y":"8","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"8","y":"9","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"8","y":"10"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"8","y":"11"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"8","y":"12"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"8","y":"13"}],[{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"9","y":"0"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"9","y":"1"},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"9","y":"2","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"9","y":"3","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"9","y":"4"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"9","y":"5","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"9","y":"6","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"9","y":"7","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"9","y":"8","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"9","y":"9","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"9","y":"10","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"9","y":"11","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"9","y":"12","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"9","y":"13"}],[{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"10","y":"0"},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"10","y":"1","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"10","y":"2","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"10","y":"3"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"10","y":"4","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"10","y":"5","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"10","y":"6","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"10","y":"7","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"10","y":"8"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"10","y":"9","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"10","y":"10"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"10","y":"11","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"10","y":"12"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"10","y":"13"}],[{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"11","y":"0","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"11","y":"1","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"11","y":"2"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"11","y":"3","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"11","y":"4","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"11","y":"5","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"11","y":"6","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"11","y":"7","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"11","y":"8","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"11","y":"9","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"11","y":"10","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"11","y":"11","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"11","y":"12"},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"11","y":"13","drawnBefore":true}],[{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"12","y":"0","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"12","y":"1"},{"id":4,"title":"Plant","img":"plant.png","background":true,"needsDraw":false,"frontLayer":true,"collectable":10,"x":"12","y":"2","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"12","y":"3","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"12","y":"4","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"12","y":"5"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"12","y":"6"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"12","y":"7"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"x":"12","y":"8","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"12","y":"9"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"12","y":"10"},{"id":12,"title":"Egg Cup","img":"egg-cup.png","background":true,"needsDraw":false,"frontLayer":true,"createPlayer":"egg","action":"completeLevel","x":"12","y":"11","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"12","y":"12","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"12","y":"13","drawnBefore":true}],[{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"13","y":"0"},{"id":14,"title":"Door","img":"door.png","background":true,"needsDraw":false,"frontLayer":true,"action":"teleport","x":"13","y":"1","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"13","y":"2","drawnBefore":true},{"id":8,"title":"Work surface 2","img":"work-surface-2.png","background":false,"needsDraw":false,"x":"13","y":"3","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"13","y":"4"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"13","y":"5"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"13","y":"6"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"13","y":"7"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"13","y":"8"},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"13","y":"9"},{"id":20,"title":"Green door switch","img":"green-switch.png","background":true,"needsDraw":false,"frontLayer":true,"action":"green-switch","x":"13","y":"10","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"13","y":"11","drawnBefore":true},{"id":11,"title":"Tiles","img":"tile.png","background":false,"needsDraw":false,"x":"13","y":"12","drawnBefore":true},{"id":1,"title":"Sky","img":"sky.png","background":true,"needsDraw":false,"drawnBefore":true,"x":"13","y":"13"}]]}
+{
+  "levelID": 6,
+  "boardSize": { "width": 14, "height": 14 },
+  "board": [
+    [
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "0",
+        "y": "1"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "0",
+        "y": "2"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "0",
+        "y": "3"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "0",
+        "y": "4"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "0",
+        "y": "5"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "0",
+        "y": "6",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "0",
+        "y": "7",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "0",
+        "y": "8",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "0",
+        "y": "9"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "0",
+        "y": "10"
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "0",
+        "y": "11",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "0",
+        "y": "12",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "0",
+        "y": "13"
+      }
+    ],
+    [
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "1",
+        "y": "0"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "1",
+        "y": "1"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "1",
+        "y": "2"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "1",
+        "y": "3"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "1",
+        "y": "4"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "1",
+        "y": "5",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "1",
+        "y": "6",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "1",
+        "y": "7",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "1",
+        "y": "8"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "1",
+        "y": "9"
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "1",
+        "y": "10",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "1",
+        "y": "11",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "1",
+        "y": "12"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "1",
+        "y": "13",
+        "drawnBefore": true
+      }
+    ],
+    [
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "2",
+        "y": "0"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "2",
+        "y": "1"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "2",
+        "y": "2"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "2",
+        "y": "3"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "2",
+        "y": "4",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "2",
+        "y": "5",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "2",
+        "y": "6",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "2",
+        "y": "7"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "2",
+        "y": "8"
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "2",
+        "y": "9",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "2",
+        "y": "10",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "2",
+        "y": "11"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "2",
+        "y": "12",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "2",
+        "y": "13",
+        "drawnBefore": true
+      }
+    ],
+    [
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "3",
+        "y": "0"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "3",
+        "y": "1"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "3",
+        "y": "2"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "3",
+        "y": "3",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "3",
+        "y": "4",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "3",
+        "y": "5",
+        "drawnBefore": true
+      },
+      {
+        "id": 18,
+        "title": "Green door open",
+        "img": "green-door-open.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "x": "3",
+        "y": "6",
+        "drawnBefore": true
+      },
+      {
+        "id": 18,
+        "title": "Green door open",
+        "img": "green-door-open.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "x": "3",
+        "y": "7",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "3",
+        "y": "8",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "3",
+        "y": "9",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "3",
+        "y": "10",
+        "drawnBefore": true
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "3",
+        "y": "11",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "3",
+        "y": "12",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "3",
+        "y": "13",
+        "drawnBefore": true
+      }
+    ],
+    [
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "4",
+        "y": "0"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "4",
+        "y": "1"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "4",
+        "y": "2",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "4",
+        "y": "3",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "4",
+        "y": "4",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "4",
+        "y": "5"
+      },
+      {
+        "id": 18,
+        "title": "Green door open",
+        "img": "green-door-open.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "x": "4",
+        "y": "6",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "4",
+        "y": "7",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "4",
+        "y": "8",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "4",
+        "y": "9",
+        "drawnBefore": true
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "4",
+        "y": "10",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "4",
+        "y": "11",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "4",
+        "y": "12",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "4",
+        "y": "13"
+      }
+    ],
+    [
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "5",
+        "y": "0"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "5",
+        "y": "1",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "5",
+        "y": "2",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "5",
+        "y": "3",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "5",
+        "y": "4"
+      },
+      {
+        "id": 12,
+        "title": "Egg Cup",
+        "img": "egg-cup.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "createPlayer": "egg",
+        "action": "completeLevel",
+        "x": "5",
+        "y": "5",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "5",
+        "y": "6",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "5",
+        "y": "7",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "5",
+        "y": "8",
+        "drawnBefore": true
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "5",
+        "y": "9",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "5",
+        "y": "10",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "5",
+        "y": "11",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "5",
+        "y": "12",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "5",
+        "y": "13",
+        "drawnBefore": true
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "6",
+        "y": "0",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "6",
+        "y": "1",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "6",
+        "y": "2",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "6",
+        "y": "3"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "6",
+        "y": "4"
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "6",
+        "y": "5",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "6",
+        "y": "6",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "6",
+        "y": "7",
+        "drawnBefore": true
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "6",
+        "y": "8",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "6",
+        "y": "9",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "6",
+        "y": "10",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "6",
+        "y": "11",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "6",
+        "y": "12",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "6",
+        "y": "13",
+        "drawnBefore": true
+      }
+    ],
+    [
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "7",
+        "y": "0",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "7",
+        "y": "1",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "7",
+        "y": "2"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "7",
+        "y": "3"
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "7",
+        "y": "4",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "7",
+        "y": "5",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "7",
+        "y": "6"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "7",
+        "y": "7",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "7",
+        "y": "8",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "7",
+        "y": "9",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "7",
+        "y": "10"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "7",
+        "y": "11"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "7",
+        "y": "12",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "7",
+        "y": "13",
+        "drawnBefore": true
+      }
+    ],
+    [
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "8",
+        "y": "0",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "8",
+        "y": "1"
+      },
+      {
+        "id": 14,
+        "title": "Door",
+        "img": "door.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "action": "teleport",
+        "x": "8",
+        "y": "2",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "8",
+        "y": "3",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "8",
+        "y": "4",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "8",
+        "y": "5"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "8",
+        "y": "6",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "8",
+        "y": "7",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "8",
+        "y": "8",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "8",
+        "y": "9",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "8",
+        "y": "10"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "8",
+        "y": "11"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "8",
+        "y": "12"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "8",
+        "y": "13"
+      }
+    ],
+    [
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "9",
+        "y": "0"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "9",
+        "y": "1"
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "9",
+        "y": "2",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "9",
+        "y": "3",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "9",
+        "y": "4"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "9",
+        "y": "5",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "9",
+        "y": "6",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "9",
+        "y": "7",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "9",
+        "y": "8",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "9",
+        "y": "9",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "9",
+        "y": "10",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "9",
+        "y": "11",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "9",
+        "y": "12",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "9",
+        "y": "13"
+      }
+    ],
+    [
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "10",
+        "y": "0"
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "10",
+        "y": "1",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "10",
+        "y": "2",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "10",
+        "y": "3"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "10",
+        "y": "4",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "10",
+        "y": "5",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "10",
+        "y": "6",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "10",
+        "y": "7",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "10",
+        "y": "8"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "10",
+        "y": "9",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "10",
+        "y": "10"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "10",
+        "y": "11",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "10",
+        "y": "12"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "10",
+        "y": "13"
+      }
+    ],
+    [
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "11",
+        "y": "0",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "11",
+        "y": "1",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "11",
+        "y": "2"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "11",
+        "y": "3",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "11",
+        "y": "4",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "11",
+        "y": "5",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "11",
+        "y": "6",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "11",
+        "y": "7",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "11",
+        "y": "8",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "11",
+        "y": "9",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "11",
+        "y": "10",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "11",
+        "y": "11",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "11",
+        "y": "12"
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "11",
+        "y": "13",
+        "drawnBefore": true
+      }
+    ],
+    [
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "12",
+        "y": "0",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "12",
+        "y": "1"
+      },
+      {
+        "id": 4,
+        "title": "Plant",
+        "img": "plant.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "collectable": 10,
+        "x": "12",
+        "y": "2",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "12",
+        "y": "3",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "12",
+        "y": "4",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "12",
+        "y": "5"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "12",
+        "y": "6"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "12",
+        "y": "7"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "x": "12",
+        "y": "8",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "12",
+        "y": "9"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "12",
+        "y": "10"
+      },
+      {
+        "id": 12,
+        "title": "Egg Cup",
+        "img": "egg-cup.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "createPlayer": "egg",
+        "action": "completeLevel",
+        "x": "12",
+        "y": "11",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "12",
+        "y": "12",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "12",
+        "y": "13",
+        "drawnBefore": true
+      }
+    ],
+    [
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "13",
+        "y": "0"
+      },
+      {
+        "id": 14,
+        "title": "Door",
+        "img": "door.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "action": "teleport",
+        "x": "13",
+        "y": "1",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "13",
+        "y": "2",
+        "drawnBefore": true
+      },
+      {
+        "id": 8,
+        "title": "Work surface 2",
+        "img": "work-surface-2.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "13",
+        "y": "3",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "13",
+        "y": "4"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "13",
+        "y": "5"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "13",
+        "y": "6"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "13",
+        "y": "7"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "13",
+        "y": "8"
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "13",
+        "y": "9"
+      },
+      {
+        "id": 20,
+        "title": "Green door switch",
+        "img": "green-switch.png",
+        "background": true,
+        "needsDraw": false,
+        "frontLayer": true,
+        "action": "green-switch",
+        "x": "13",
+        "y": "10",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "13",
+        "y": "11",
+        "drawnBefore": true
+      },
+      {
+        "id": 11,
+        "title": "Tiles",
+        "img": "tile.png",
+        "background": false,
+        "needsDraw": false,
+        "x": "13",
+        "y": "12",
+        "drawnBefore": true
+      },
+      {
+        "id": 1,
+        "title": "Sky",
+        "img": "sky.png",
+        "background": true,
+        "needsDraw": false,
+        "drawnBefore": true,
+        "x": "13",
+        "y": "13"
+      }
+    ]
+  ]
+}
