@@ -16,6 +16,7 @@ type Tile =
   { id           :: Int
   , title        :: String
   , img          :: ResourceUrl
+  , drawMe       :: Boolean
   , background   :: Boolean
   , frontLayer   :: Boolean
   , breakable    :: Boolean
@@ -28,6 +29,7 @@ emptyTile :: Tile
 emptyTile =
   defaultTile
     { background = true
+    , drawMe     = false
     , id         = 1
     , img        = TileResource "sky"
     , title      = "Title"
@@ -36,6 +38,7 @@ emptyTile =
 defaultTile :: Tile
 defaultTile =
   { action: NoOp
+  , drawMe: true
   , background: false
   , breakable: false
   , createPlayer: Nothing

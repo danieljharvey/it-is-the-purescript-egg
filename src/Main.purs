@@ -27,7 +27,7 @@ main = launchAff_ setupGame
 setupGame :: Aff Unit
 setupGame = do
   canvas <- setupCanvas imageResources
-  mLevel <- loadLevel 14
+  mLevel <- loadLevel 11
   case mLevel of
     Just level -> liftEffect (start canvas level)
     _          -> pure unit

@@ -78,7 +78,8 @@ getRenderList rMap
 
 shouldDrawItem :: RenderMap -> RenderItem -> Boolean
 shouldDrawItem map item
-  = shouldDraw map (createCoord item.x item.y)
+  = shouldDraw map (createCoord item.x item.y) 
+  && item.value.drawMe
 
 shouldDraw :: RenderMap -> Coord -> Boolean
 shouldDraw map (Coord coord) = fromMaybe false draw
