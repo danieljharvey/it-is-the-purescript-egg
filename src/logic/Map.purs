@@ -2,12 +2,15 @@ module Egg.Logic.Map where
 
 import Prelude
 import Egg.Logic.Board (boardSizeFromBoard)
-import Egg.Types.Board (BoardSize, GenericRenderItem)
+import Egg.Types.Board (Board, BoardSize, GenericRenderItem)
 import Egg.Types.Coord (Coord(..), center, createCoord, createFullCoord)
 import Egg.Types.Player (Player)
 import Egg.Logic.Movement (isStationary)
 import Egg.Types.Clockwise (Clockwise(..))
 import Egg.Types.RenderAngle (RenderAngle(..), decrease, increase)
+import Egg.Types.Tile (Tile)
+import Egg.Data.TileSet (tiles)
+import Data.Map as M
 import Data.Maybe (Maybe, fromMaybe)
 import Data.Array (filter, head)
 import Matrix as Mat
@@ -102,6 +105,19 @@ rotateOffset Clockwise (Coord c)
 rotateOffset AntiClockwise (Coord c)
   = createFullCoord 0 0 c.offsetY (-1 * c.offsetX)
 
+switchTiles :: Int -> Int -> Board -> Board
+switchTiles oldId newId board = 
+  map (switchTile oldId newId) board
+
+switchTile :: Int -> Int -> Tile -> Tile
+switchTile oldId newId tile
+  = change oldId newId (change newId oldId tile)
+  where
+    change from to tile'
+      = if tile.id == from
+        then fromMaybe tile' (M.lookup to tiles)
+        else tile'
+
 {-
 
 export const correctForOverflow = (board: Board, coords: Coords): Coords => {
@@ -134,44 +150,6 @@ export const findTile = (board: Board, currentCoords: Coords, id): Tile => {
   return newTile;
 };
 
-export const getTileWithCoords = (board: Board, coords: Coords): Tile => {
-  const fixedCoords = correctForOverflow(board, coords);
-  const { x, y } = fixedCoords;
-  return board.getTile(x, y);
-};
-
-export const changeTile = (board: Board, coords: Coords, tile: Tile): Board => {
-  return board.modify(coords.x, coords.y, tile);
-};
-
-export const getNewPlayerDirection = (direction, clockwise) => {
-  if (direction.x !== 0 || direction.y !== 0) {
-    return direction;
-  }
-  return clockwise ? new Coords({ x: 1 }) : new Coords({ x: -1 });
-};
-
-export const rotatePlayer = (
-  boardSize: BoardSize,
-  player: Player,
-  clockwise
-): Player => {
-  const newCoords = translateRotation(boardSize, player.coords, clockwise);
-
-  return player.modify({
-    coords: newCoords.modify({
-      offsetX: 0,
-      offsetY: 0
-    }),
-    direction: getNewPlayerDirection(player.direction, clockwise)
-  });
-};
-
-export const cloneTile = (id): Tile => {
-  const prototypeTile = getPrototypeTile(id);
-  return new Tile(prototypeTile); // create new Tile object with these
-};
-
 export const getRandomTile = (tiles): Tile => {
   const randomProperty = obj => {
     const randomKey = Utils.getRandomObjectKey(obj);
@@ -187,58 +165,7 @@ export const getRandomTile = (tiles): Tile => {
   return randomProperty(tiles);
 };
 
-// swap two types of tiles on map (used by pink/green switching door things)
-export const switchTiles = (board: Board, id1, id2): Board => {
-  const tiles = board.getAllTiles();
-  return tiles.reduce((currentBoard, tile) => {
-    if (tile.id === id1) {
-      const newTile = cloneTile(id2);
-      const positionTile = newTile.modify({
-        x: tile.x,
-        y: tile.y
-      });
-      return currentBoard.modify(tile.x, tile.y, positionTile);
-    } else if (tile.id === id2) {
-      const newTile = cloneTile(id1);
-      const positionTile = newTile.modify({
-        x: tile.x,
-        y: tile.y
-      });
-      return currentBoard.modify(tile.x, tile.y, positionTile);
-    }
-    return currentBoard;
-  }, board);
-};
 
-export const changeRenderAngle = (renderAngle: number, clockwise: boolean) => {
-  let newRenderAngle;
-  if (clockwise) {
-    newRenderAngle = renderAngle + 90;
-    if (newRenderAngle > 360) {
-      newRenderAngle = newRenderAngle - 360;
-    }
-    return newRenderAngle;
-  }
-
-  newRenderAngle = renderAngle - 90;
-  if (newRenderAngle < 0) {
-    newRenderAngle = 360 + newRenderAngle;
-  }
-  return newRenderAngle;
-};
-
-export const makeBoardFromArray = (boardArray: Tile[][] = []): Board => {
-  const newBoard = boardArray.map((column, mapX) => {
-    return column.map((item, mapY) => {
-      const newTile = cloneTile(item.id);
-      return newTile.modify({
-        x: mapX,
-        y: mapY
-      });
-    });
-  });
-  return new Board(newBoard);
-};
 
 export const generateRandomBoard = (boardSize: BoardSize): Board => {
   const boardArray = [];

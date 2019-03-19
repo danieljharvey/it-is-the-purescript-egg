@@ -14,7 +14,9 @@ import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Player (Player)
 import Egg.Types.Score (Score(..))
 import Egg.Types.Tile (Tile, emptyTile)
-import Egg.Types.TileAction (TileAction(..))
+import Egg.Types.TileAction (SwitchColour(..), TileAction(..))
+
+import Egg.Logic.Map as Map
 
 checkAllPlayerTileActions :: GameState -> GameState
 checkAllPlayerTileActions gameState
@@ -53,6 +55,7 @@ doTileAction action coords vals
   = case action of
       Collectable i -> collectItem (Score i) coords vals
       CompleteLevel -> returnOutcome (Outcome "completeLevel") vals
+      Switch colour -> doSwitch colour vals
       _             -> vals
 
 returnOutcome :: Outcome -> TileReturn -> TileReturn
@@ -68,6 +71,18 @@ collectItem addScore coords { outcome, board, score }
   where
     newBoard
       = replaceTile board coords emptyTile
+
+doSwitch :: SwitchColour -> TileReturn -> TileReturn
+doSwitch colour vals
+  = case colour of
+      Pink  -> vals { board = newBoard 15 16 }
+      Green -> vals { board = newBoard 18 19 }
+  where
+    newBoard old new
+      = Map.switchTiles old new vals.board
+
+
+
 {-
 
 

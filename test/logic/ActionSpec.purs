@@ -9,10 +9,14 @@ import Egg.Types.Coord (createCoord, createFullCoord)
 import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Player (defaultPlayer)
 import Egg.Types.Score (Score(..))
-import Egg.Types.Tile (Tile, defaultTile)
-import Egg.Types.TileAction (TileAction(..))
-import Prelude (Unit, discard)
+import Egg.Types.Tile (Tile, defaultTile, emptyTile)
+import Egg.Types.TileAction (SwitchColour(..), TileAction(..))
+import Egg.Data.TileSet (tiles)
+import Prelude (Unit, discard, (==), (||))
 import Test.Spec (Spec, describe, it)
+import Data.Foldable (foldr)
+import Data.Maybe (fromMaybe)
+import Data.Map as M
 
 collectable :: Tile
 collectable = defaultTile { action = Collectable 100 }
@@ -25,6 +29,19 @@ completeLevel = defaultTile { action = CompleteLevel }
 
 completeBoard :: Board
 completeBoard = boardFromArray [[completeLevel]]
+
+pinkSwitchTile :: Tile
+pinkSwitchTile = defaultTile { action = Switch Pink }
+
+pinkBlockTile :: Tile
+pinkBlockTile = fromMaybe emptyTile (M.lookup 15 tiles)
+
+pinkSwitchBoard :: Board
+pinkSwitchBoard = boardFromArray [[pinkSwitchTile, pinkBlockTile ]]
+
+boardContainsId :: Int -> Board -> Boolean
+boardContainsId i board
+  = foldr (\tile total -> total || tile.id == i) false board
 
 tests :: Spec Unit
 tests =
@@ -64,6 +81,14 @@ tests =
         let after = checkPlayerTileAction player completeBoard (Score 0) (Outcome "")
         after.board `shouldEqual` completeBoard
         after.outcome `shouldEqual` Outcome "completeLevel"
+      
+      it "Triggers Pink switch" do
+        let player = defaultPlayer { coords = createCoord 0 0
+                                   , moved  = true
+                                   }
+        let after = checkPlayerTileAction player pinkSwitchBoard (Score 0) (Outcome "")
+        after.board `shouldNotEqual` pinkSwitchBoard
+        boardContainsId 16 after.board `shouldEqual` true
 
 {-
 
