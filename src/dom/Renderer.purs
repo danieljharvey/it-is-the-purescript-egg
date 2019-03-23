@@ -10,7 +10,6 @@ import Data.Maybe (Maybe(..))
 import Data.Traversable (traverse)
 import Effect (Effect)
 import Egg.Dom.Canvas as Canvas
-import Egg.Dom.Gradient
 import Egg.Types.Board (Board, BoardSize, RenderItem, RenderMap)
 import Egg.Types.Canvas (CanvasData, CanvasInfo, ImageSourceMap)
 import Egg.Types.Coord (Coord, createCoord)
@@ -27,6 +26,8 @@ import Egg.Logic.RenderMap (addEdgePlayers, gameStatesToRenderMap, getRenderList
 
 import Graphics.Canvas (CanvasImageSource)
 import Matrix as Mat
+
+
 
 renderGameState :: CanvasData -> GameState -> GameState -> Effect Unit
 renderGameState oldCanvasData old new = do
