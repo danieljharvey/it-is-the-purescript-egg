@@ -6,11 +6,14 @@ import Egg.Types.Coord (Coord, createCoord, createFullCoord)
 import Egg.Types.Clockwise (Clockwise(..))
 import Egg.Types.Tile (defaultTile, emptyTile)
 import Egg.Logic.Board (boardFromArray)
-import Egg.Logic.Map (changeRenderAngle, getNewPlayerDirection, rotateBoard, rotateOffset, translateRotation)
+import Egg.Logic.Map (changeRenderAngle, getNewPlayerDirection, rotateBoard, rotateOffset, switchTiles, translateRotation)
+import Egg.Data.TileSet (tiles)
 import Effect.Aff (Aff)
 import Egg.Types.RenderAngle (RenderAngle(..))
 import Prelude (Unit, discard, negate)
 import Test.Spec (Spec, describe, it)
+import Data.Maybe (fromMaybe)
+import Data.Map as M
 import Data.Traversable (traverse_)
 
 type RotateTest
@@ -104,3 +107,17 @@ tests =
         rotateOffset AntiClockwise (createFullCoord 0 0 (-10) (-5)) `shouldEqual` createFullCoord 0 0 (-5) 10
       it "Rotates clockwise" do
         rotateOffset Clockwise (createFullCoord 0 0 10 5) `shouldEqual` createFullCoord 0 0 (-5) 10
+    
+    describe "switchTiles" do
+      it "Ignores irrelevant tiles" do
+        let board = boardFromArray [ [ emptyTile ] ]
+        switchTiles 9 10 board `shouldEqual` board
+      it "Switches one tile" do
+        let board = boardFromArray [ [ emptyTile, defaultTile, emptyTile ]]
+        let newTile = fromMaybe emptyTile (M.lookup 2 tiles)
+        switchTiles defaultTile.id 2 board `shouldEqual` boardFromArray [ [ emptyTile, newTile, emptyTile]]
+      it "Switches two tiles" do
+        let firstTile = fromMaybe emptyTile (M.lookup 3 tiles)
+        let secondTile = fromMaybe emptyTile (M.lookup 5 tiles)
+        let board = boardFromArray [ [ firstTile, secondTile ] ]
+        switchTiles firstTile.id secondTile.id board `shouldEqual` boardFromArray [ [ secondTile, firstTile ]]
