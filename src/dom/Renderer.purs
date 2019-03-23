@@ -4,13 +4,14 @@ import Prelude
 
 import Data.Array (filter)
 import Data.Function (applyN)
+import Data.Int (toNumber)
 import Data.Map as M
 import Data.Maybe (Maybe(..))
 import Data.Traversable (traverse)
 import Effect (Effect)
 import Egg.Dom.Canvas as Canvas
 import Egg.Types.Board (Board, BoardSize, RenderItem, RenderMap)
-import Egg.Types.Canvas (CanvasData, ImageSourceMap)
+import Egg.Types.Canvas (CanvasData, CanvasInfo, ImageSourceMap)
 import Egg.Types.Coord (Coord, createCoord)
 import Egg.Types.Clockwise (Clockwise(..))
 import Egg.Types.CurrentFrame (getCurrentFrame)
@@ -18,22 +19,28 @@ import Egg.Types.GameState (GameState)
 import Egg.Types.Player (Player)
 import Egg.Types.RenderAngle (RenderAngle(..))
 import Egg.Types.ResourceUrl (ResourceUrl)
+import Egg.Types.ScreenSize (smallest)
 import Egg.Logic.Board (boardSizeFromBoard)
 import Egg.Logic.Map as Map
 import Egg.Logic.RenderMap (addEdgePlayers, gameStatesToRenderMap, getRenderList, shouldDrawItem)
-
 
 import Graphics.Canvas (CanvasImageSource)
 import Matrix as Mat
 
 renderGameState :: CanvasData -> GameState -> GameState -> Effect Unit
-renderGameState canvasData old new = do
+renderGameState oldCanvasData old new = do
   let renderMap = getBoardForRender new.rotateAngle (gameStatesToRenderMap old new)
+  let canvasData = sizeCanvasData new oldCanvasData
+  resizeBoard canvasData.screen old new
   clearTiles canvasData renderMap
   renderBoard canvasData renderMap (getBoardForRender new.rotateAngle new.board)
   renderPlayers canvasData new.rotateAngle new.board (getPlayersForRender new.rotateAngle new.board new.players)
   --showRenderingTiles canvasData renderMap
   Canvas.copyBufferToCanvas canvasData.buffer canvasData.screen (calcRenderAngle new)
+
+sizeCanvasData :: GameState -> CanvasData -> CanvasData
+sizeCanvasData old canvasData
+  = canvasData { screen = canvasData.screen { size = smallest old.screenSize } }
 
 getPlayersForRender :: RenderAngle -> Board -> Array Player -> Array Player
 getPlayersForRender (RenderAngle 90) board players 
@@ -77,6 +84,13 @@ showRenderingTiles canvasData renderMap = do
   let clearList = getRenderList renderMap
   _ <- traverse (\coord -> Canvas.fillTile canvasData.buffer.context coord) clearList
   pure unit
+
+-- compare old and new window sizes, resize board if required
+resizeBoard :: CanvasInfo -> GameState -> GameState -> Effect Unit
+resizeBoard canvas old new = do
+  case old.screenSize == new.screenSize of
+    true  -> pure unit
+    false -> Canvas.sizeCanvas canvas.element (toNumber (smallest new.screenSize))
 
 clearTiles :: CanvasData -> RenderMap -> Effect Unit
 clearTiles canvasData renderMap = do

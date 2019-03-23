@@ -8,6 +8,7 @@ import Data.Show
 data Action = Paused
             | Playing
             | Turning Clockwise Int
+            | Resize Int Int Action
 
 derive instance eqAction  :: Eq Action
 derive instance ordAction :: Ord Action

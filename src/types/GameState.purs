@@ -6,6 +6,7 @@ import Egg.Types.Player (Player)
 import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Score
 import Egg.Types.RenderAngle (RenderAngle(..))
+import Egg.Types.ScreenSize
 
 type GameState
   = { players     :: Array Player
@@ -17,6 +18,7 @@ type GameState
     , outcome     :: Outcome
     , turns       :: Int
     , current     :: Action
+    , screenSize  :: ScreenSize
     }
 
 createGameState :: Board -> GameState
@@ -30,4 +32,5 @@ createGameState board
     , outcome: Outcome ""
     , turns: 0
     , current: Playing
+    , screenSize: screenSize 1 1
   }

@@ -1,13 +1,12 @@
 module Egg.Logic.TakeTurn where
 
 import Prelude
+
 import Data.Maybe (Maybe(..))
-
+import Egg.Logic.Action as Action
+import Egg.Logic.Board as Board
+import Egg.Logic.Map as Map
 import Egg.Logic.Movement as Movement
-import Egg.Logic.Action   as Action
-import Egg.Logic.Map      as Map
-import Egg.Logic.Board    as Board
-
 import Egg.Types.Action (Action(..))
 import Egg.Types.Clockwise (Clockwise(..))
 import Egg.Types.GameState (GameState)
@@ -15,6 +14,7 @@ import Egg.Types.InputEvent (InputEvent(..))
 import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Player (Player)
 import Egg.Types.RenderAngle (RenderAngle(..))
+import Egg.Types.ScreenSize (screenSize)
 
 spinSpeed :: Int
 spinSpeed = 3
@@ -30,12 +30,13 @@ go i input gs
 
 -- take input and current game state and work out what we should be doing next
 calcNextAction :: Action -> Maybe InputEvent -> Action
-calcNextAction (Turning c a) _           = Turning c a
-calcNextAction Playing (Just Pause)      = Paused
-calcNextAction Paused (Just Pause)       = Playing
-calcNextAction Playing (Just LeftArrow)  = Turning AntiClockwise 0
-calcNextAction Playing (Just RightArrow) = Turning Clockwise 0
-calcNextAction a _                       = a
+calcNextAction (Turning c a) _             = Turning c a
+calcNextAction Playing (Just Pause)        = Paused
+calcNextAction Paused (Just Pause)         = Playing
+calcNextAction Playing (Just LeftArrow)    = Turning AntiClockwise 0
+calcNextAction Playing (Just RightArrow)   = Turning Clockwise 0
+calcNextAction a (Just (ResizeWindow x y)) = Resize x y a
+calcNextAction a _                         = a
 
 doAction :: GameState -> Action -> Int -> GameState
 doAction old Paused _  
@@ -48,6 +49,14 @@ doAction old (Turning clockwise angle) _ | angle >= 90
   = doRotate old clockwise
 doAction old (Turning clockwise angle) _
   = doTurn clockwise angle old
+doAction old (Resize x y action) _
+  = resizeBoard x y action old
+
+resizeBoard :: Int -> Int -> Action -> GameState -> GameState
+resizeBoard width height oldAction gs
+  = gs { screenSize = screenSize width height
+       , current    = oldAction
+       }
 
 incrementTurnCount :: GameState -> GameState
 incrementTurnCount gameState
