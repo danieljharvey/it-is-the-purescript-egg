@@ -2,6 +2,8 @@ module Egg.Types.ScreenSize where
 
 import Data.Eq (class Eq)
 import Data.Ord
+import Data.Show
+import Data.Semigroup
 
 screenSize :: Int -> Int -> ScreenSize
 screenSize x y 
@@ -21,3 +23,6 @@ data ScreenSize
 
 derive instance eqScreenSize  :: Eq ScreenSize
 derive instance ordScreenSize :: Ord ScreenSize
+
+instance showScreenSize :: Show ScreenSize where
+  show (ScreenSize x y) = "ScreenSize " <> show x <> ", " <> show y
