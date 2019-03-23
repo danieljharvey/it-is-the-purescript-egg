@@ -10,6 +10,7 @@ import Data.Maybe (Maybe(..))
 import Data.Traversable (traverse)
 import Effect (Effect)
 import Egg.Dom.Canvas as Canvas
+import Egg.Dom.Gradient
 import Egg.Types.Board (Board, BoardSize, RenderItem, RenderMap)
 import Egg.Types.Canvas (CanvasData, CanvasInfo, ImageSourceMap)
 import Egg.Types.Coord (Coord, createCoord)

@@ -6,7 +6,8 @@ import Egg.Types.Coord (Coord(..), totalX, totalY)
 import Egg.Types.Board (BoardSize)
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Egg.Types.RenderAngle (RenderAngle, RenderAngleRad(..), invertAngle, toRadians)
-import Graphics.Canvas (CanvasElement, CanvasImageSource, Composite(..), Context2D, TranslateTransform, canvasElementToImageSource, clearRect, drawImage, drawImageFull, drawImageScale, fillRect, getCanvasElementById, getContext2D, rotate, setCanvasHeight, setCanvasWidth, setFillStyle, setGlobalAlpha, setGlobalCompositeOperation, translate, tryLoadImage)
+import Egg.Dom.Gradient
+import Graphics.Canvas
 import Prelude
 
 import Control.Parallel (parTraverse)
@@ -113,19 +114,22 @@ clearScreen context size = do
 
 darkenScreen :: Number -> Context2D -> BoardSize -> Effect Unit
 darkenScreen alpha context size = do
-  withGlobalAlpha alpha context do
-    fillRect context { x: 0.0
-                     , y: 0.0
-                     , width: toNumber (size.width * tileSize)
-                     , height: toNumber (size.height * tileSize)
-                     }
+  -- withGlobalAlpha alpha context do
+      fillRect context { x: 0.0
+                      , y: 0.0
+                      , width: toNumber (size.width * tileSize)
+                      , height: toNumber (size.height * tileSize)
+                      }
 
 copyBufferToCanvas :: CanvasInfo -> CanvasInfo -> RenderAngle -> Effect Unit
 copyBufferToCanvas buffer screen angle = do
-  darkenScreen 0.1 screen.context (createBoardSize screen.size)
+  withGradient screen.size screen.context $ do
+    -- withComposite SoftLight screen.context $ do
+      darkenScreen 0.4 screen.context (createBoardSize screen.size)
   withTranslate (createCenteredTranslation screen.size) screen.context $ do
     withRotate angle screen.context $ do
-      drawWithOffset buffer.element screen.context screen.size
+      -- withComposite Luminosity screen.context $ do
+        drawWithOffset buffer.element screen.context screen.size
 
 drawWithOffset :: CanvasElement -> Context2D -> Int -> Effect Unit
 drawWithOffset element dest screenSize = 
@@ -138,6 +142,13 @@ drawWithOffset element dest screenSize =
       = toNumber screenSize
     offset
       = (-1.0) * toNumber (screenSize / 2)
+
+withGradient :: Int -> Context2D -> Effect Unit -> Effect Unit
+withGradient size context callback = do
+  canvasGradient <- getGradient size context
+  _ <- setGradientFillStyle context canvasGradient
+  callback
+  setFillStyle context "black"
 
 withComposite :: Composite -> Context2D -> Effect Unit -> Effect Unit
 withComposite composite context callback = do
