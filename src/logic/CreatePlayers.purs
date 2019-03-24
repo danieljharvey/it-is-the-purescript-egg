@@ -9,7 +9,7 @@ import Egg.Types.PlayerType (PlayerKind, PlayerType)
 import Egg.Types.Coord (Coord, createCoord)
 import Egg.Types.CurrentFrame (createCurrentFrame)
 
-import Data.Maybe (Maybe)
+import Data.Maybe (Maybe(..))
 import Data.Array as Arr
 import Matrix as Mat
 import Data.Map as M
@@ -45,6 +45,6 @@ createPlayer i coord playerType
     , id: i
     , falling: false
     , stop: false
-    , lastAction: ""
+    , lastAction: Nothing
     , moved: false
     }

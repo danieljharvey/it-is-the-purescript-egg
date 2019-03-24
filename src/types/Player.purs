@@ -1,8 +1,11 @@
 module Egg.Types.Player where
 
+import Data.Maybe (Maybe(..))
+
 import Egg.Types.PlayerType
 import Egg.Types.Coord (Coord, createCoord)
 import Egg.Types.CurrentFrame (CurrentFrame, createCurrentFrame)
+import Egg.Types.LastAction (LastAction)
 
 type Player
   = { coords       :: Coord
@@ -12,7 +15,7 @@ type Player
     , id           :: Int
     , falling      :: Boolean
     , stop         :: Boolean
-    , lastAction   :: String
+    , lastAction   :: Maybe LastAction
     , moved        :: Boolean
     , playerType   :: PlayerType
 }
@@ -24,7 +27,7 @@ defaultPlayer
     , direction: createCoord 1 0
     , falling: false
     , id: 0
-    , lastAction: ""
+    , lastAction: Nothing
     , moved: false
     , oldDirection: createCoord 0 0
     , stop: false
