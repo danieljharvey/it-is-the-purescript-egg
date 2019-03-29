@@ -7,12 +7,20 @@ import Test.Spec (Spec, describe, it)
 import Data.Maybe (Maybe(..))
 import Data.Tuple (Tuple(..))
 
-import Egg.Logic.Collisions (checkAllCollisions, checkCollision, uniquePairs)
+import Egg.Logic.Collisions (checkAllCollisions, checkCollision, combinePlayers, removeCollided, uniquePairs)
 
-import Egg.Types.Coord (createFullCoord)
+import Egg.Types.Coord (Coord, createCoord, createFullCoord)
 import Egg.Types.LastAction (LastAction(..))
-import Egg.Types.Player (defaultPlayer)
+import Egg.Types.Player (Player, defaultPlayer)
 import Egg.Types.PlayerType (PlayerKind(..), defaultPlayerType)
+import Egg.Data.PlayerTypes (getPlayerType)
+
+createTestPlayer :: Int -> Coord -> PlayerKind -> Player
+createTestPlayer i coord kind
+  = defaultPlayer { id = i
+                  , coords = coord
+                  , playerType = getPlayerType kind
+                  }
 
 tests :: Spec Unit
 tests =
@@ -20,6 +28,13 @@ tests =
     describe "checkAllCollisions" do
       it "List of one players returns list" do
         checkAllCollisions [defaultPlayer] `shouldEqual` [defaultPlayer]
+      it "Combines two players, leaves one" do
+        let firstPlayer = createTestPlayer 1 (createCoord 1 1) Egg
+        let secondPlayer = createTestPlayer 2 (createCoord 20 20) RedEgg
+        let thirdPlayer = createTestPlayer 3 (createCoord 20 20) RedEgg
+        let combined = secondPlayer { playerType = getPlayerType YellowEgg }
+        checkAllCollisions [firstPlayer, secondPlayer, thirdPlayer]
+          `shouldEqual` [firstPlayer, combined]
     
     describe "uniquePairs" do
       it "No pairs with one item" do
@@ -45,9 +60,7 @@ tests =
         checkCollision defaultPlayer otherPlayer `shouldEqual` true
 
       it "Identifies two players are too far apart" do
-        let firstPlayer = defaultPlayer { id = 1  
-                                        , coords = createFullCoord 5 5 1 0
-                                        }
+        let firstPlayer = createTestPlayer 1 (createFullCoord 5 5 1 0) Egg
         let secondPlayer = defaultPlayer { id = 2
                                          , coords = createFullCoord 6 5 (-30) 0
                                          }
@@ -79,104 +92,38 @@ tests =
         let otherPlayer = defaultPlayer { lastAction = Just Split }
         checkCollision defaultPlayer otherPlayer `shouldEqual` false
 
-
-
+    describe "removeCollided" do
+      it "Removes none if no players" do
+        removeCollided [] [] `shouldEqual` []
+      it "Removes none if no collisions" do
+        let firstPlayer = defaultPlayer { id = 1  
+                                        , coords = createFullCoord 6 5 (-40) 0
+                                        }
+        let secondPlayer = defaultPlayer { id = 2
+                                         , coords = createFullCoord 5 5 0 0
+                                         }
+        removeCollided [] [firstPlayer, secondPlayer] `shouldEqual` [firstPlayer, secondPlayer]
+      it "Removes subjects of collision" do
+        let firstPlayer = defaultPlayer { id = 1  
+                                        , coords = createFullCoord 6 5 (-40) 0
+                                        }
+        let secondPlayer = defaultPlayer { id = 2
+                                         , coords = createFullCoord 5 5 0 0
+                                         }
+        removeCollided [Tuple firstPlayer secondPlayer] [firstPlayer, secondPlayer] `shouldEqual` []
+      
+    describe "combinePlayers" do
+      it "Creates a new player" do
+        let firstPlayer = createTestPlayer 1 (createCoord 100 100) Egg
+        let secondPlayer = createTestPlayer 2 (createCoord 6 6) Egg
+        let expected = createTestPlayer 1 (createCoord 100 100) RedEgg
+        combinePlayers (Tuple firstPlayer secondPlayer) `shouldEqual` [expected]
+      it "Returns players as no new one found" do
+        let firstPlayer = createTestPlayer 1 (createCoord 100 100) YellowEgg
+        let secondPlayer = createTestPlayer 2 (createCoord 6 6) YellowEgg
+        combinePlayers (Tuple firstPlayer secondPlayer) `shouldEqual` [firstPlayer, secondPlayer]
 
 {-
-
-test("Removes correct players", () => {
-  const player1 = new Player({
-    id: 1
-  });
-
-  const player2 = new Player({
-    id: 2
-  });
-
-  const players = [player1, player2];
-
-  const expected = [player1];
-
-  const collisions = new Collisions();
-
-  const collided = [[2, 3], [4, 5]];
-
-  const actual = collisions.removeCollidedPlayers(collided, players);
-
-  expect(actual).toEqual(expected);
-});
-
-test("Create new players", () => {
-  const player1 = new Player({
-    id: 1,
-    value: 1,
-    coords: new Coords({
-      x: 100,
-      y: 100
-    })
-  });
-
-  const player2 = new Player({
-    id: 2,
-    value: 1,
-    coords: new Coords({
-      x: 6,
-      y: 6
-    })
-  });
-
-  const expected = [
-    new Player({
-      id: 1,
-      img: "egg-sprite-red.png",
-      title: "It is of course the red egg",
-      type: "red-egg",
-      value: 2,
-      multiplier:2,
-      frames: 18,
-      coords: new Coords({
-        x: 100,
-        y: 100
-      })
-    })
-  ];
-
-  const collisions = new Collisions();
-
-  const actual = collisions.combinePlayers(player1, player2);
-
-  expect(actual).toEqual(expected);
-});
-
-test("Create no new players as no type found", () => {
-  const player1 = new Player({
-    id: 1,
-    value: 10,
-    coords: new Coords({
-      x: 100,
-      y: 100
-    })
-  });
-
-  const player2 = new Player({
-    id: 2,
-    value: 5,
-    coords: new Coords({
-      x: 6,
-      y: 6
-    })
-  });
-
-  const types = {};
-
-  const expected = [player1, player2];
-
-  const collisions = new Collisions(types);
-
-  const actual = collisions.combinePlayers(player1, player2);
-
-  expect(actual).toEqual(expected);
-});
 
 test("Find collisions", () => {
   const players = [

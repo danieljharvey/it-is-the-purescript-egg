@@ -6,8 +6,8 @@ import Egg.Types.Coord (Coord(..), totalX, totalY)
 import Egg.Types.Board (BoardSize)
 import Egg.Types.ResourceUrl (ResourceUrl)
 import Egg.Types.RenderAngle (RenderAngle, RenderAngleRad(..), invertAngle, toRadians)
-import Egg.Dom.Gradient
-import Graphics.Canvas
+import Egg.Dom.Gradient (getGradient)
+import Graphics.Canvas (CanvasElement, CanvasImageSource, Composite(..), Context2D, TranslateTransform, canvasElementToImageSource, clearRect, drawImage, drawImageFull, drawImageScale, fillRect, getCanvasElementById, getContext2D, rotate, setCanvasHeight, setCanvasWidth, setFillStyle, setGlobalAlpha, setGlobalCompositeOperation, setGradientFillStyle, translate, tryLoadImage)
 import Prelude
 
 import Control.Parallel (parTraverse)

@@ -7,6 +7,7 @@ import Egg.Logic.Action as Action
 import Egg.Logic.Board as Board
 import Egg.Logic.Map as Map
 import Egg.Logic.Movement as Movement
+import Egg.Logic.Collisions as Collisions
 import Egg.Types.Action (Action(..))
 import Egg.Types.Clockwise (Clockwise(..))
 import Egg.Types.GameState (GameState)
@@ -67,8 +68,13 @@ incrementTurnCount gameState
 doGameMove :: Int -> GameState -> GameState
 doGameMove i = Action.checkAllPlayerTileActions 
           <<< (doPlayerMove i) 
+          <<< checkCollisions
           <<< incrementTurnCount 
           <<< resetOutcome
+
+checkCollisions :: GameState -> GameState
+checkCollisions old
+  = old { players = Collisions.checkAllCollisions old.players }
 
 setAction :: Action -> GameState -> GameState
 setAction action old

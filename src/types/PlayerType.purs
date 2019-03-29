@@ -2,6 +2,7 @@ module Egg.Types.PlayerType where
 
 import Data.Eq (class Eq)
 import Data.Ord (class Ord)
+import Data.Maybe
 import Data.Show (class Show)
 
 import Egg.Types.ResourceUrl
@@ -30,13 +31,26 @@ instance showPlayerKind :: Show PlayerKind where
   show Blade = "Blade"
   show FindBlade = "Find Blade"
 
+playerValue :: PlayerKind -> Int
+playerValue Egg       = 1
+playerValue RedEgg    = 2
+playerValue BlueEgg   = 3
+playerValue YellowEgg = 4
+playerValue _         = 0
+
+valueToPlayer :: Int -> Maybe PlayerKind
+valueToPlayer 1 = Just Egg
+valueToPlayer 2 = Just RedEgg
+valueToPlayer 3 = Just BlueEgg
+valueToPlayer 4 = Just YellowEgg
+valueToPlayer _ = Nothing
+
 type PlayerType =
   { frames      :: Int
   , img         :: ResourceUrl
   , multiplier  :: Int
   , title       :: String
   , type_       :: PlayerKind
-  , value       :: Int
   , fallSpeed   :: Int
   , moveSpeed   :: Int
   , flying      :: Boolean
@@ -50,7 +64,6 @@ defaultPlayerType
     , multiplier: 1
     , title: "The Egg"
     , type_: Egg
-    , value: 1
     , fallSpeed: 1
     , moveSpeed: 1
     , flying: false
