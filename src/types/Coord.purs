@@ -1,7 +1,6 @@
 module Egg.Types.Coord  where
 
 import Prelude
-import Data.Semigroup
 
 -- increments between tiles, as such
 subparts :: Int
@@ -16,7 +15,9 @@ newtype Coord = Coord
 
 derive newtype instance eqCoord :: Eq Coord
 derive newtype instance ordCoord :: Ord Coord
-derive newtype instance showCoord :: Show Coord
+
+instance showCoord :: Show Coord where
+  show (Coord c) = "(" <> show c.x <> "." <> show c.offsetX <> ", " <> show c.y <> "." <> show c.offsetY <> ")"
 
 instance semigroupCoord :: Semigroup Coord where
   append (Coord fst) (Coord snd)

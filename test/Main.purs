@@ -12,6 +12,7 @@ import Test.Logic.Map        as Map
 import Test.Logic.RenderMap  as RenderMap
 import Test.Logic.LoadLevel  as LoadLevel
 import Test.Logic.Collisions as Collisions
+import Test.Logic.PathFinder as PathFinder
 
 main :: Effect Unit
 main = run [consoleReporter] do
@@ -22,3 +23,4 @@ main = run [consoleReporter] do
   RenderMap.tests
   LoadLevel.tests
   Collisions.tests
+  PathFinder.tests
