@@ -2,7 +2,7 @@ module Egg.Types.PathMap where
 
 import Data.Maybe (fromMaybe)
 import Egg.Types.Board (BoardSize)
-import Egg.Types.Coord
+import Egg.Types.SmallCoord
 import Matrix as Mat
 
 -- map of where we can go
@@ -12,9 +12,9 @@ getMapSize :: PathMap -> BoardSize
 getMapSize pathMap
   = { width: Mat.width pathMap, height: Mat.height pathMap }
 
-checkSquare :: PathMap -> Coord -> Boolean
-checkSquare pathMap (Coord c)
-  = fromMaybe false (Mat.get c.x c.y pathMap)
+checkSquare :: PathMap -> SmallCoord -> Boolean
+checkSquare pathMap (SmallCoord x y)
+  = fromMaybe false (Mat.get x y pathMap)
 
 createEmpty :: Int -> PathMap
 createEmpty i

@@ -3,39 +3,80 @@ module Test.Logic.PathFinder where
 import Test.Spec.Assertions
 import Test.Spec (Spec, describe, it)
 
-import Prelude (Unit, discard, negate, show, ($))
-import Effect.Console (log)
-import Effect.Class (liftEffect)
+import Prelude (Unit, discard, negate)
+import Data.Maybe (Maybe(..), isJust)
 
 import Egg.Types.Coord (createCoord)
-import Egg.Logic.PathFinder (iteratePathList, wrapCoord)
+import Egg.Types.SmallCoord (SmallCoord(..))
+import Egg.Logic.PathFinder (chooseDirection, iteratePathList, overflow, seekUntil, wrapCoord)
 import Egg.Types.PathMap (createEmpty)
 import Egg.Types.PathList (listLength, singleton)
 
 tests :: Spec Unit
 tests =
   describe "PathFinder" do
+    describe "overflow" do
+      it "Is fine within range" do
+        overflow 10 0 `shouldEqual` 0
+      it "Goes under fine within range" do
+        overflow 10 (-1) `shouldEqual` 9
+      it "Goes under multiple times fine within range" do
+        overflow 10 (-11) `shouldEqual` 9
+      it "Goes back over" do
+        overflow 10 11 `shouldEqual` 1
     describe "wrapValue" do
       it "Wraps height and width under" do
         let size = { width: 2, height: 2}
-        let coord = createCoord (-1) 4
-        wrapCoord size coord `shouldEqual` createCoord 1 0
+        let coord = SmallCoord (-1) 4
+        wrapCoord size coord `shouldEqual` SmallCoord 1 0
     describe "iteratePathList" do
       it "Does one round" do
         let pathMap = createEmpty 3
-        let initial = singleton (createCoord 1 1)
+        let initial = singleton (SmallCoord 1 1)
         let newList = iteratePathList pathMap initial
-        listLength (newList) `shouldEqual` 5
+        listLength (newList) `shouldEqual` 4
       it "Items are limited by number of squares" do
         let pathMap = createEmpty 3
-        let initial = singleton (createCoord 1 1)
+        let initial = singleton (SmallCoord 1 1)
         let newList = iteratePathList pathMap (iteratePathList pathMap initial)
-        listLength (newList) `shouldEqual` 9
+        listLength (newList) `shouldEqual` 4
       it "Items are limited by number of squares" do
         let pathMap = createEmpty 5
-        let initial = singleton (createCoord 1 1)
+        let initial = singleton (SmallCoord 1 1)
         let newList = iteratePathList pathMap (iteratePathList pathMap initial)
-        listLength (newList) `shouldEqual` 9
+        listLength (newList) `shouldEqual` 6
+    describe "seekUntil" do
+      it "Does not finds because limit" do
+        let pathMap = createEmpty 20
+        let initial = singleton (SmallCoord 10 10)
+        let seek = SmallCoord 0 0
+        seekUntil pathMap seek 2 initial `shouldEqual` Nothing
+      it "Does find because small board" do
+        let pathMap = createEmpty 10
+        let initial = singleton (SmallCoord 5 5)
+        let seek = SmallCoord 0 0
+        seekUntil pathMap seek 10 initial `shouldSatisfy` isJust
+      it "Finds in big board" do
+        let pathMap = createEmpty 20
+        let initial = singleton (SmallCoord 10 10)
+        let seek = SmallCoord 0 0
+        seekUntil pathMap seek 20 initial `shouldSatisfy` isJust
+      it "Finds across border" do
+        let pathMap = createEmpty 3
+        let initial = singleton (SmallCoord 0 0)
+        let seek = SmallCoord 2 2
+        seekUntil pathMap seek 5 initial `shouldSatisfy` isJust
+      it "Finds across border other way" do
+        let pathMap = createEmpty 3
+        let initial = singleton (SmallCoord 2 2)
+        let seek = SmallCoord 0 0
+        seekUntil pathMap seek 5 initial `shouldSatisfy` isJust
+    describe "chooseDirection" do
+      it "Does something sensible" do
+        let pathMap = createEmpty 8
+        let coords = [createCoord 2 0, createCoord 7 7]
+        let current = createCoord 2 2
+        chooseDirection pathMap coords current `shouldEqual` Just (createCoord 0 (-1))
 {-
 
 test("Returns a valid map point", function() {

@@ -2,23 +2,25 @@ module Egg.Logic.PathFinder where
   
 import Prelude
 
+import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Array.NonEmpty as NEA
-import Data.Array (concat)
+import Data.Array (concat, notElem, catMaybes, sortBy, head)
 import Data.Foldable (foldMap)
 
+import Egg.Types.Coord (Coord, directionCoord)
 import Egg.Types.Board (BoardSize)
-import Egg.Types.Coord (Coord(..), createCoord)
-import Egg.Types.PathMap (PathMap, checkSquare)
-import Egg.Types.PathList (PathList, itemToList, listToItems)
+import Egg.Types.SmallCoord (SmallCoord(..), fromCoord, toCoord)
+import Egg.Types.PathMap (PathMap, checkSquare, getMapSize)
+import Egg.Types.PathList (PathList, getPreviouslyFound, isKey, itemToList, listToItems, lookup, singleton)
 
-wrapCoord :: BoardSize -> Coord -> Coord
-wrapCoord size (Coord c)
-  = createCoord x y
+wrapCoord :: BoardSize -> SmallCoord -> SmallCoord
+wrapCoord size (SmallCoord x y)
+  = SmallCoord x' y'
   where
-    x 
-      = overflow size.width c.x
-    y
-      = overflow size.height c.y
+    x'
+      = overflow size.width x
+    y'
+      = overflow size.height y
 
 overflow :: Int -> Int -> Int
 overflow max num
@@ -28,38 +30,91 @@ overflow max num
 
 iteratePathList :: PathMap -> PathList -> PathList
 iteratePathList pathMap items
-  = items <> (foldMap identity newLists)
+  = foldMap identity newLists
   where
     newLists :: Array PathList
     newLists
-      = itemListToNewList pathMap <$> allLists
+      = itemListToNewList pathMap (getPreviouslyFound items) <$> allLists
     allLists
       = listToItems items
 
-itemListToNewList :: PathMap -> NEA.NonEmptyArray Coord -> PathList
-itemListToNewList pathMap items
+itemListToNewList :: PathMap -> Array SmallCoord -> NEA.NonEmptyArray SmallCoord -> PathList
+itemListToNewList pathMap previous items
   = foldMap itemToList newArrays
   where
     newArrays
       = (\i -> NEA.cons i items) <$> newLocations
     newLocations
-      = findAdjacent pathMap currentLocation
+      = findAdjacent pathMap previous currentLocation
     currentLocation
       = NEA.head items
 
-findAdjacent :: PathMap -> Coord -> Array Coord
-findAdjacent pathMap coord
+findAdjacent :: PathMap -> Array SmallCoord -> SmallCoord -> Array SmallCoord
+findAdjacent pathMap previous coord
   = concat
-      [ item (coord <> createCoord (-1) 0)
-      , item (coord <> createCoord 1 0)
-      , item (coord <> createCoord 0 (-1))
-      , item (coord <> createCoord 0 1)
+      [ item (coord <> SmallCoord (-1) 0)
+      , item (coord <> SmallCoord 1 0)
+      , item (coord <> SmallCoord 0 (-1))
+      , item (coord <> SmallCoord 0 1)
       ]
   where
     item coord'
-      = if checkSquare pathMap coord'
+      = if checkSquare pathMap coord' && notElem coord' previous
         then [coord']
         else []
+
+-- iteratively search through available spaces for seekCoord
+-- limit stops us recursing forever
+seekUntil :: PathMap -> SmallCoord -> Int -> PathList -> Maybe (NEA.NonEmptyArray SmallCoord)
+seekUntil pathMap seekCoord limit list
+  | (not $ isKey seekCoord list) && limit > 0 
+    = seekUntil pathMap seekCoord (limit -1) (iteratePathList pathMap list)
+  | isKey seekCoord list 
+    = lookup seekCoord list
+  | otherwise 
+    = Nothing
+
+-- pass a map, an array of possible locations, a current location
+-- and it will return a direction towards the closest one (if any)
+chooseDirection :: PathMap -> Array Coord -> Coord -> Maybe Coord
+chooseDirection pathMap targets current
+  = listToDirection <$> sorted
+  where
+    sorted :: Maybe (NEA.NonEmptyArray SmallCoord)
+    sorted
+      = head (sortBy compareNEALengths possibilities)
+
+    limit :: Int
+    limit
+      = (getMapSize pathMap).width
+
+    possibilities :: Array (NEA.NonEmptyArray SmallCoord)
+    possibilities
+      = catMaybes 
+      $ (\coord -> seekUntil pathMap (fromCoord coord) limit initial) 
+     <$> targets
+    
+    initial :: PathList
+    initial
+      = singleton (fromCoord current)
+
+listToDirection :: NEA.NonEmptyArray SmallCoord -> Coord
+listToDirection list 
+  = directionCoord current secondLast
+  where
+    secondLast :: Coord
+    secondLast 
+      = fromMaybe current (toCoord <$> (NEA.index (NEA.reverse list) 1))
+
+    current :: Coord
+    current
+      = toCoord (NEA.last list)
+
+compareNEALengths :: forall a. NEA.NonEmptyArray a -> NEA.NonEmptyArray a -> Ordering
+compareNEALengths a b
+  | NEA.length a < NEA.length b = LT
+  | NEA.length a > NEA.length b = GT
+  | otherwise                   = EQ
 
 {-
 

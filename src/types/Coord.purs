@@ -71,3 +71,15 @@ isCentered (Coord c) = c.offsetX == 0 && c.offsetY == 0
 center :: Coord -> Coord
 center (Coord c) = Coord $ c { offsetX = 0, offsetY = 0 }
 
+directionCoord :: Coord -> Coord -> Coord
+directionCoord (Coord current) (Coord aim)
+  = createCoord x y
+  where
+    x = compare aim.x current.x
+    y = compare aim.y current.y
+
+compare :: Int -> Int -> Int
+compare aim current
+  | aim < current = (-1)
+  | aim > current = 1
+  | otherwise = 0
