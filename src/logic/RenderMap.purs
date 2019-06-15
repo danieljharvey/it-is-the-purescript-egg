@@ -23,7 +23,7 @@ gameStatesToRenderMap old new
 
 needsFullRefresh :: GameState -> GameState -> Boolean
 needsFullRefresh old new
-  = old.rotateAngle /= new.rotateAngle
+  = old.rotateAngle /= new.rotateAngle || old.turns == 0
 
 createRenderMap :: Board -> Board -> RenderMap
 createRenderMap before after
