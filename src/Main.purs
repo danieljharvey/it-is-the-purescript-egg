@@ -5,6 +5,7 @@ import Effect (Effect)
 import Prelude
 import Effect.Class (liftEffect)
 import Effect.Aff (Aff, launchAff_)
+import Effect.Random (randomInt)
 import Egg.Dom.Canvas (setupCanvas, sizeCanvas)
 import Data.Maybe (Maybe(..))
 import Egg.Data.TileSet (tileResources)
@@ -27,7 +28,8 @@ main = launchAff_ setupGame
 setupGame :: Aff Unit
 setupGame = do
   canvas <- setupCanvas imageResources
-  mLevel <- loadLevel 18
+  levelId <- liftEffect $ randomInt 1 20
+  mLevel <- loadLevel levelId
   case mLevel of
     Just level -> liftEffect (start canvas level)
     _          -> pure unit
