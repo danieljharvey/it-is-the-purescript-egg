@@ -66,7 +66,7 @@ incrementTurnCount gameState
     next = gameState.turns + 1
 
 doGameMove :: Int -> GameState -> GameState
-doGameMove i = Action.checkAllPlayerTileActions 
+doGameMove i = Action.checkAllActions 
           <<< (doPlayerMove i) 
           <<< checkCollisions
           <<< incrementTurnCount 

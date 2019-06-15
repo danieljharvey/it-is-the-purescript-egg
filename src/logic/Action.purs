@@ -8,7 +8,7 @@ import Data.Foldable (foldr)
 import Data.Maybe (Maybe(..))
 import Egg.Logic.Board (getTileByCoord, replaceTile)
 import Egg.Types.Board (Board)
-import Egg.Types.Coord (Coord, isCentered)
+import Egg.Types.Coord (Coord, createCoord, isCentered)
 import Egg.Types.GameState (GameState)
 import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Player (Player)
@@ -18,10 +18,15 @@ import Egg.Types.TileAction (SwitchColour(..), TileAction(..))
 
 import Egg.Logic.Map as Map
 
+checkAllActions :: GameState -> GameState
+checkAllActions = checkAllPlayerTileActions 
+              <<< checkAllTilesBelowPlayer
+
 checkAllPlayerTileActions :: GameState -> GameState
 checkAllPlayerTileActions gameState
   = foldr checkPlayer gameState gameState.players
   where
+    
     checkPlayer player gameState'
       = let tileReturn = checkPlayerTileAction player gameState'.board gameState'.score gameState'.outcome
         in gameState' { outcome = tileReturn.outcome
@@ -37,8 +42,10 @@ type TileReturn = { outcome :: Outcome
 checkPlayerTileAction :: Player -> Board -> Score -> Outcome -> TileReturn
 checkPlayerTileAction player board score outcome
   = case _.action <$> getPlayerTile player board of
-      Just tileAction -> doTileAction tileAction player.coords { outcome, board, score }
-      _               -> { outcome, board, score } 
+      Just tileAction 
+        -> doTileAction tileAction player.coords { outcome, board, score }
+      _               
+        -> { outcome, board, score } 
 
 playerIsOverTile :: Player -> Boolean
 playerIsOverTile player
@@ -81,7 +88,19 @@ doSwitch colour vals
     newBoard old new
       = Map.switchTiles old new vals.board
 
+checkAllTilesBelowPlayer :: GameState -> GameState
+checkAllTilesBelowPlayer gameState
+  = let combine  = \player' -> \board' -> checkTileBelowPlayer board' player'
+        newBoard = foldr combine gameState.board gameState.players
+    in gameState { board = newBoard }
 
+checkTileBelowPlayer :: Board -> Player -> Board
+checkTileBelowPlayer board player
+  = let belowCoords = player.coords <> createCoord 0 1
+        belowTile   = getTileByCoord board belowCoords
+    in if belowTile.breakable && player.falling
+       then replaceTile board belowCoords emptyTile
+       else board 
 
 {-
 

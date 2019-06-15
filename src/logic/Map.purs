@@ -77,7 +77,12 @@ findArrayItem (Coord coord) items
     foundItem
       = head $ filter (\item -> item.x == coord.x && item.y == coord.y) items 
 
-updateRenderItem :: forall a. BoardSize -> Clockwise -> GenericRenderItem a -> GenericRenderItem a
+updateRenderItem 
+  :: forall a
+   . BoardSize 
+  -> Clockwise 
+  -> GenericRenderItem a 
+  -> GenericRenderItem a
 updateRenderItem size clockwise { x, y, value: tile }
   = { x: newCoord.x, y: newCoord.y, value: tile }
   where

@@ -2,7 +2,7 @@ module Test.Logic.Action where
 
 import Test.Spec.Assertions
 
-import Egg.Logic.Action (checkPlayerTileAction)
+import Egg.Logic.Action (checkPlayerTileAction, checkTileBelowPlayer)
 import Egg.Types.Board (Board)
 import Egg.Logic.Board (boardFromArray)
 import Egg.Types.Coord (createCoord, createFullCoord)
@@ -42,6 +42,16 @@ pinkSwitchBoard = boardFromArray [[pinkSwitchTile, pinkBlockTile ]]
 boardContainsId :: Int -> Board -> Boolean
 boardContainsId i board
   = foldr (\tile total -> total || tile.id == i) false board
+
+crateTile :: Tile
+crateTile = defaultTile { breakable = true }
+
+emptyBoard :: Board
+emptyBoard 
+  = boardFromArray [ [ emptyTile], [ emptyTile ] ]
+
+smashableBoard :: Board
+smashableBoard = boardFromArray [ [ emptyTile ], [ crateTile ] ]
 
 tests :: Spec Unit
 tests =
@@ -89,8 +99,30 @@ tests =
         let after = checkPlayerTileAction player pinkSwitchBoard (Score 0) (Outcome "")
         after.board `shouldNotEqual` pinkSwitchBoard
         boardContainsId 16 after.board `shouldEqual` true
+      
+      it "Does nothing when player is not falling" do
+         let player = defaultPlayer { coords = createCoord 0 0
+                                    }
+         let after = checkTileBelowPlayer smashableBoard player
+         after `shouldEqual` smashableBoard 
+      
+      it "Does nothing when tile below is not smashable" do
+         let player = defaultPlayer { coords = createCoord 0 0
+                                    , falling = true
+                                    }
+         let after = checkTileBelowPlayer emptyBoard player
+         after `shouldEqual` emptyBoard
+      
+      it "Smashes the crate below" do
+        let player = defaultPlayer { coords = createCoord 0 0
+                                   , falling = true
+                                   }
+        let after = checkTileBelowPlayer smashableBoard player
+        after `shouldEqual` emptyBoard
+
 
 {-
+
 
 test("Change board if player has moved", () => {
   const board = makeSimpleBoard();
