@@ -23,6 +23,7 @@
     "parcel:build": "yarn test && yarn build && parcel build public/index.html"
   },
   "dependencies": {
-    "parcel": "^1.12.3"
+    "parcel": "^1.12.3",
+    "spago": "^0.10.0"
   }
 }
