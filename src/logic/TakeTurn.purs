@@ -1,21 +1,28 @@
 module Egg.Logic.TakeTurn where
 
 import Prelude
-
+import Data.Array
 import Data.Maybe (Maybe(..))
 import Egg.Logic.Action as Action
 import Egg.Logic.Board as Board
 import Egg.Logic.Map as Map
 import Egg.Logic.Movement as Movement
 import Egg.Logic.Collisions as Collisions
+import Egg.Logic.CreatePlayers as CreatePlayer
 import Egg.Types.Action (Action(..))
+import Egg.Types.Board
 import Egg.Types.Clockwise (Clockwise(..))
 import Egg.Types.GameState (GameState)
 import Egg.Types.InputEvent (InputEvent(..))
 import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Player (Player)
+import Egg.Types.PlayerType
 import Egg.Types.RenderAngle (RenderAngle(..))
 import Egg.Types.ScreenSize (screenSize)
+import Egg.Types.Tile
+import Egg.Types.TileAction
+
+import Matrix as Mat
 
 spinSpeed :: Int
 spinSpeed = 3
@@ -67,6 +74,7 @@ incrementTurnCount gameState
 
 doGameMove :: Int -> GameState -> GameState
 doGameMove i = Action.checkAllActions 
+          <<< checkNearlyFinished
           <<< (doPlayerMove i) 
           <<< checkCollisions
           <<< incrementTurnCount 
@@ -118,6 +126,42 @@ doRotate gameState clockwise
 
 resetOutcome :: GameState -> GameState
 resetOutcome gs = gs { outcome = Outcome "" }
+
+checkNearlyFinished :: GameState -> GameState
+checkNearlyFinished gameState 
+  = if isLevelDone gameState
+    then gameState { players = changeToRainbowEgg <$> gameState.players }
+    else gameState
+
+changeToRainbowEgg :: Player -> Player
+changeToRainbowEgg player
+  = if isPlayableEgg player
+    then CreatePlayer.changePlayerKind player RainbowEgg
+    else player
+
+isLevelDone :: GameState -> Boolean
+isLevelDone gameState
+  =  countPlayers gameState.players < 2
+  && countCollectables gameState.board < 1
+
+isPlayableEgg :: Player -> Boolean
+isPlayableEgg a
+  = playerValue a.playerType.type_ > 0
+
+countPlayers :: Array Player -> Int
+countPlayers 
+  =   length 
+  <<< (filter isPlayableEgg)
+
+countCollectables :: Board -> Int
+countCollectables board 
+  = foldr (\a total -> total + (toCollectableScore a.value)) 0 $ Mat.toIndexedArray board 
+
+toCollectableScore :: Tile -> Int
+toCollectableScore tile
+  = case tile.action of
+      Collectable a -> a
+      _             -> 0
 
 {-
 
