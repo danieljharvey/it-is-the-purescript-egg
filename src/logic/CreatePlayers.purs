@@ -9,14 +9,14 @@ import Egg.Types.PlayerType (PlayerKind, PlayerType)
 import Egg.Types.Coord (Coord, createCoord)
 import Egg.Types.CurrentFrame (createCurrentFrame)
 
-import Data.Maybe (Maybe(..))
+import Data.Maybe (fromMaybe, Maybe(..))
 import Data.Array as Arr
 import Matrix as Mat
 import Data.Map as M
 
 getPlayersFromBoard :: Board -> Array Player
 getPlayersFromBoard board
-  = Arr.catMaybes (createPlayerFromTile 0 <$> tiles)
+  = Arr.catMaybes (Arr.mapWithIndex createPlayerFromTile tiles)
     where
       tiles
         = Mat.toIndexedArray board
@@ -34,6 +34,14 @@ createPlayerFromTile i renderItem
 
     coord
       = createCoord renderItem.x renderItem.y
+
+changePlayerKind :: Player -> PlayerKind -> Player
+changePlayerKind player playerKind
+  = fromMaybe player newPlayer
+  where
+    newPlayer
+      = (\playerType' -> player { playerType = playerType' })
+      <$> getPlayerTypeByKind playerKind 
 
 createPlayer :: Int -> Coord -> PlayerType -> Player
 createPlayer i coord playerType
