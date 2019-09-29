@@ -135,17 +135,23 @@ checkNearlyFinished gameState
 
 changeToRainbowEgg :: Player -> Player
 changeToRainbowEgg player
-  = CreatePlayer.changePlayerKind player RainbowEgg
+  = if isPlayableEgg player
+    then CreatePlayer.changePlayerKind player RainbowEgg
+    else player
 
 isLevelDone :: GameState -> Boolean
 isLevelDone gameState
   =  countPlayers gameState.players < 2
   && countCollectables gameState.board < 1
 
+isPlayableEgg :: Player -> Boolean
+isPlayableEgg a
+  = playerValue a.playerType.type_ > 0
+
 countPlayers :: Array Player -> Int
 countPlayers 
   =   length 
-  <<< (filter (\a -> playerValue a.playerType.type_ > 0))
+  <<< (filter isPlayableEgg)
 
 countCollectables :: Board -> Int
 countCollectables board 
