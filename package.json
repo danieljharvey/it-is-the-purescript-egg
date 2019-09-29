@@ -19,6 +19,10 @@
     "test": "spago test",
     "test:watch": "spago test -w",
     "pscid": "pscid src/Main.purs",
-    "pscid:test": "pscid test/Main.purs"
+    "pscid:test": "pscid test/Main.purs",
+    "parcel:build": "yarn test && yarn build && parcel build public/index.html"
+  },
+  "dependencies": {
+    "parcel": "^1.12.3"
   }
 }
