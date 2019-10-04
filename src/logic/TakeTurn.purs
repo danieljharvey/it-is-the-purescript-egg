@@ -59,6 +59,8 @@ doAction old (Turning clockwise angle) _
   = doTurn clockwise angle old
 doAction old (Resize x y action) _
   = resizeBoard x y action old
+doAction old NextLevel _
+  = old
 
 resizeBoard :: Int -> Int -> Action -> GameState -> GameState
 resizeBoard width height oldAction gs
