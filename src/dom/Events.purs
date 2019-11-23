@@ -2,17 +2,19 @@ module Egg.Dom.Events where
 
 -- listeners for window size, keyboard presses, clicks etc
 
+import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Console (log)
+import Effect.Ref as Ref
+import Effect.Uncurried (runEffectFn3)
+import Egg.Dom.TouchEvents (setupSwipes)
 import Egg.Types.InputEvent (InputEvent(..))
 import Prelude (Unit, bind, discard, pure, show, unit, (<$>))
-import Data.Maybe (Maybe(..))
 import Web.Event.Event (Event, EventType(..))
 import Web.Event.EventTarget (EventTarget, addEventListener, eventListener)
-import Web.UIEvent.KeyboardEvent
 import Web.HTML (window)
 import Web.HTML.Window (innerHeight, innerWidth, toEventTarget)
-import Effect.Ref as Ref
+import Web.UIEvent.KeyboardEvent (code, fromEvent)
 
 type Updater = (InputEvent -> Effect Unit)
 
@@ -28,6 +30,15 @@ setupEvents ref = do
   readResizeEvent updater ""       -- trigger event with initial screen size
   createWindowSizeListener updater -- event for window sizing
   createKeypressListener updater   -- event for keypresses
+  createSwipeListener updater      -- event for swipe gestures
+
+-- touches
+createSwipeListener :: Updater -> Effect Unit
+createSwipeListener updater = do
+  let leftSwipeFn = updater LeftArrow
+      rightSwipeFn = updater RightArrow
+      elementId = "wrapper"
+  runEffectFn3 setupSwipes elementId leftSwipeFn rightSwipeFn
 
 -- keypresses
 createKeypressListener :: Updater -> Effect Unit

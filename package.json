@@ -1,29 +1,31 @@
 {
   "name": "it-is-the-egg",
   "version": "1.0.0",
-  "main": "index.js",
   "author": "Daniel Harvey <danieljamesharvey@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "psc-package": "3.0.1",
     "pscid": "2.4.0",
-    "pulp": "12.3.0",
-    "purescript": "^0.13.0",
-    "xhr2": "^0.1.3"
+    "purescript": "^0.13.5",
+    "purescript-psa": "^0.5.0",
+    "xhr2": "^0.1.3",
+    "purs-loader": "^3.6.0",
+    "spago": "^0.12.1",
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1"
   },
   "scripts": {
     "postinstall": "spago install",
-    "build": "spago bundle-app --to ./public/egg.js",
-    "watch": "spago bundle-app -w --to ./public/egg.js",
+    "webpack": "DEBUG=purs-loader* DEBUG_DEPTH=100 webpack --progress --bail",
+    "webpack:watch": "PATH=$PATH:../releases/psc-package DEBUG=purs-loader* DEBUG_DEPTH=100 webpack --progress --display-error-details --display verbose --watch",
+    "webpack:server": "webpack-dev-server --progress --inline --hot",
+    "webpack:server:debug": "DEBUG=purs-loader* DEBUG_DEPTH=100 webpack-dev-server --progress --inline --hot",
     "serve": "serve ./public",
     "test": "spago test",
     "test:watch": "spago test -w",
     "pscid": "pscid src/Main.purs",
-    "pscid:test": "pscid test/Main.purs",
-    "parcel:build": "yarn test && yarn build && parcel build public/index.html"
+    "pscid:test": "pscid test/Main.purs"
   },
   "dependencies": {
-    "parcel": "^1.12.3",
-    "spago": "^0.10.0"
+    "hammerjs": "^2.0.8"
   }
 }
