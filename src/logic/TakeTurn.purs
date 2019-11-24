@@ -1,7 +1,7 @@
 module Egg.Logic.TakeTurn where
 
 import Prelude
-import Data.Array
+import Data.Array (filter, foldr, length)
 import Data.Maybe (Maybe(..))
 import Egg.Logic.Action as Action
 import Egg.Logic.Board as Board
@@ -10,162 +10,164 @@ import Egg.Logic.Movement as Movement
 import Egg.Logic.Collisions as Collisions
 import Egg.Logic.CreatePlayers as CreatePlayer
 import Egg.Types.Action (Action(..))
-import Egg.Types.Board
+import Egg.Types.Board (Board)
 import Egg.Types.Clockwise (Clockwise(..))
 import Egg.Types.GameState (GameState)
 import Egg.Types.InputEvent (InputEvent(..))
 import Egg.Types.Outcome (Outcome(..))
 import Egg.Types.Player (Player)
-import Egg.Types.PlayerType
+import Egg.Types.PlayerType (PlayerKind(..), playerValue)
 import Egg.Types.RenderAngle (RenderAngle(..))
 import Egg.Types.ScreenSize (screenSize)
-import Egg.Types.Tile
-import Egg.Types.TileAction
-
+import Egg.Types.Tile (Tile)
+import Egg.Types.TileAction (TileAction(..))
 import Matrix as Mat
 
 spinSpeed :: Int
 spinSpeed = 3
 
-go :: Int -> Maybe InputEvent -> GameState -> GameState
-go i input gs 
-  = doAction gameState nextAction i
-    where
-      gameState
-        = setAction nextAction gs
-      nextAction
-        = calcNextAction gs.current input
+go :: Int -> Maybe InputEvent -> GameState -> Maybe GameState
+go i input gs = Just $ doAction gameState nextAction i
+  where
+  gameState = setAction nextAction gs
+
+  nextAction = calcNextAction gs.current input
 
 -- take input and current game state and work out what we should be doing next
 calcNextAction :: Action -> Maybe InputEvent -> Action
-calcNextAction (Turning c a) _             = Turning c a
-calcNextAction Playing (Just Pause)        = Paused
-calcNextAction Paused (Just Pause)         = Playing
-calcNextAction Playing (Just LeftArrow)    = Turning AntiClockwise 0
-calcNextAction Playing (Just RightArrow)   = Turning Clockwise 0
+calcNextAction (Turning c a) _ = Turning c a
+
+calcNextAction Playing (Just Pause) = Paused
+
+calcNextAction Paused (Just Pause) = Playing
+
+calcNextAction Playing (Just LeftArrow) = Turning AntiClockwise 0
+
+calcNextAction Playing (Just RightArrow) = Turning Clockwise 0
+
 calcNextAction a (Just (ResizeWindow x y)) = Resize x y a
-calcNextAction a _                         = a
+
+calcNextAction a _ = a
 
 doAction :: GameState -> Action -> Int -> GameState
-doAction old Paused _  
-  = old
-doAction old Playing i | i >= 1 
-  = doGameMove i old
-doAction old Playing _ 
-  = old
-doAction old (Turning clockwise angle) _ | angle >= 90 
-  = doRotate old clockwise
+doAction old Paused _ = old
+
+doAction old Playing i
+  | i >= 1 = doGameMove i old
+
+doAction old Playing _ = old
+
 doAction old (Turning clockwise angle) _
-  = doTurn clockwise angle old
-doAction old (Resize x y action) _
-  = resizeBoard x y action old
-doAction old NextLevel _
-  = old
+  | angle >= 90 = doRotate old clockwise
+
+doAction old (Turning clockwise angle) _ = doTurn clockwise angle old
+
+doAction old (Resize x y action) _ = resizeBoard x y action old
+
+doAction old NextLevel _ = old
 
 resizeBoard :: Int -> Int -> Action -> GameState -> GameState
-resizeBoard width height oldAction gs
-  = gs { screenSize = screenSize width height
-       , current    = oldAction
-       }
+resizeBoard width height oldAction gs =
+  gs
+    { screenSize = screenSize width height
+    , current = oldAction
+    }
 
 incrementTurnCount :: GameState -> GameState
-incrementTurnCount gameState
-  = gameState { turns = next }
+incrementTurnCount gameState = gameState { turns = next }
   where
-    next = gameState.turns + 1
+  next = gameState.turns + 1
 
 doGameMove :: Int -> GameState -> GameState
-doGameMove i = Action.checkAllActions 
-          <<< checkNearlyFinished
-          <<< (doPlayerMove i) 
-          <<< checkCollisions
-          <<< incrementTurnCount 
-          <<< resetOutcome
+doGameMove i =
+  Action.checkAllActions
+    <<< checkNearlyFinished
+    <<< (doPlayerMove i)
+    <<< checkCollisions
+    <<< incrementTurnCount
+    <<< resetOutcome
 
 checkCollisions :: GameState -> GameState
-checkCollisions old
-  = old { players = Collisions.checkAllCollisions old.players }
+checkCollisions old = old { players = Collisions.checkAllCollisions old.players }
 
 setAction :: Action -> GameState -> GameState
-setAction action old
-  = old { current = action }
+setAction action old = old { current = action }
 
 doTurn :: Clockwise -> Int -> GameState -> GameState
-doTurn clockwise angle gs
-  = case clockwise of 
-      Clockwise 
-        -> gs { renderAngle = RenderAngle angle
-              , current     = next
-              }
-      AntiClockwise 
-        -> gs { renderAngle = RenderAngle (-1 * angle)
-              , current     = next
-              }
+doTurn clockwise angle gs = case clockwise of
+  Clockwise ->
+    gs
+      { renderAngle = RenderAngle angle
+      , current = next
+      }
+  AntiClockwise ->
+    gs
+      { renderAngle = RenderAngle (-1 * angle)
+      , current = next
+      }
   where
-    next
-      = Turning clockwise (angle + spinSpeed)
-    
+  next = Turning clockwise (angle + spinSpeed)
+
 doPlayerMove :: Int -> GameState -> GameState
 doPlayerMove i old = old { players = newPlayers }
   where
-    newPlayers = Movement.movePlayers old.board i old.players
+  newPlayers = Movement.movePlayers old.board i old.players
 
 isRainbowEggTime :: GameState -> Array Player
 isRainbowEggTime gameState = gameState.players
 
 doRotate :: GameState -> Clockwise -> GameState
-doRotate gameState clockwise
-  = gameState { rotations   = gameState.rotations + 1
-              , board       = Map.rotateBoard clockwise gameState.board
-              , players     = Map.rotatePlayer boardSize clockwise <$> gameState.players
-              , rotateAngle = Map.changeRenderAngle gameState.rotateAngle clockwise
-              , renderAngle = RenderAngle 0
-              , current     = Playing
-              }
+doRotate gameState clockwise =
+  gameState
+    { rotations = gameState.rotations + 1
+    , board = Map.rotateBoard clockwise gameState.board
+    , players = Map.rotatePlayer boardSize clockwise <$> gameState.players
+    , rotateAngle = Map.changeRenderAngle gameState.rotateAngle clockwise
+    , renderAngle = RenderAngle 0
+    , current = Playing
+    }
   where
-    boardSize
-      = Board.boardSizeFromBoard gameState.board
+  boardSize = Board.boardSizeFromBoard gameState.board
 
 resetOutcome :: GameState -> GameState
 resetOutcome gs = gs { outcome = Outcome "" }
 
 checkNearlyFinished :: GameState -> GameState
-checkNearlyFinished gameState 
-  = if isLevelDone gameState
-    then gameState { players = changeToRainbowEgg <$> gameState.players }
-    else gameState
+checkNearlyFinished gameState =
+  if isLevelDone gameState then
+    gameState { players = changeToRainbowEgg <$> gameState.players }
+  else
+    gameState
 
 changeToRainbowEgg :: Player -> Player
-changeToRainbowEgg player
-  = if isPlayableEgg player
-    then CreatePlayer.changePlayerKind player RainbowEgg
-    else player
+changeToRainbowEgg player =
+  if isPlayableEgg player then
+    CreatePlayer.changePlayerKind player RainbowEgg
+  else
+    player
 
 isLevelDone :: GameState -> Boolean
-isLevelDone gameState
-  =  countPlayers gameState.players < 2
-  && countCollectables gameState.board < 1
+isLevelDone gameState =
+  countPlayers gameState.players < 2
+    && countCollectables gameState.board
+    < 1
 
 isPlayableEgg :: Player -> Boolean
-isPlayableEgg a
-  = playerValue a.playerType.type_ > 0
+isPlayableEgg a = playerValue a.playerType.type_ > 0
 
 countPlayers :: Array Player -> Int
-countPlayers 
-  =   length 
-  <<< (filter isPlayableEgg)
+countPlayers =
+  length
+    <<< (filter isPlayableEgg)
 
 countCollectables :: Board -> Int
-countCollectables board 
-  = foldr (\a total -> total + (toCollectableScore a.value)) 0 $ Mat.toIndexedArray board 
+countCollectables board = foldr (\a total -> total + (toCollectableScore a.value)) 0 $ Mat.toIndexedArray board
 
 toCollectableScore :: Tile -> Int
-toCollectableScore tile
-  = case tile.action of
-      Collectable a -> a
-      _             -> 0
-
-{-
+toCollectableScore tile = case tile.action of
+  Collectable a -> a
+  _ -> 0
+ {-
 
   // this is where we have to do a shitload of things
   protected doGameMove(gameState: GameState, timePassed: number): GameState {
