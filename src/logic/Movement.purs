@@ -27,8 +27,8 @@ movePlayer board timePassed player
       = (markPlayerIfMoved player)
       <<< (correctPlayerMapOverflow board)
       <<< incrementPlayerFrame
-      <<< (checkFloorBelowPlayer board)
       <<< (checkPlayerDirection board)
+      <<< (checkFloorBelowPlayer board)
       <<< correctPlayerOverflow 
       <<< (incrementPlayerDirection timePassed)
 
