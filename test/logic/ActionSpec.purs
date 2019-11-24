@@ -144,26 +144,4 @@ tests =
         let
           after = checkTileBelowPlayer smashableBoard player
         after `shouldEqual` emptyBoard
- {-
-
-
-test("Change board if player has moved", () => {
-  const board = makeSimpleBoard();
-
-  const player = new Player({
-    coords: new Coords({
-      x: 0,
-      y: 0
-    }),
-    moved: true
-  });
-
-  const action = new Action();
-
-  const output = action.checkPlayerTileAction(player, board, 0, "");
-
-  expect(is(output.board, board)).toEqual(false);
-  expect(output.score).toEqual(100); // tile was collected
-});
-
--}
+ 

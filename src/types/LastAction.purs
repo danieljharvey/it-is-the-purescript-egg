@@ -6,11 +6,12 @@ import Data.Show
 
 data LastAction
   = Split
-  | Teleport
+  | Teleported
 
 derive instance eqLastAction :: Eq LastAction
+
 derive instance ordLastAction :: Ord LastAction
 
 instance showLastAction :: Show LastAction where
   show Split = "Split"
-  show Teleport  = "Teleport"
+  show Teleported = "Teleported"

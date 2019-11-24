@@ -1,20 +1,19 @@
 module Test.Logic.TakeTurn where
 
-import Prelude
+import Prelude (Unit, discard, ($), (<<<), (>>=))
 import Egg.Logic.TakeTurn (doAction, checkNearlyFinished)
 import Data.Array (length)
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions
-import Data.Maybe (fromJust, fromMaybe)
 import Partial.Unsafe (unsafePartial)
 import Matrix as Mat
 import Data.Map as M
-import Data.Maybe
+import Data.Maybe (Maybe(..), fromJust, fromMaybe)
 import Data.Array as Arr
 import Egg.Types.Action (Action(..))
 import Egg.Types.GameState (GameState)
 import Egg.Types.Board (Board, emptyBoard)
-import Egg.Types.PlayerType
+import Egg.Types.PlayerType (PlayerKind(..))
 import Egg.Data.TileSet (tiles)
 import Egg.Types.Outcome (Outcome(..))
 import Egg.Logic.InitialiseLevel (initialiseGameState)
