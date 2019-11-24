@@ -26,26 +26,26 @@ main :: Effect Unit
 main = launchAff_ setupGame
 
 setupGame :: Aff Unit
-setupGame = do
-  canvas <- setupCanvas imageResources
+setupGame = setupCanvas imageResources >>= startNewLevel
+
+startNewLevel :: CanvasData -> Aff Unit
+startNewLevel canvas = do
   levelId <- liftEffect $ randomInt 1 20
   mLevel <- loadLevel levelId
   case mLevel of
     Just level -> liftEffect (start canvas level)
-    _          -> pure unit
+    _ -> pure unit
 
 start :: CanvasData -> Level -> Effect Unit
-start canvas level
-  = do
-    sizeCanvas canvas.buffer.element (toNumber level.boardSize.width * 64.0)
-    sizeCanvas canvas.screen.element (toNumber level.boardSize.width * 64.0)
-    refs <- createBlankState (initialiseGameState level.board)
-    animationLoop refs TakeTurn.go (renderCallback canvas)
-    setupEvents refs.inputEvent
+start canvas level = do
+  sizeCanvas canvas.buffer.element (toNumber level.boardSize.width * 64.0)
+  sizeCanvas canvas.screen.element (toNumber level.boardSize.width * 64.0)
+  refs <- createBlankState (initialiseGameState level.board)
+  animationLoop refs TakeTurn.go (renderCallback canvas) (launchAff_ (startNewLevel canvas))
+  setupEvents refs.inputEvent
 
 renderCallback :: CanvasData -> GameState -> GameState -> Effect Unit
-renderCallback canvasData old new
-  = renderGameState canvasData old new
+renderCallback canvasData old new = renderGameState canvasData old new
 
 imageResources :: List ResourceUrl
 imageResources = tileResources <> spriteResources

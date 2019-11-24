@@ -3,7 +3,12 @@ module Egg.Types.Outcome where
 import Data.Show
 import Data.Eq (class Eq)
 
-newtype Outcome = Outcome String
+data Outcome
+  = KeepPlaying
+  | BackAtTheEggCup
 
-derive newtype instance showOutcome :: Show Outcome
-derive newtype instance eqOutcome   :: Eq Outcome
+instance showOutcome :: Show Outcome where
+  show KeepPlaying = "KeepPlaying"
+  show BackAtTheEggCup = "BackAtTheEggCup"
+
+derive instance eqOutcome :: Eq Outcome
