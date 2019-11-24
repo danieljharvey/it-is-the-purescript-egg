@@ -6,7 +6,6 @@ import Prelude
 import Effect.Class (liftEffect)
 import Effect.Aff (Aff, launchAff_)
 import Effect.Random (randomInt)
-import Effect.Console (log)
 import Egg.Dom.Canvas (setupCanvas, sizeCanvas)
 import Data.Maybe (Maybe(..))
 import Egg.Data.TileSet (tileResources)
@@ -27,8 +26,10 @@ main :: Effect Unit
 main = launchAff_ setupGame
 
 setupGame :: Aff Unit
-setupGame = do
-  canvas <- setupCanvas imageResources
+setupGame = setupCanvas imageResources >>= startNewLevel
+
+startNewLevel :: CanvasData -> Aff Unit
+startNewLevel canvas = do
   levelId <- liftEffect $ randomInt 1 20
   mLevel <- loadLevel levelId
   case mLevel of
@@ -40,7 +41,7 @@ start canvas level = do
   sizeCanvas canvas.buffer.element (toNumber level.boardSize.width * 64.0)
   sizeCanvas canvas.screen.element (toNumber level.boardSize.width * 64.0)
   refs <- createBlankState (initialiseGameState level.board)
-  animationLoop refs TakeTurn.go (renderCallback canvas) (log "Smashed it")
+  animationLoop refs TakeTurn.go (renderCallback canvas) (launchAff_ (startNewLevel canvas))
   setupEvents refs.inputEvent
 
 renderCallback :: CanvasData -> GameState -> GameState -> Effect Unit

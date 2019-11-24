@@ -27,7 +27,7 @@ spinSpeed :: Int
 spinSpeed = 3
 
 go :: Int -> Maybe InputEvent -> GameState -> Maybe GameState
-go i input gs = Just $ doAction gameState nextAction i
+go i input gs = doAction gameState nextAction i
   where
   gameState = setAction nextAction gs
 
@@ -49,22 +49,20 @@ calcNextAction a (Just (ResizeWindow x y)) = Resize x y a
 
 calcNextAction a _ = a
 
-doAction :: GameState -> Action -> Int -> GameState
-doAction old Paused _ = old
+doAction :: GameState -> Action -> Int -> Maybe GameState
+doAction old Paused _ = Just old
 
 doAction old Playing i
   | i >= 1 = doGameMove i old
 
-doAction old Playing _ = old
+doAction old Playing _ = Just old
 
 doAction old (Turning clockwise angle) _
-  | angle >= 90 = doRotate old clockwise
+  | angle >= 90 = Just $ doRotate old clockwise
 
-doAction old (Turning clockwise angle) _ = doTurn clockwise angle old
+doAction old (Turning clockwise angle) _ = Just $ doTurn clockwise angle old
 
-doAction old (Resize x y action) _ = resizeBoard x y action old
-
-doAction old NextLevel _ = old
+doAction old (Resize x y action) _ = Just $ resizeBoard x y action old
 
 resizeBoard :: Int -> Int -> Action -> GameState -> GameState
 resizeBoard width height oldAction gs =
@@ -78,9 +76,10 @@ incrementTurnCount gameState = gameState { turns = next }
   where
   next = gameState.turns + 1
 
-doGameMove :: Int -> GameState -> GameState
+doGameMove :: Int -> GameState -> Maybe GameState
 doGameMove i =
-  Action.checkAllActions
+  checkIfWeveCompletedTheLevel
+    <<< Action.checkAllActions
     <<< checkNearlyFinished
     <<< (doPlayerMove i)
     <<< checkCollisions
@@ -113,9 +112,6 @@ doPlayerMove i old = old { players = newPlayers }
   where
   newPlayers = Movement.movePlayers old.board i old.players
 
-isRainbowEggTime :: GameState -> Array Player
-isRainbowEggTime gameState = gameState.players
-
 doRotate :: GameState -> Clockwise -> GameState
 doRotate gameState clockwise =
   gameState
@@ -130,7 +126,16 @@ doRotate gameState clockwise =
   boardSize = Board.boardSizeFromBoard gameState.board
 
 resetOutcome :: GameState -> GameState
-resetOutcome gs = gs { outcome = Outcome "" }
+resetOutcome gs = gs { outcome = KeepPlaying }
+
+checkIfWeveCompletedTheLevel :: GameState -> Maybe GameState
+checkIfWeveCompletedTheLevel gs = case gs.outcome of
+  KeepPlaying -> Just gs
+  BackAtTheEggCup ->
+    if isLevelDone gs then
+      Nothing
+    else
+      Just gs
 
 checkNearlyFinished :: GameState -> GameState
 checkNearlyFinished gameState =
