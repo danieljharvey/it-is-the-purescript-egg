@@ -11,8 +11,6 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install NPM deps
       run: yarn
-    - name : Install Spago deps
-      run: spago install
     - name: Purescript tests
       run: yarn test
     - name: Webpack build
