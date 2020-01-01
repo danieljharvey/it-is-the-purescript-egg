@@ -5,6 +5,7 @@ yarn-error.log
 /node_modules/
 /.pulp-cache/
 /output/
+/output?/
 /generated-docs/
 /.psc-package/
 /.psc*
