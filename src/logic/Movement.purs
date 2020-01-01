@@ -75,13 +75,13 @@ incrementPlayerDirection timePassed player = player { coords = newCoords }
   where
   moveAmount = calcMoveAmount player.playerType.moveSpeed timePassed
 
-  newCoords = player.coords <> (createMoveCoord moveAmount newDirection)
+  fallAmount = calcMoveAmount player.playerType.fallSpeed timePassed
 
-  newDirection =
+  newCoords =
     if player.falling then
-      createCoord 0 1
+      player.coords <> (createMoveCoord fallAmount (createCoord 0 1))
     else
-      player.direction
+      player.coords <> (createMoveCoord moveAmount player.direction)
 
 correctPlayerOverflow :: Player -> Player
 correctPlayerOverflow player =
