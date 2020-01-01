@@ -1,0 +1,20 @@
+name: Test and build
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run Purescript tests
+      run:
+        yarn install
+        spago install
+        yarn test
+    - name: Run webpack build
+      run:
+        yarn install
+        yarn webpack
