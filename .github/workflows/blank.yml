@@ -9,12 +9,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Run Purescript tests
-      run:
-        yarn install
-        spago install
-        yarn test
-    - name: Run webpack build
-      run:
-        yarn install
-        yarn webpack
+    - name: Install NPM deps
+      run: yarn
+    - name : Install Spago deps
+      run: spago install
+    - name: Purescript tests
+      run: yarn test
+    - name: Webpack build
+      run: yarn webpack
