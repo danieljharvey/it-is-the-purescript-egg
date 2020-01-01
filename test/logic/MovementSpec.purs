@@ -171,6 +171,24 @@ tests =
         let
           { coords: Coord newCoords } = incrementPlayerDirection 100 player
         newCoords.offsetY `shouldEqual` (expectedMoveAmount)
+      it "Egg with no move speed still falls downwards" do
+        let
+          player =
+            defaultPlayer
+              { direction = createCoord 1 0
+              , coords = createCoord 2 2
+              , falling = true
+              , playerType =
+                defaultPlayer.playerType
+                  { moveSpeed = 0
+                  , fallSpeed = 20
+                  }
+              }
+        let
+          expectedMoveAmount = calcMoveAmount player.playerType.fallSpeed 100
+        let
+          { coords: Coord newCoords } = incrementPlayerDirection 100 player
+        newCoords.offsetY `shouldEqual` (expectedMoveAmount)
     describe "correctTileOverflow" do
       it "Overflow remains the same when within boundary" do
         let

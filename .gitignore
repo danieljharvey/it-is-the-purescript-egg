@@ -1,9 +1,11 @@
+.DS_Store
 .vscode/
 yarn-error.log
 /bower_components/
 /node_modules/
 /.pulp-cache/
 /output/
+/output?/
 /generated-docs/
 /.psc-package/
 /.psc*
