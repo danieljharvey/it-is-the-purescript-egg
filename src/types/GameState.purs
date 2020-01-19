@@ -4,7 +4,7 @@ import Egg.Types.Action (Action(..))
 import Egg.Types.Board (Board)
 import Egg.Types.Player (Player)
 import Egg.Types.Outcome (Outcome(..))
-import Egg.Types.Score
+import Egg.Types.Score (Score(..))
 import Egg.Types.RenderAngle (RenderAngle(..))
 import Egg.Types.ScreenSize
 
