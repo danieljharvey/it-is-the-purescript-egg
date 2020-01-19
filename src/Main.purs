@@ -57,7 +57,7 @@ setupRegularGame = setupCanvas imageResources >>= startNewLevel
 
 startNewLevel :: CanvasData -> Aff Unit
 startNewLevel canvas = do
-  levelId <- liftEffect $ randomInt 1 21
+  levelId <- liftEffect $ randomInt 1 22
   mLevel <- loadLevel levelId
   case mLevel of
     Just level -> liftEffect (start canvas level (startNewLevel canvas))
