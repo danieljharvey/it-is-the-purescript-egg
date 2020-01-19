@@ -4,8 +4,8 @@ import Prelude
 import Affjax as AX
 import Effect.Aff (Aff)
 import Affjax.ResponseFormat as ResponseFormat
-import Data.Either (Either(..), hush)
-import Data.Maybe (Maybe)
+import Data.Either (Either(..))
+import Data.Maybe (Maybe(..))
 import Data.HTTP.Method (Method(..))
 import Egg.Types.Level (Level)
 import Egg.Types.ResourceUrl (ResourceUrl(..))
@@ -15,7 +15,9 @@ import Egg.Types.GamePlayType (LevelUrl)
 levelLoader :: ResourceUrl -> Aff (Maybe String)
 levelLoader resource = do
   res <- AX.request settings
-  pure (hush res.body)
+  case res of
+    Right response -> pure (Just response.body)
+    Left err       -> pure Nothing
   where
   settings =
     ( AX.defaultRequest
