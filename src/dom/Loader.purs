@@ -10,6 +10,7 @@ import Data.HTTP.Method (Method(..))
 import Egg.Types.Level (Level)
 import Egg.Types.ResourceUrl (ResourceUrl(..))
 import Egg.Logic.LoadLevel (readLevel)
+import Egg.Types.GamePlayType (LevelUrl)
 
 levelLoader :: ResourceUrl -> Aff (Maybe String)
 levelLoader resource = do
@@ -23,6 +24,11 @@ levelLoader resource = do
         , responseFormat = ResponseFormat.string
         }
     )
+
+loadLevelFromUrl :: LevelUrl -> Aff (Maybe Level)
+loadLevelFromUrl url = do
+  maybeStr <- levelLoader (RemoteLevelResource url)
+  pure $ maybeStr >>= readLevel
 
 loadLevel :: Int -> Aff (Maybe Level)
 loadLevel i = do
