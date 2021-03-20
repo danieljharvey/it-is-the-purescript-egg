@@ -26,7 +26,7 @@ instance semigroupPathList :: Semigroup PathList where
 
 -- Monoid just gives us a wrapper around an empty list
 instance monoidPathList :: Monoid PathList where
-  mempty = PathList $ mempty
+  mempty = PathList $ M.empty
 
 itemToList :: NEA.NonEmptyArray SmallCoord -> PathList
 itemToList arr
