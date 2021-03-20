@@ -44,8 +44,9 @@ cleanString
   = trim
 
 readLevelJSON :: String -> Maybe JSONLevel
-readLevelJSON str
-  = hush $ decodeJson <=< jsonParser $ str
+readLevelJSON str = do
+  json <- hush (jsonParser str)
+  hush (decodeJson json)
  
 
 readLevel :: String -> Maybe Level
