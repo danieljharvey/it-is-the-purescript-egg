@@ -19,7 +19,7 @@ yarn install
 
 To build the app run
 ```
-yarn watch
+yarn webpack:watch
 ```
 
 ## Play it!
