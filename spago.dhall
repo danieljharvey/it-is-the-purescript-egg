@@ -1,14 +1,9 @@
-{-
-Welcome to a Spago project!
-You can edit this file as you like.
--}
-{ sources =
-    [ "src/**/*.purs", "test/**/*.purs" ]
-, name =
-    "it-is-the-egg"
+{ sources = [ "src/**/*.purs", "test/**/*.purs" ]
+, name = "it-is-the-egg"
 , dependencies =
     [ "aff"
     , "affjax"
+    , "argonaut"
     , "canvas"
     , "console"
     , "datetime"
@@ -22,12 +17,10 @@ You can edit this file as you like.
     , "psci-support"
     , "random"
     , "refs"
-    , "simple-json"
     , "spec"
     , "web-dom"
     , "web-html"
     , "web-uievents"
     ]
-, packages =
-    ./packages.dhall
+, packages = ./packages.dhall
 }

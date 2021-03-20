@@ -6,7 +6,8 @@ import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Map as M
 import Data.Either (hush)
 import Data.String (trim)
-import Simple.JSON (readJSON)
+import Data.Argonaut.Parser (jsonParser)
+import Data.Argonaut.Decode (decodeJson)
 
 import Matrix as Mat
 
@@ -44,7 +45,8 @@ cleanString
 
 readLevelJSON :: String -> Maybe JSONLevel
 readLevelJSON str
-  = (hush <<< readJSON) str
+  = hush $ decodeJson <=< jsonParser $ str
+ 
 
 readLevel :: String -> Maybe Level
 readLevel str = do
