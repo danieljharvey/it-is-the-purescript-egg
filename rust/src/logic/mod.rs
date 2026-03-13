@@ -1,5 +1,6 @@
 pub mod action;
 pub mod board;
+pub mod board_collisions;
 pub mod collisions;
 pub mod create_players;
 pub mod initialise_level;

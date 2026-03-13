@@ -1,5 +1,6 @@
 use crate::logic::action as game_action;
 use crate::logic::board::board_size_from_board;
+use crate::logic::board_collisions;
 use crate::logic::collisions;
 use crate::logic::create_players::change_player_kind;
 use crate::logic::map;
@@ -82,6 +83,7 @@ fn do_game_move(time_passed: i32, gs: &GameState) -> Option<GameState> {
     let gs = increment_turn_count(&gs);
     let gs = check_collisions(&gs);
     let gs = do_player_move(time_passed, &gs);
+    let gs = check_board_collisions_step(&gs);
     let gs = check_nearly_finished(&gs);
     let gs = game_action::check_all_actions(&gs);
     check_if_completed(&gs)
@@ -90,6 +92,13 @@ fn do_game_move(time_passed: i32, gs: &GameState) -> Option<GameState> {
 fn check_collisions(gs: &GameState) -> GameState {
     GameState {
         players: collisions::check_all_collisions(&gs.players),
+        ..gs.clone()
+    }
+}
+
+fn check_board_collisions_step(gs: &GameState) -> GameState {
+    GameState {
+        players: board_collisions::check_board_collisions(&gs.board, &gs.players),
         ..gs.clone()
     }
 }
